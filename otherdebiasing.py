@@ -15,7 +15,7 @@ sys.path.append(os.path.abspath('..'))
 #:Training dataset D, Sensitive attribute S, Binary
 # classification model M trained on D, Input space
 # similarity threshold delta
-dataset_orig = pd.read_csv(r'C:\Users\Arash\PycharmProjects\Debiasing\TestHMDA.csv', dtype=object)
+dataset_orig = pd.read_csv(r'C:\Users\Arash\OneDrive\Documents\GitHub\fair-loan-predictor\TestHMDA.csv', dtype=object)
 ###--------------------Sex------------------------
 indexNames1 = dataset_orig[dataset_orig['derived_sex'] == "Sex Not Available"].index
 dataset_orig.drop(indexNames1, inplace=True)
@@ -67,11 +67,11 @@ dataset_orig.loc[(dataset_orig.derived_ethnicity == 'Not Hispanic or Latino'),'d
 dataset_orig.loc[(dataset_orig.derived_ethnicity == 'Joint'),'derived_ethnicity'] = 2
 scaler = MinMaxScaler()
 dataset_orig = pd.DataFrame(scaler.fit_transform(dataset_orig), columns=dataset_orig.columns)
-print(dataset_orig.head(20))
+print(dataset_orig[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(20))
 # divide the data based on sex
 dataset_orig_male, dataset_orig_female = [x for _, x in dataset_orig.groupby(dataset_orig['derived_sex'] == 0)]
-print(dataset_orig_male.head(20))
-print(dataset_orig_female.head(20))
+print(dataset_orig_male[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(20))
+print(dataset_orig_female[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(20))
 # # divide the data based on race
 # dataset_orig_male_white, dataset_orig_male_black = [x for _, x in dataset_orig_male.groupby(dataset_orig['race'] == 0)]
 # dataset_orig_female_white, dataset_orig_female_black = [x for _, x in dataset_orig_female.groupby(dataset_orig['race'] == 0)]
