@@ -78,18 +78,22 @@ def splittingDataset(columns, array_remove2):
     for newIndex in range(len(array_remove2)):
         currentIndexName2 = dataset_orig[dataset_orig[columns] == array_remove2[newIndex]].index
         dataset_orig.drop(currentIndexName2, inplace=True)
+    finalDataset = dataset_orig
+    return finalDataset
 
-    
 
 
 
-removal('derived_sex', [.5,1])
-
-newIndexName = dataset_orig[dataset_orig['derived_sex'] == .5].index
-dataset_orig.drop(newIndexName, inplace=True)
-newIndexName2 = dataset_orig[dataset_orig['derived_sex'] == 1].index
-dataset_orig.drop(newIndexName2, inplace=True)
-print(dataset_orig[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(20))
+allFemaleDataset = splittingDataset('derived_sex', [.5,1])
+print('Printing all female \n', allFemaleDataset[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
+allMaleDataset = splittingDataset('derived_sex', [0,1])
+print('Printing all male \n', allMaleDataset)
+allJointDataset = splittingDataset('derived_sex', [0,0.5])
+# newIndexName = dataset_orig[dataset_orig['derived_sex'] == .5].index
+# dataset_orig.drop(newIndexName, inplace=True)
+# newIndexName2 = dataset_orig[dataset_orig['derived_sex'] == 1].index
+# dataset_orig.drop(newIndexName2, inplace=True)
+# print(dataset_orig[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(20))
 
 # dataset_orig_male, dataset_orig_female = [x for _, x in dataset_orig.groupby(dataset_orig['derived_sex'] == 0)]
 # print(dataset_orig_male[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(20))
