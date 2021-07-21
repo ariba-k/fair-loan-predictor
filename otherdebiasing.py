@@ -95,26 +95,113 @@ def splittingDatasetSecondLayer(columns, array_remove2, initDataset1):
     return finalDataset
 
 
-
+#=============================FIRST LAYER DIVIDE=====================================
 allFemaleDataset = splittingDataset('derived_sex', [.5,1])
 print('Printing all female \n', allFemaleDataset[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
+
+def allFemaleReset():
+    allFemaleDataset = splittingDataset('derived_sex', [.5, 1])
+    return allFemaleDataset
+
 
 allMaleDataset = splittingDataset('derived_sex', [0,1])
 print('Printing all male \n', allMaleDataset[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
 
+def allMaleReset():
+    allMaleDataset = splittingDataset('derived_sex', [0, 1])
+    return allMaleDataset
+
+
 allJointDataset = splittingDataset('derived_sex', [0,0.5])
 print('Printing all Joint \n', allJointDataset[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
 
+def allJointReset():
+    allJointDataset = splittingDataset('derived_sex', [0, 0.5])
+    return allJointDataset
 
+#===============================Second Layer Divide====================================
+#First White and Black Females
 allBFdataset = splittingDatasetSecondLayer('derived_race', [.5, 1], allFemaleDataset)
 print('Printing all BFs \n', allBFdataset[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
-allBFdataset.to_csv(r'C:\Users\jasha\Documents\GitHub\fair-loan-predictor\allBFDataset.csv')
+# allBFdataset.to_csv(r'C:\Users\jasha\Documents\GitHub\fair-loan-predictor\allBFDataset.csv')
+
+def allBFReset():
+    allFemaleDataset = allFemaleReset()
+    allBFdataset = splittingDatasetSecondLayer('derived_race', [.5, 1], allFemaleDataset)
+    return allBFdataset
+
+
+allFemaleDataset = allFemaleReset()
+'''OKAY, ARASH ABOVE IS THE MAIN CHANGE; ESSENTIALLY, YOU HAVE TO RESET THE DATASET, WHICHEVER ONE YOU ARE USING,
+BEFORE YOU USE IT FOR ANOTHER SPLIT; THIS IS WHY I DO THE BF SPLIT AND THEN RESET FOR THE WF SPLIT. I DO THIS BY 
+MAKING A FUNCTION CALLED allFemaleReset(). FYI, we are going to have to make a lot of functions, but I found 
+this is the most efficent method to use'''
+
+allWFdataset = splittingDatasetSecondLayer('derived_race', [0, 1], allFemaleDataset)
+print('Printing all WFs \n', allWFdataset[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
+
+def allWFReset():
+    allFemaleDataset = allFemaleReset()
+    allWFdataset = splittingDatasetSecondLayer('derived_race', [0, 1], allFemaleDataset)
+    return allWFdataset
+
+#second white and black males
+allBMdataset = splittingDatasetSecondLayer('derived_race', [.5, 1], allFemaleDataset)
+print('Printing all BMs \n', allBMdataset[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
+# allBFdataset.to_csv(r'C:\Users\jasha\Documents\GitHub\fair-loan-predictor\allBFDataset.csv')
+
+def allBMReset():
+    allFemaleDataset = allFemaleReset()
+    allBMdataset = splittingDatasetSecondLayer('derived_race', [.5, 1], allFemaleDataset)
+    return allBMdataset
+
+
+
+
+
+
+
+# allBFdataset.to_csv(r'C:\Users\jasha\Documents\GitHub\fair-loan-predictor\allBFDataset.csv')
 
 allBFNHOLdataset = splittingDatasetSecondLayer('derived_ethnicity', [0, 1], allBFdataset)
 print('Printing all BFNHOLs \n', allBFNHOLdataset[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
 
+allBFdataset = allBFReset()
+
 allBFHOLdataset = splittingDatasetSecondLayer('derived_ethnicity', [.5, 1], allBFdataset)
-print('Printing all Jashan \n', allBFHOLdataset[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']])
+print('Printing all BFHOL \n', allBFHOLdataset[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
+
+allWFNHOLdataset = splittingDatasetSecondLayer('derived_ethnicity', [0, 1], allWFdataset)
+print('Printing all BFNHOLs \n', allWFNHOLdataset[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
+
+allWFdataset = allWFReset()
+
+allWFHOLdataset = splittingDatasetSecondLayer('derived_ethnicity', [.5, 1], allWFdataset)
+print('Printing all BFHOL \n', allWFHOLdataset[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # divide the data based on sex
