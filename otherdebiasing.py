@@ -65,13 +65,25 @@ dataset_orig.loc[(dataset_orig.derived_race == 'Joint'), 'derived_race'] = 2
 dataset_orig.loc[(dataset_orig.derived_ethnicity == 'Hispanic or Latino'),'derived_ethnicity'] = 0
 dataset_orig.loc[(dataset_orig.derived_ethnicity == 'Not Hispanic or Latino'),'derived_ethnicity'] = 1
 dataset_orig.loc[(dataset_orig.derived_ethnicity == 'Joint'),'derived_ethnicity'] = 2
+
 scaler = MinMaxScaler()
 dataset_orig = pd.DataFrame(scaler.fit_transform(dataset_orig), columns=dataset_orig.columns)
-print(dataset_orig[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(20))
+
 # divide the data based on sex
+# dataset_new = dataset_orig.groupby(dataset_orig['derived_sex'] == 0)
+# print(dataset_new[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(20))
+
+# newIndexName = dataset_orig[dataset_orig['derived_sex'] == .5].index
+# dataset_orig.drop(newIndexName, inplace=True)
+# newIndexName2 = dataset_orig[dataset_orig['derived_sex'] == 1].index
+# dataset_orig.drop(newIndexName2, inplace=True)
+# print(dataset_orig[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(20))
+
 dataset_orig_male, dataset_orig_female = [x for _, x in dataset_orig.groupby(dataset_orig['derived_sex'] == 0)]
 print(dataset_orig_male[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(20))
 print(dataset_orig_female[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(20))
+
+
 # # divide the data based on race
 # dataset_orig_male_white, dataset_orig_male_black = [x for _, x in dataset_orig_male.groupby(dataset_orig['race'] == 0)]
 # dataset_orig_female_white, dataset_orig_female_black = [x for _, x in dataset_orig_female.groupby(dataset_orig['race'] == 0)]
