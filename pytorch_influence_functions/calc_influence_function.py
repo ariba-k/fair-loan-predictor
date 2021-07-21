@@ -45,10 +45,16 @@ def calc_s_test(model, test_loader, train_loader, save=False, gpu=-1,
         logging.info("ATTENTION: not saving s_test files.")
 
     s_tests = []
-    for i in range(start, len(test_loader.dataset)):
-        z_test, t_test = test_loader.dataset[i]
-        z_test = test_loader.collate_fn([z_test])
-        t_test = test_loader.collate_fn([t_test])
+    for i in range(start, len(test_loader)):
+        #Getting all the features from the iTH example by 'poping' out the y-label and leaving soley the features
+        z_test = test_loader[i].pop(9)
+
+        #Getting the y-label, which is t-test, by first getting array and then the label from the array of that iTH training sample
+        t_test = test_loader[i]
+        t_test = t_test[9]
+
+        #z_test = test_loader.collate_fn([z_test])
+        #t_test = test_loader.collate_fn([t_test])
 
         s_test_vec = calc_s_test_single(model, z_test, t_test, train_loader,
                                         gpu, damp, scale, recursion_depth, r)
@@ -61,7 +67,7 @@ def calc_s_test(model, test_loader, train_loader, save=False, gpu=-1,
         else:
             s_tests.append(s_test_vec)
         display_progress(
-            "Calc. z_test (s_test): ", i-start, len(test_loader.dataset)-start)
+            "Calc. z_test (s_test): ", i-start, len(test_loader)-start)
 
     return s_tests, save
 

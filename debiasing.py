@@ -8,6 +8,7 @@ import time
 from random import randint
 import pytorch_influence_functions
 import main
+import model
 from pytorch_influence_functions import calc_influence_function
 from pytorch_influence_functions import influence_function
 from pytorch_influence_functions import __init__
@@ -85,15 +86,17 @@ def rankByInfluence(influenceset, D):
     train_loader = []
     test_loader = []
     main.loadDataset('datasets/adult_5k.data', split, train_loader, test_loader)
-    calc_s_test(main.main(), test_loader, train_loader, save=False, gpu=-1, damp=0.01, scale=25, recursion_depth=5000, r=1, start=0)
+    calc_s_test(model, test_loader, train_loader, save=False, gpu=-1, damp=0.01, scale=25, recursion_depth=5000, r=1, start=0)
     print(calc_s_test())
-    calc_grad_z(main.main(), train_loader, save_pth=False, gpu=-1, start=0)
+    calc_grad_z(model.logisticRegr, train_loader, save_pth=False, gpu=-1, start=0)
     print(calc_grad_z())
     #calc_influence_function(len(D), grad_z_vecs=None,e_s_test=None)
 
     #I need to get the sum influence of each datapoint on each influenceset prediction and the divide it by total datapoints for each datapoint
     # avg influence for each datapoint
 print(rankByInfluence(1, HMDA_df))
+
+
 
 
 

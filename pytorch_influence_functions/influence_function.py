@@ -87,11 +87,11 @@ def grad_z(z, t, model, gpu=-1):
     Returns:
         grad_z: list of torch tensor, containing the gradients
             from model parameters to loss"""
-    model.eval()
+    model
     # initialize
     if gpu >= 0:
         z, t = z.cuda(), t.cuda()
-    y = model(z)
+    y = torch.from_numpy(model.y)
     loss = calc_loss(y, t)
     # Compute sum of gradients from model parameters to loss
     params = [ p for p in model.parameters() if p.requires_grad ]

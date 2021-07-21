@@ -27,7 +27,7 @@ def loadDataset(filename, split, trainingSet=[], testSet=[]):
                 trainingSet.append(dataset[x])
             else:
                 testSet.append(dataset[x])
-                return trainingSet,testSet
+
 
 
 # this function is for calculating euclidan distance
@@ -113,7 +113,7 @@ def main():
     testSet = []
 
     # default value of split is 0.75, it will be replaced if the split argument is passed
-    split = 0.75
+    split = 0.80
     if (len(sys.argv) > 1):
         if sys.argv[1] == "0.75" or sys.argv[1] == "0.8" or sys.argv[1] == "0.9":
             split = float(sys.argv[1])
@@ -150,6 +150,6 @@ def main():
     print('Accuracy: ' + repr(round(accuracy, 2)) + '%')
     print('Execution time: ' + str(round(time.time() - startTime, 2)) + ' seconds')
     print('\nProgram Ends')
-
+    return predictions
 
 main()
