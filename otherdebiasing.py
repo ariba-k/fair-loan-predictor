@@ -15,7 +15,7 @@ sys.path.append(os.path.abspath('..'))
 #:Training dataset D, Sensitive attribute S, Binary
 # classification model M trained on D, Input space
 # similarity threshold delta
-dataset_orig = pd.read_csv(r'C:\Users\Arash\OneDrive\Documents\GitHub\fair-loan-predictor\TestHMDA.csv', dtype=object)
+dataset_orig = pd.read_csv(r'C:\Users\jasha\Documents\GitHub\fair-loan-predictor\TestHMDA.csv', dtype=object)
 ###--------------------Sex------------------------
 indexNames1 = dataset_orig[dataset_orig['derived_sex'] == "Sex Not Available"].index
 dataset_orig.drop(indexNames1, inplace=True)
@@ -68,20 +68,32 @@ dataset_orig.loc[(dataset_orig.derived_ethnicity == 'Joint'),'derived_ethnicity'
 
 scaler = MinMaxScaler()
 dataset_orig = pd.DataFrame(scaler.fit_transform(dataset_orig), columns=dataset_orig.columns)
-
+# print(dataset_orig[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(20))
 # divide the data based on sex
 # dataset_new = dataset_orig.groupby(dataset_orig['derived_sex'] == 0)
 # print(dataset_new[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(20))
 
-# newIndexName = dataset_orig[dataset_orig['derived_sex'] == .5].index
-# dataset_orig.drop(newIndexName, inplace=True)
-# newIndexName2 = dataset_orig[dataset_orig['derived_sex'] == 1].index
-# dataset_orig.drop(newIndexName2, inplace=True)
-# print(dataset_orig[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(20))
 
-dataset_orig_male, dataset_orig_female = [x for _, x in dataset_orig.groupby(dataset_orig['derived_sex'] == 0)]
-print(dataset_orig_male[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(20))
-print(dataset_orig_female[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(20))
+def splittingDataset(columns, array_remove2):
+    for newIndex in range(len(array_remove2)):
+        currentIndexName2 = dataset_orig[dataset_orig[columns] == array_remove2[newIndex]].index
+        dataset_orig.drop(currentIndexName2, inplace=True)
+
+    
+
+
+
+removal('derived_sex', [.5,1])
+
+newIndexName = dataset_orig[dataset_orig['derived_sex'] == .5].index
+dataset_orig.drop(newIndexName, inplace=True)
+newIndexName2 = dataset_orig[dataset_orig['derived_sex'] == 1].index
+dataset_orig.drop(newIndexName2, inplace=True)
+print(dataset_orig[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(20))
+
+# dataset_orig_male, dataset_orig_female = [x for _, x in dataset_orig.groupby(dataset_orig['derived_sex'] == 0)]
+# print(dataset_orig_male[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(20))
+# print(dataset_orig_female[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(20))
 
 
 # # divide the data based on race
