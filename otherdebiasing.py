@@ -150,7 +150,7 @@ allFemaleDataset = allFemaleReset()
 allJointRaceFemaleDataset = splittingDatasetSecondLayer('derived_race', [0, .5], allFemaleDataset)
 print('Printing all JointRaceFemales \n', allJointRaceFemaleDataset[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
 
-def allJointRaceFemalReset():
+def allJointRaceFemaleReset():
     allFemaleDataset = allFemaleReset()
     allJointRaceFemaleDataset = splittingDatasetSecondLayer('derived_race', [0, .5], allFemaleDataset)
     return allJointRaceFemaleDataset
@@ -187,32 +187,156 @@ def allJointRaceMaleReset():
 
 #-------------------Third Joint Sex Races -----------------
 allJointSexBlacksDataset = splittingDatasetSecondLayer('derived_race', [.5, 1], allJointSexDataset)
-print('Printing all s \n', allJointSexBlacksDataset[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
+print('Printing all JointSexBlacks \n', allJointSexBlacksDataset[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
 # allBFdataset.to_csv(r'C:\Users\jasha\Documents\GitHub\fair-loan-predictor\allBFDataset.csv')
 
+def allJointSexBlacksReset():
+    allJointSexDataset = allJointSexReset()
+    allJointSexBlacksDataset = splittingDatasetSecondLayer('derived_race',  [.5, 1], allJointSexDataset)
+    return allJointSexBlacksDataset
 
+allJointSexDataset = allJointSexReset()
 
-
-
-
-
+allJointSexWhitesDataset = splittingDatasetSecondLayer('derived_race', [0, 1], allJointSexDataset)
+print('Printing all JointSexWhites \n', allJointSexWhitesDataset[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
 # allBFdataset.to_csv(r'C:\Users\jasha\Documents\GitHub\fair-loan-predictor\allBFDataset.csv')
+
+def allJointSexWhitesReset():
+    allJointSexDataset = allJointSexReset()
+    allJointSexWhitesDataset = splittingDatasetSecondLayer('derived_race',  [0, 1], allJointSexDataset)
+    return allJointSexWhitesDataset
+
+allJointSexDataset = allJointSexReset()
+
+allJointSexJointRaceDataset = splittingDatasetSecondLayer('derived_race', [0, .5], allJointSexDataset)
+print('Printing all JointSex and JointRaces \n', allJointSexJointRaceDataset[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
+# allBFdataset.to_csv(r'C:\Users\jasha\Documents\GitHub\fair-loan-predictor\allBFDataset.csv')
+
+def allJointSexJointRaceReset():
+    allJointSexDataset = allJointSexReset()
+    allJointSexJointRaceDataset = splittingDatasetSecondLayer('derived_race',  [0, .5], allJointSexDataset)
+    return allJointSexJointRaceDataset
+#===============================Third Layer Divide====================================
+#---------------1. BF Ethnic Split --------------
+allBFHOLdataset = splittingDatasetSecondLayer('derived_ethnicity', [.5, 1], allBFdataset)
+print('Printing all BFHOL \n', allBFHOLdataset[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
+
+allBFdataset = allBFReset()
 
 allBFNHOLdataset = splittingDatasetSecondLayer('derived_ethnicity', [0, 1], allBFdataset)
 print('Printing all BFNHOLs \n', allBFNHOLdataset[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
 
 allBFdataset = allBFReset()
 
-allBFHOLdataset = splittingDatasetSecondLayer('derived_ethnicity', [.5, 1], allBFdataset)
-print('Printing all BFHOL \n', allBFHOLdataset[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
-
-allWFNHOLdataset = splittingDatasetSecondLayer('derived_ethnicity', [0, 1], allWFdataset)
-print('Printing all BFNHOLs \n', allWFNHOLdataset[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
+allBFJointEthnicitydataset = splittingDatasetSecondLayer('derived_ethnicity', [0, .5], allBFdataset)
+print('Printing all BFJointEthnicitys \n', allBFJointEthnicitydataset[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
+#---------------2. WF Ethnic Split --------------
+allWFHOLdataset = splittingDatasetSecondLayer('derived_ethnicity', [.5, 1], allWFdataset)
+print('Printing all WFHOL \n', allWFHOLdataset[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
 
 allWFdataset = allWFReset()
 
-allWFHOLdataset = splittingDatasetSecondLayer('derived_ethnicity', [.5, 1], allWFdataset)
-print('Printing all BFHOL \n', allWFHOLdataset[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
+allWFNHOLdataset = splittingDatasetSecondLayer('derived_ethnicity', [0, 1], allWFdataset)
+print('Printing all WFNHOLs \n', allWFNHOLdataset[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
+
+allWFdataset = allWFReset()
+
+allWFJointEthnicitydataset = splittingDatasetSecondLayer('derived_ethnicity', [0, .5], allWFdataset)
+print('Printing all WFJointEthnicitys \n', allWFJointEthnicitydataset[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
+#---------------3. JointRaceFemale Ethnic Split --------------
+allJointRaceFemaleHOLdataset = splittingDatasetSecondLayer('derived_ethnicity', [.5, 1], allJointRaceFemaleDataset)
+print('Printing all JointRaceFemaleNHOL \n', allJointRaceFemaleHOLdataset[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
+
+allJointRaceFemaleDataset = allJointRaceFemaleReset()
+
+allJointRaceFemaleNHOLdataset = splittingDatasetSecondLayer('derived_ethnicity', [0, 1], allJointRaceFemaleDataset)
+print('Printing all JointRaceFemaleHOL \n', allJointRaceFemaleNHOLdataset[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
+
+allJointRaceFemaleDataset = allJointRaceFemaleReset()
+
+allJointRaceFemaleJointEthnicitydataset = splittingDatasetSecondLayer('derived_ethnicity', [0, .5], allJointRaceFemaleDataset)
+print('Printing all JointRaceFemaleJointEthnicity \n', allJointRaceFemaleJointEthnicitydataset[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
+#---------------4. BM Ethnic Split --------------
+allBMHOLdataset = splittingDatasetSecondLayer('derived_ethnicity', [.5, 1], allBMdataset)
+print('Printing all BMHOL \n', allBMHOLdataset[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
+
+allBMdataset = allBMReset()
+
+allBMNHOLdataset = splittingDatasetSecondLayer('derived_ethnicity', [0, 1], allBMdataset)
+print('Printing all BMNHOLs \n', allBMNHOLdataset[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
+
+allBMdataset = allBMReset()
+
+allBMJointEthnicitydataset = splittingDatasetSecondLayer('derived_ethnicity', [0, .5], allBMdataset)
+print('Printing all BMJointEthnicitys \n', allBMJointEthnicitydataset[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
+#---------------5. WM Ethnic Split --------------
+allWMHOLdataset = splittingDatasetSecondLayer('derived_ethnicity', [.5, 1], allWMdataset)
+print('Printing all WMHOL \n', allWMHOLdataset[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
+
+allWMdataset = allWMReset()
+
+allWMNHOLdataset = splittingDatasetSecondLayer('derived_ethnicity', [0, 1], allWMdataset)
+print('Printing all WMNHOL \n', allWMNHOLdataset[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
+
+allWMdataset = allWMReset()
+
+allWMJointEthnicitydataset = splittingDatasetSecondLayer('derived_ethnicity', [0, .5], allWMdataset)
+print('Printing all WMJointEthnicity \n', allWMJointEthnicitydataset[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
+#---------------6. JointRaceMale Ethnic Split --------------
+allJointRaceMaleHOLdataset = splittingDatasetSecondLayer('derived_ethnicity', [.5, 1], allJointRaceMaleDataset)
+print('Printing all JointRaceMaleHOL \n', allJointRaceMaleHOLdataset[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
+
+allJointRaceMaleDataset = allJointRaceMaleReset()
+
+allJointRaceMaleNHOLdataset = splittingDatasetSecondLayer('derived_ethnicity', [0, 1], allJointRaceMaleDataset)
+print('Printing all JointRaceMaleNHOL \n', allJointRaceMaleNHOLdataset[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
+
+allJointRaceMaleDataset = allJointRaceMaleReset()
+
+allJointRaceMaleJointEthnicitydataset = splittingDatasetSecondLayer('derived_ethnicity', [0, .5], allJointRaceMaleDataset)
+print('Printing all JointRaceMaleJointEthnicity \n', allJointRaceMaleJointEthnicitydataset[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
+#---------------7. JointSexBlacks Ethnic Split------------------
+allJointSexBlacksHOLdataset = splittingDatasetSecondLayer('derived_ethnicity', [.5, 1], allJointSexBlacksDataset)
+print('Printing all JointSexBlacksHOL \n', allJointSexBlacksHOLdataset[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
+
+allJointSexBlacksDataset = allJointSexBlacksReset()
+
+allJointSexBlacksNHOLdataset = splittingDatasetSecondLayer('derived_ethnicity', [0, 1], allJointSexBlacksDataset)
+print('Printing all JointSexBlacksNHOL \n', allJointSexBlacksNHOLdataset[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
+
+allJointSexBlacksDataset = allJointSexBlacksReset()
+
+allJointSexBlacksJointEthnicitydataset = splittingDatasetSecondLayer('derived_ethnicity', [0, .5], allJointSexBlacksDataset)
+print('Printing all JointSexBlacksJointEthnicity \n', allJointSexBlacksJointEthnicitydataset[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
+#---------------8. JointSexWhites Ethnic Split------------------
+allJointSexWhitesHOLdataset = splittingDatasetSecondLayer('derived_ethnicity', [.5, 1], allJointSexWhitesDataset)
+print('Printing all JointSexWhitesHOL \n', allJointSexWhitesHOLdataset[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
+
+allJointSexWhitesDataset = allJointSexWhitesReset()
+
+allJointSexWhitesNHOLdataset = splittingDatasetSecondLayer('derived_ethnicity', [0, 1], allJointSexWhitesDataset)
+print('Printing all JointSexWhitesNHOL \n', allJointSexWhitesNHOLdataset[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
+
+allJointSexWhitesDataset = allJointSexWhitesReset()
+
+allJointSexWhitesJointEthnicitydataset = splittingDatasetSecondLayer('derived_ethnicity', [0, .5], allJointSexWhitesDataset)
+print('Printing all JointSexWhitesJointEthnicity \n', allJointSexWhitesJointEthnicitydataset[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
+#---------------9. JointSexJointRace Ethnic Split------------------
+allJointSexJointRaceHOLdataset = splittingDatasetSecondLayer('derived_ethnicity', [.5, 1], allJointSexJointRaceDataset)
+print('Printing all JointSexJointRaceHOL \n', allJointSexJointRaceHOLdataset[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
+
+allJointSexJointRaceDataset = allJointSexJointRaceReset()
+
+allJointSexJointRaceNHOLdataset = splittingDatasetSecondLayer('derived_ethnicity', [0, 1], allJointSexJointRaceDataset)
+print('Printing all JointSexJointRaceNHOL \n', allJointSexJointRaceNHOLdataset[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
+
+allJointSexJointRaceDataset = allJointSexJointRaceReset()
+
+allJointSexJointRaceJointEthnicitydataset = splittingDatasetSecondLayer('derived_ethnicity', [0, .5], allJointSexJointRaceDataset)
+print('Printing all JointSexJointRaceJointEthnicity \n', allJointSexJointRaceJointEthnicitydataset[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
+
+
+
 
 
 
