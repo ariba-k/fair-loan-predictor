@@ -85,7 +85,7 @@ def resetDataset():
     ###----------------Begin Code------------------
     # print(dataset_orig[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(70))
     ####################################################################################################################################
-    dataset_orig = dataset_orig.drop(['census_tract', 'activity_year', 'lei', 'derived_msa-md', 'state_code', 'county_code', 'conforming_loan_limit',
+    dataset_orig = dataset_orig.drop(['census_tract', 'activity_year', 'lei', 'state_code', 'conforming_loan_limit',
     'derived_loan_product_type', 'derived_dwelling_category', 'loan_to_value_ratio', 'interest_rate',
     'rate_spread', 'total_loan_costs', 'total_points_and_fees', 'origination_charges', 'discount_points',
     'lender_credits', 'loan_term', 'prepayment_penalty_term', 'intro_rate_period', 'property_value',

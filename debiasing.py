@@ -21,6 +21,7 @@ sys.path.append(os.path.abspath('..'))
 def resetDataset():
     dataset_orig = pd.read_csv(r'C:\Users\jasha\Documents\GitHub\fair-loan-predictor\TestHMDA.csv',
                                dtype=object)
+    print(dataset_orig.shape)
     ###--------------------Sex------------------------
     indexNames1 = dataset_orig[dataset_orig['derived_sex'] == "Sex Not Available"].index
     dataset_orig.drop(indexNames1, inplace=True)
@@ -85,21 +86,27 @@ def resetDataset():
     ###----------------Begin Code------------------
     # print(dataset_orig[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(70))
     ####################################################################################################################################
-    dataset_orig = dataset_orig.drop(['census_tract', 'activity_year', 'lei', 'state_code', 'conforming_loan_limit',
-    'derived_loan_product_type', 'derived_dwelling_category', 'rate_spread', 'total_loan_costs', 'total_points_and_fees', 'origination_charges', 'discount_points',
+    dataset_orig = dataset_orig.drop(['census_tract', 'lei', 'conforming_loan_limit',
+    'derived_loan_product_type', 'derived_dwelling_category', 'total_loan_costs', 'total_points_and_fees', 'origination_charges', 'discount_points',
     'lender_credits', 'loan_term', 'prepayment_penalty_term', 'intro_rate_period', 'property_value',
-    'multifamily_affordable_units', 'income', 'debt_to_income_ratio', 'applicant_ethnicity-2',
+    'multifamily_affordable_units', 'debt_to_income_ratio', 'applicant_ethnicity-2',
     'applicant_ethnicity-3', 'applicant_ethnicity-4', 'applicant_ethnicity-5', 'co-applicant_ethnicity-2',
     'co-applicant_ethnicity-3', 'co-applicant_ethnicity-4', 'co-applicant_ethnicity-5', 'applicant_race-2',
     'applicant_race-3', 'applicant_race-4', 'applicant_race-5', 'co-applicant_race-2', 'co-applicant_race-3',
     'co-applicant_race-4', 'co-applicant_race-5', 'applicant_age_above_62', 'co-applicant_age_above_62', 'aus-2',
     'aus-3', 'aus-4', 'aus-5', 'denial_reason-2', 'denial_reason-3', 'denial_reason-4', 'total_units',
     "applicant_age", "co-applicant_age"], axis=1)
-
+    #rate of spread; income; county_code, state_code, activity_year, dervived_mba
     removeNA(list(dataset_orig.columns))
     removeExempt(list(dataset_orig.columns))
     removeBlank(list(dataset_orig.columns))
     dataset_orig.reset_index(drop=True, inplace=True)
+
+    dataset_orig.loc[(dataset_orig.activity_year == '2019'), 'activity_year'] = 0
+    dataset_orig.loc[(dataset_orig.activity_year == '2020'), 'activity_year'] = 1
+
+    dataset_orig.loc[(dataset_orig.state_code == 'CA'), 'state_code'] = 0
+
 
     ## Change symbolics to numerics
     dataset_orig.loc[(dataset_orig.derived_sex == 'Female'), 'derived_sex'] = 0
@@ -122,8 +129,8 @@ def resetDataset():
 
 
 
-    scaler = MinMaxScaler()
-    dataset_orig = pd.DataFrame(scaler.fit_transform(dataset_orig), columns=dataset_orig.columns)
+    # scaler = MinMaxScaler()
+    # dataset_orig = pd.DataFrame(scaler.fit_transform(dataset_orig), columns=dataset_orig.columns)
     # print(dataset_orig[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(20))
     # divide the data based on sex
     # dataset_new = dataset_orig.groupby(dataset_orig['derived_sex'] == 0)
@@ -439,7 +446,7 @@ def createClassifier(D):
     hasOne = False
     for x in range(numRows):
       action_element = D.loc[x].iat[numCols]
-      print(action_element)
+      #print(action_element)
       if(action_element == 0):
           hasZero = True
       if(action_element == 1):
@@ -456,7 +463,7 @@ def createClassifier(D):
 
 ##################################
 # --------------------Classifiers ---------------------
-
+#THIS IS OUT OF ORDER -- PROBLEM?????
 clf1 = createClassifier(allBFNHOLdataset)
 clf2 = createClassifier(allBFHOLdataset)
 clf3 = createClassifier(allBFJointEthnicitydataset)
@@ -493,10 +500,12 @@ for index, row in dataset_orig.iterrows():
     row = [row.values[0:len(row.values) - 1]]
     try:
         allBFNHOL_y = clf1.predict(row)
+
     except:
         allBFNHOL_y = None
     try:
         allBFHOL_y = clf2.predict(row)
+        print(allBFHOL_y)
     except:
         allBFHOL_y = None
     try:
@@ -600,6 +609,14 @@ for index, row in dataset_orig.iterrows():
     except:
         allJointSexJointRaceJointEthnicity_y = None
 
+    print("Printing BFNHOL prediction:", allBFNHOL_y)
+    print("Printing allBFHOL_y prediction:",allBFHOL_y)
+    print("Printing allBFJointEthnicity_y prediction:", allBFJointEthnicity_y)
+    print("Printing allWFNHOL_y prediction:", allWFNHOL_y)
+    print("Printing allWFHOL_y prediction:", allWFHOL_y)
+    print("Printing allWFJointEthnicity_y prediction:", allWFJointEthnicity_y)
+    print("Printing allJointRaceFemaleNHOL_y prediction:", allJointRaceFemaleNHOL_y)
+
     arrayClassifiers = [allBFNHOL_y, allBFHOL_y,
                         allBFJointEthnicity_y,
                         allWFNHOL_y,
@@ -632,9 +649,21 @@ for index, row in dataset_orig.iterrows():
             arrayConditional.append(arrayClassifiers[i][0] == arrayClassifiers[i + 1][0])
     for m in range((len(arrayConditional))):
         if (arrayConditional[m] == False):
-            dataset_orig = dataset_orig.drop(index)
+            dataset_orig.drop(index, inplace=True)
 
 print(dataset_orig.shape)
 print(list(dataset_orig.columns))
-print(dataset_orig[['derived_ethnicity', 'derived_race', 'derived_sex', 'loan_amount','action_taken']].head(50))
+print(dataset_orig[['derived_ethnicity', 'loan_amount','loan_to_value_ratio', 'interest_rate','action_taken']].head(50))
 dataset_orig.to_csv(r'C:\Users\jasha\Documents\GitHub\fair-loan-predictor\DebiasedDataset.csv')
+
+'''Scaling it is possibly causing the problem; 
+    Is the loop running right?
+    Why does my dataset size change when I include more variables (columns) 
+    
+    I think one of these will lead us to our answer: 
+                 quadratic? 
+                 unbalancedness? 
+                 Why are more rows deleted? 
+                 
+    Okay, problem figured out: when I add more variables for some reason all the classifers become none (WHY IS THIS IS THE SOLUTION) 
+     '''
