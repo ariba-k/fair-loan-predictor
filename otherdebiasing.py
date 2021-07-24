@@ -19,7 +19,7 @@ sys.path.append(os.path.abspath('..'))
 # classification model M trained on D, Input space
 # similarity threshold delta
 def resetDataset():
-    dataset_orig = pd.read_csv(r'C:\Users\Arash\OneDrive\Documents\GitHub\fair-loan-predictor\HMDA_CO.csv',
+    dataset_orig = pd.read_csv(r'C:\Users\Arash\OneDrive\Documents\GitHub\fair-loan-predictor\TestHMDA.csv',
                                dtype=object)
     ###--------------------Sex------------------------
     indexNames1 = dataset_orig[dataset_orig['derived_sex'] == "Sex Not Available"].index
