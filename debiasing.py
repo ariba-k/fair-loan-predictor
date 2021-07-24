@@ -19,7 +19,7 @@ sys.path.append(os.path.abspath('..'))
 # classification model M trained on D, Input space
 # similarity threshold delta
 def resetDataset():
-    dataset_orig = pd.read_csv(r'C:\Users\Arash\OneDrive\Documents\GitHub\fair-loan-predictor\TestHMDA.csv',
+    dataset_orig = pd.read_csv(r'C:\Users\jasha\Documents\GitHub\fair-loan-predictor\TestHMDA.csv',
                                dtype=object)
     ###--------------------Sex------------------------
     indexNames1 = dataset_orig[dataset_orig['derived_sex'] == "Sex Not Available"].index
@@ -85,9 +85,8 @@ def resetDataset():
     ###----------------Begin Code------------------
     # print(dataset_orig[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(70))
     ####################################################################################################################################
-    dataset_orig = dataset_orig.drop(['census_tract', 'activity_year', 'lei', 'derived_msa-md', 'state_code', 'county_code', 'conforming_loan_limit',
-    'derived_loan_product_type', 'derived_dwelling_category', 'loan_to_value_ratio', 'interest_rate',
-    'rate_spread', 'total_loan_costs', 'total_points_and_fees', 'origination_charges', 'discount_points',
+    dataset_orig = dataset_orig.drop(['census_tract', 'activity_year', 'lei', 'state_code', 'conforming_loan_limit',
+    'derived_loan_product_type', 'derived_dwelling_category', 'rate_spread', 'total_loan_costs', 'total_points_and_fees', 'origination_charges', 'discount_points',
     'lender_credits', 'loan_term', 'prepayment_penalty_term', 'intro_rate_period', 'property_value',
     'multifamily_affordable_units', 'income', 'debt_to_income_ratio', 'applicant_ethnicity-2',
     'applicant_ethnicity-3', 'applicant_ethnicity-4', 'applicant_ethnicity-5', 'co-applicant_ethnicity-2',
@@ -112,6 +111,16 @@ def resetDataset():
     dataset_orig.loc[(dataset_orig.derived_ethnicity == 'Hispanic or Latino'), 'derived_ethnicity'] = 0
     dataset_orig.loc[(dataset_orig.derived_ethnicity == 'Not Hispanic or Latino'), 'derived_ethnicity'] = 1
     dataset_orig.loc[(dataset_orig.derived_ethnicity == 'Joint'), 'derived_ethnicity'] = 2
+
+    dataset_orig = dataset_orig.apply(pd.to_numeric)
+    dataset_orig = dataset_orig.dropna()
+    removeNA(list(dataset_orig.columns))
+    float_col = dataset_orig.select_dtypes(include=['float64'])
+
+    for col in float_col.columns.values:
+        dataset_orig[col] = dataset_orig[col].astype('int64')
+
+
 
     scaler = MinMaxScaler()
     dataset_orig = pd.DataFrame(scaler.fit_transform(dataset_orig), columns=dataset_orig.columns)
@@ -140,6 +149,8 @@ def splittingDatasetSecondLayer(columns, array_remove2, initDataset1):
         initDataset.drop(currentIndexName2, inplace=True)
     finalDataset = initDataset
     return finalDataset
+
+
 
 
 # =============================FIRST LAYER DIVIDE=====================================
@@ -428,13 +439,14 @@ def createClassifier(D):
     hasOne = False
     for x in range(numRows):
       action_element = D.loc[x].iat[numCols]
+      print(action_element)
       if(action_element == 0):
           hasZero = True
       if(action_element == 1):
           hasOne = True
     X_train, y_train = D.loc[:, D.columns != 'action_taken'], D['action_taken']
     # --- LSR
-    clf = LogisticRegression(C=1.0, penalty='l2', solver='liblinear', max_iter=100)
+    clf = LogisticRegression(C=1.0, penalty='l2', solver='liblinear', max_iter=200)
     if numRows >= 2 and hasZero and hasOne:
         return clf.fit(X_train, y_train)
     else:
@@ -625,4 +637,4 @@ for index, row in dataset_orig.iterrows():
 print(dataset_orig.shape)
 print(list(dataset_orig.columns))
 print(dataset_orig[['derived_ethnicity', 'derived_race', 'derived_sex', 'loan_amount','action_taken']].head(50))
-dataset_orig.to_csv(r'C:\Users\Arash\OneDrive\Documents\GitHub\fair-loan-predictor\DebiasedDataset.csv')
+dataset_orig.to_csv(r'C:\Users\jasha\Documents\GitHub\fair-loan-predictor\DebiasedDataset.csv')

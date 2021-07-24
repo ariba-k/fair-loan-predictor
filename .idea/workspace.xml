@@ -2,8 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="08549712-c9b3-423f-a3e9-b196cf4c0b3f" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/TransferProject.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/TransferProject.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/otherdebiasing.py" beforeDir="false" afterPath="$PROJECT_DIR$/otherdebiasing.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DebiasedDataset.csv" beforeDir="false" afterPath="$PROJECT_DIR$/DebiasedDataset.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/debiasing.py" beforeDir="false" afterPath="$PROJECT_DIR$/debiasing.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,14 +34,15 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/otherdebiasing.py" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/debiasing.py" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Arash\PycharmProjects\TransferProject" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.otherdebiasing">
+  <component name="RunManager" selected="Python.debiasing">
     <configuration name="debiasing" type="PythonConfigurationType" factoryName="Python">
       <module name="TransferProject" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -46,7 +50,7 @@
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="C:\Users\Arash\venv\Scripts\pythonw.exe" />
+      <option name="SDK_HOME" value="C:\Users\jasha\venv\Scripts\pythonw.exe" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
@@ -82,8 +86,8 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.debiasing" />
       <item itemvalue="Python.otherdebiasing" />
+      <item itemvalue="Python.debiasing" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
