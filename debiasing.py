@@ -19,7 +19,8 @@ sys.path.append(os.path.abspath('..'))
 # classification model M trained on D, Input space
 # similarity threshold delta
 def resetDataset():
-    dataset_orig = pd.read_csv(r'C:\Users\jasha\Documents\GitHub\fair-loan-predictor\TestHMDA.csv',
+    state_string = 'CA'
+    dataset_orig = pd.read_csv(r'C:\Users\jasha\Documents\GitHub\fair-loan-predictor\WYHMDA.csv',
                                dtype=object)
     print(dataset_orig.shape)
     ###--------------------Sex------------------------
@@ -86,8 +87,9 @@ def resetDataset():
     ###----------------Begin Code------------------
     # print(dataset_orig[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(70))
     ####################################################################################################################################
-    dataset_orig = dataset_orig.drop(['census_tract', 'lei', 'conforming_loan_limit',
-    'derived_loan_product_type', 'derived_dwelling_category', 'total_loan_costs', 'total_points_and_fees', 'origination_charges', 'discount_points',
+    dataset_orig = dataset_orig.drop(['census_tract', 'activity_year', 'lei', 'derived_msa-md', 'state_code', 'county_code', 'conforming_loan_limit',
+    'derived_loan_product_type', 'derived_dwelling_category', 'loan_to_value_ratio', 'interest_rate',
+    'rate_spread', 'total_loan_costs', 'total_points_and_fees', 'origination_charges', 'discount_points',
     'lender_credits', 'loan_term', 'prepayment_penalty_term', 'intro_rate_period', 'property_value',
     'multifamily_affordable_units', 'debt_to_income_ratio', 'applicant_ethnicity-2',
     'applicant_ethnicity-3', 'applicant_ethnicity-4', 'applicant_ethnicity-5', 'co-applicant_ethnicity-2',
@@ -96,16 +98,16 @@ def resetDataset():
     'co-applicant_race-4', 'co-applicant_race-5', 'applicant_age_above_62', 'co-applicant_age_above_62', 'aus-2',
     'aus-3', 'aus-4', 'aus-5', 'denial_reason-2', 'denial_reason-3', 'denial_reason-4', 'total_units',
     "applicant_age", "co-applicant_age"], axis=1)
-    #rate of spread; income; county_code, state_code, activity_year, dervived_mba
+    #removed: rate of spread; income; county_code, state_code, activity_year, dervived_mba
     removeNA(list(dataset_orig.columns))
     removeExempt(list(dataset_orig.columns))
     removeBlank(list(dataset_orig.columns))
     dataset_orig.reset_index(drop=True, inplace=True)
 
-    dataset_orig.loc[(dataset_orig.activity_year == '2019'), 'activity_year'] = 0
-    dataset_orig.loc[(dataset_orig.activity_year == '2020'), 'activity_year'] = 1
-
-    dataset_orig.loc[(dataset_orig.state_code == 'CA'), 'state_code'] = 0
+    # dataset_orig.loc[(dataset_orig.activity_year == '2019'), 'activity_year'] = 0
+    # dataset_orig.loc[(dataset_orig.activity_year == '2020'), 'activity_year'] = 1
+    #
+    # dataset_orig.loc[(dataset_orig.state_code == state_string), 'state_code'] = 0
 
 
     ## Change symbolics to numerics
@@ -434,6 +436,8 @@ allJointSexJointRaceJointEthnicitydataset = splittingDatasetSecondLayer('derived
 
 def createClassifier(D):
     D.reset_index(drop=True, inplace=True)
+    # print(D[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
+
     D['derived_ethnicity'] = 0
     # print(D[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(30))
     D['derived_race'] = 0
@@ -446,7 +450,6 @@ def createClassifier(D):
     hasOne = False
     for x in range(numRows):
       action_element = D.loc[x].iat[numCols]
-      #print(action_element)
       if(action_element == 0):
           hasZero = True
       if(action_element == 1):
@@ -454,6 +457,7 @@ def createClassifier(D):
     X_train, y_train = D.loc[:, D.columns != 'action_taken'], D['action_taken']
     # --- LSR
     clf = LogisticRegression(C=1.0, penalty='l2', solver='liblinear', max_iter=200)
+
     if numRows >= 2 and hasZero and hasOne:
         return clf.fit(X_train, y_train)
     else:
@@ -500,12 +504,10 @@ for index, row in dataset_orig.iterrows():
     row = [row.values[0:len(row.values) - 1]]
     try:
         allBFNHOL_y = clf1.predict(row)
-
     except:
         allBFNHOL_y = None
     try:
         allBFHOL_y = clf2.predict(row)
-        print(allBFHOL_y)
     except:
         allBFHOL_y = None
     try:
@@ -609,13 +611,151 @@ for index, row in dataset_orig.iterrows():
     except:
         allJointSexJointRaceJointEthnicity_y = None
 
-    print("Printing BFNHOL prediction:", allBFNHOL_y)
-    print("Printing allBFHOL_y prediction:",allBFHOL_y)
-    print("Printing allBFJointEthnicity_y prediction:", allBFJointEthnicity_y)
-    print("Printing allWFNHOL_y prediction:", allWFNHOL_y)
-    print("Printing allWFHOL_y prediction:", allWFHOL_y)
-    print("Printing allWFJointEthnicity_y prediction:", allWFJointEthnicity_y)
-    print("Printing allJointRaceFemaleNHOL_y prediction:", allJointRaceFemaleNHOL_y)
+    # allBFNHOL_y = clf1.predict(row)
+    # allBFHOL_y = clf2.predict(row)
+    # allBFJointEthnicity_y = clf3.predict(row)
+    # allWFNHOL_y = clf4.predict(row)
+    # allWFHOL_y = clf5.predict(row)
+    # allWFJointEthnicity_y = clf6.predict(row)
+    # allJointRaceFemaleNHOL_y = clf7.predict(row)
+    # allJointRaceFemaleHOL_y = clf8.predict(row)
+    # allJointRaceFemaleJointEthnicity_y = clf9.predict(row)
+    # allBMNHOL_y = clf10.predict(row)
+    # allBMHOL_y = clf11.predict(row)
+    # allBMJointEthnicity_y = clf12.predict(row)
+    # allWMNHOL_y = clf13.predict(row)
+    # allWMHOL_y = clf14.predict(row)
+    # allWMJointEthnicity_y = clf15.predict(row)
+    # allJointRaceMaleNHOL_y = clf16.predict(row)
+    # allJointRaceMaleHOL_y = clf17.predict(row)
+    # allJointRaceMaleJointEthnicity_y = clf18.predict(row)
+    # allJointSexBlacksNHOL_y = clf19.predict(row)
+    # allJointSexBlacksHOL_y = clf20.predict(row)
+    # allJointSexBlacksJointEthnicity_y = clf21.predict(row)
+    # allJointSexWhitesNHOL_y = clf22.predict(row)
+    # allJointSexWhitesHOL_y = clf23.predict(row)
+    # allJointSexWhitesJointEthnicity_y = clf24.predict(row)
+    # allJointSexJointRaceNHOL_y = clf25.predict(row)
+    # allJointSexJointRaceHOL_y = clf26.predict(row)
+    # allJointSexJointRaceJointEthnicity_y = clf27.predict(row)
+
+
+        # try:
+        #     allBFNHOL_y = clf1.predict(row)
+        # except:
+        #     allBFNHOL_y = None
+        # try:
+        #     allBFHOL_y = clf2.predict(row)
+        # except:
+        #     allBFHOL_y = None
+        # try:
+        #     allBFJointEthnicity_y = clf3.predict(row)
+        # except:
+        #     allBFJointEthnicity_y = None
+        # try:
+        #     allWFNHOL_y = clf4.predict(row)
+        # except:
+        #     allWFNHOL_y = None
+        # try:
+        #     allWFHOL_y = clf5.predict(row)
+        # except:
+        #     allWFHOL_y = None
+        # try:
+        #     allWFJointEthnicity_y = clf6.predict(row)
+        # except:
+        #     allWFJointEthnicity_y = None
+        # try:
+        #     allJointRaceFemaleNHOL_y = clf7.predict(row)
+        # except:
+        #     allJointRaceFemaleNHOL_y = None
+        # try:
+        #     allJointRaceFemaleHOL_y = clf8.predict(row)
+        # except:
+        #     allJointRaceFemaleHOL_y = None
+        # try:
+        #     allJointRaceFemaleJointEthnicity_y = clf9.predict(row)
+        # except:
+        #     allJointRaceFemaleJointEthnicity_y = None
+        # try:
+        #     allBMNHOL_y = clf10.predict(row)
+        # except:
+        #     allBMNHOL_y = None
+        # try:
+        #     allBMHOL_y = clf11.predict(row)
+        # except:
+        #     allBMHOL_y = None
+        # try:
+        #     allBMJointEthnicity_y = clf12.predict(row)
+        # except:
+        #     allBMJointEthnicity_y = None
+        # try:
+        #     allWMNHOL_y = clf13.predict(row)
+        # except:
+        #     allWMNHOL_y = None
+        # try:
+        #     allWMHOL_y = clf14.predict(row)
+        # except:
+        #     allWMHOL_y = None
+        # try:
+        #     allWMJointEthnicity_y = clf15.predict(row)
+        # except:
+        #     allWMJointEthnicity_y = None
+        # try:
+        #     allJointRaceMaleNHOL_y = clf16.predict(row)
+        # except:
+        #     allJointRaceMaleNHOL_y = None
+        # try:
+        #     allJointRaceMaleHOL_y = clf17.predict(row)
+        # except:
+        #     allJointRaceMaleHOL_y = None
+        # try:
+        #     allJointRaceMaleJointEthnicity_y = clf18.predict(row)
+        # except:
+        #     allJointRaceMaleJointEthnicity_y = None
+        # try:
+        #     allJointSexBlacksNHOL_y = clf19.predict(row)
+        # except:
+        #     allJointSexBlacksNHOL_y = None
+        # try:
+        #     allJointSexBlacksHOL_y = clf20.predict(row)
+        # except:
+        #     allJointSexBlacksHOL_y = None
+        # try:
+        #     allJointSexBlacksJointEthnicity_y = clf21.predict(row)
+        # except:
+        #     allJointSexBlacksJointEthnicity_y = None
+        # try:
+        #     allJointSexWhitesNHOL_y = clf22.predict(row)
+        # except:
+        #     allJointSexWhitesNHOL_y = None
+        # try:
+        #     allJointSexWhitesHOL_y = clf23.predict(row)
+        # except:
+        #     allJointSexWhitesHOL_y = None
+        # try:
+        #     allJointSexWhitesJointEthnicity_y = clf24.predict(row)
+        # except:
+        #     allJointSexWhitesJointEthnicity_y = None
+        # try:
+        #     allJointSexJointRaceNHOL_y = clf25.predict(row)
+        # except:
+        #     allJointSexJointRaceNHOL_y = None
+        # try:
+        #     allJointSexJointRaceHOL_y = clf26.predict(row)
+        # except:
+        #     allJointSexJointRaceHOL_y = None
+        # try:
+        #     allJointSexJointRaceJointEthnicity_y = clf27.predict(row)
+        # except:
+        #     allJointSexJointRaceJointEthnicity_y = None
+
+    # print("Printing BFNHOL prediction:", allBFNHOL_y)
+    # print("Printing allBFHOL_y prediction:",allBFHOL_y)
+    # print("Printing allBFJointEthnicity_y prediction:", allBFJointEthnicity_y)
+    # print("Printing allWFNHOL_y prediction:", allWFNHOL_y)
+    # # print("Printing allWFHOL_y prediction:", allWFHOL_y)
+    # print("Printing allWFJointEthnicity_y prediction:", allWFJointEthnicity_y)
+    # print("Printing allJointRaceFemaleNHOL_y prediction:", allJointRaceFemaleNHOL_y)
 
     arrayClassifiers = [allBFNHOL_y, allBFHOL_y,
                         allBFJointEthnicity_y,
@@ -646,14 +786,23 @@ for index, row in dataset_orig.iterrows():
     for i in range((len(arrayClassifiers) - 1)):
         arrayConditional = []
         if arrayClassifiers[i] != None and arrayClassifiers[i + 1] != None:
-            arrayConditional.append(arrayClassifiers[i][0] == arrayClassifiers[i + 1][0])
-    for m in range((len(arrayConditional))):
-        if (arrayConditional[m] == False):
-            dataset_orig.drop(index, inplace=True)
+            if not(arrayClassifiers[i][0] == arrayClassifiers[i + 1][0]):
+                try:
+                 dataset_orig = dataset_orig.drop(index)
+                except:
+                 jashan = "yes"
+                 #print('Yeah, already deleted')
+            # for i in range((len(arrayClassifiers) - 1)):
+            #     arrayConditional = []
+            #     if arrayClassifiers[i] != None and arrayClassifiers[i + 1] != None:
+            #         arrayConditional.append(arrayClassifiers[i][0] == arrayClassifiers[i + 1][0])
+            # for m in range((len(arrayConditional))):
+            #     if (arrayConditional[m] == False):
+            #         dataset_orig.drop(index, inplace=True)
 
 print(dataset_orig.shape)
 print(list(dataset_orig.columns))
-print(dataset_orig[['derived_ethnicity', 'loan_amount','loan_to_value_ratio', 'interest_rate','action_taken']].head(50))
+print(dataset_orig[['derived_ethnicity', 'derived_race', 'derived_sex','action_taken']].head(50))
 dataset_orig.to_csv(r'C:\Users\jasha\Documents\GitHub\fair-loan-predictor\DebiasedDataset.csv')
 
 '''Scaling it is possibly causing the problem; 
@@ -661,9 +810,30 @@ dataset_orig.to_csv(r'C:\Users\jasha\Documents\GitHub\fair-loan-predictor\Debias
     Why does my dataset size change when I include more variables (columns) 
     
     I think one of these will lead us to our answer: 
-                 quadratic? 
+                 quadratic? CURRENTLY THIS IS THE ONE I AM WORKING ON; I don't think this it 
                  unbalancedness? 
-                 Why are more rows deleted? 
+                 Why are more rows deleted? (Promising)   ANSWER: NA and spaces are in the variables I include 
+                 Why is it that even though I have more than enough data in each classifer they are giving me null values? (Promising)
                  
+     Solving this error should give a solution:             
+     Traceback (most recent call last):
+       File "C:\\jasha\Documents\GitHub\fair-loan-predictor\debiasing.py", line 503, in <module>
+       allBFNHOL_y = clf1.predict(row)
+       AttributeError: 'NoneType' object has no attribute 'predict'
+     
+     Okay, no, here is the real fix and problem: 
+     
+     problem: the dataset being unbalanced (a 2-3-7-8 label is like 4,050/29,000); now combining this when you add more 
+     varaibles the NA, spaces, and exempt rows are cut out; as such, this leads to about 25/29,000 to have a 2-3 label
+     This will furhter be broken done into seperate datasets and thus lead to 25 of your 27 datasets (IF YOUR LUCKY) 
+     classifers to be none. As such, they aren't even counted. 
+     
+     solution: don't include features that don't pass this step rule 
+        1. they must be important or else your risking the problem
+        2. a majoritity of the rows of this feature can not be NA or spaces 
+                 
+                 
+    I think that since big datasets when they are cut down still have errors and get turned into none this is the problem. 
+    As such, my found hypothesis is you need a large dataset --THIS IS THE SOLUTION I BELEIVE 
     Okay, problem figured out: when I add more variables for some reason all the classifers become none (WHY IS THIS IS THE SOLUTION) 
      '''
