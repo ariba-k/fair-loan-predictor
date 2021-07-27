@@ -11,7 +11,7 @@ sys.path.append(os.path.abspath('..'))
 ##----KEY FUNCTIONS----##
 ## Load dataset
 def resetDataset():
-    dataset_orig = pd.read_csv(r'C:\Users\Arash\OneDrive\Documents\GitHub\fair-loan-predictor\adult.csv')
+    dataset_orig = pd.read_csv(r'C:\Users\jasha\Documents\GitHub\fair-loan-predictor\adult.csv')
     ## Drop NULL values
     dataset_orig = dataset_orig.dropna()
     ## Drop categorical features
@@ -103,87 +103,103 @@ allWMdataset = splittingDatasetSecondLayer('race', [0], allMaleDataset)
 
 
 def createClassifier(D):
+    D.reset_index(drop=True, inplace=True)
     D['race'] = 0
     D['sex'] = 0
+    # print(D[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
 
+    numRows = len(D)
+    numCols = len(D.columns) - 1
+    hasZero = False
+    hasOne = False
+    for x in range(numRows):
+        action_element = D.loc[x].iat[numCols]
+        if (action_element == 0 or action_element == 0.0):
+            hasZero = True
+        if (action_element == 1 or action_element == 1.0):
+            hasOne = True
     X_train, y_train = D.loc[:, D.columns != 'Probability'], D['Probability']
     # --- LSR
-    clf = LogisticRegression(C=1.0, penalty='l2', solver='liblinear', max_iter=100)
-    return clf.fit(X_train, y_train)
+    clf = LogisticRegression(C=1.0, penalty='l2', solver='liblinear', max_iter=200)
+
+    if numRows >= 2 and hasZero and hasOne:
+        return clf.fit(X_train, y_train)
+    else:
+        return None
 
 clf1 = createClassifier(allWMdataset)
 clf2 = createClassifier(allBMdataset)
 clf3 = createClassifier(allWFdataset)
 clf4 = createClassifier(allBFdataset)
 #--------------------Classifiers---------------------
-# allWMdataset['race'] = 0
-# allWMdataset['sex'] = 0
+allWMdataset['race'] = 0
+allWMdataset['sex'] = 0
+
+X_train, y_train = allWMdataset.loc[:, allWMdataset.columns != 'Probability'], allWMdataset['Probability']
+# --- LSR
+clf1 = LogisticRegression(C=1.0, penalty='l2', solver='liblinear', max_iter=100)
+clf1.fit(X_train, y_train)
+
+# print(X_train_male['sex'])
+import matplotlib.pyplot as plt
+# y = np.arange(len(allWMdataset.columns)-1)
+# plt.barh(y,clf1.coef_[0])
+# plt.yticks(y,allWMdataset.columns)
+# plt.show()
 #
-# X_train, y_train = allWMdataset.loc[:, allWMdataset.columns != 'Probability'], allWMdataset['Probability']
-# # --- LSR
-# clf1 = LogisticRegression(C=1.0, penalty='l2', solver='liblinear', max_iter=100)
-# clf1.fit(X_train, y_train)
-#
+# print(clf1.coef_[0])
+
+
+#------------------------------------------------------------------------------------
+allBMdataset['race'] = 0
+allBMdataset['sex'] = 0
+X_train, y_train = allBMdataset.loc[:, allBMdataset.columns != 'Probability'], allBMdataset['Probability']
+# --- LSR
+clf2 = LogisticRegression(C=1.0, penalty='l2', solver='liblinear', max_iter=100)
+clf2.fit(X_train, y_train)
+
 # # print(X_train_male['sex'])
 # import matplotlib.pyplot as plt
-# # y = np.arange(len(allWMdataset.columns)-1)
-# # plt.barh(y,clf1.coef_[0])
-# # plt.yticks(y,allWMdataset.columns)
-# # plt.show()
-# #
-# # print(clf1.coef_[0])
-#
-#
-# #------------------------------------------------------------------------------------
-# allBMdataset['race'] = 0
-# allBMdataset['sex'] = 0
-# X_train, y_train = allBMdataset.loc[:, allBMdataset.columns != 'Probability'], allBMdataset['Probability']
-# # --- LSR
-# clf2 = LogisticRegression(C=1.0, penalty='l2', solver='liblinear', max_iter=100)
-# clf2.fit(X_train, y_train)
-#
-# # # print(X_train_male['sex'])
-# # import matplotlib.pyplot as plt
-# # y = np.arange(len(allBMdataset.columns)-1)
-# # plt.barh(y,clf2.coef_[0])
-# # plt.yticks(y,allBMdataset.columns)
-# # plt.show()
-#
-# # print(clf2.coef_[0])
-#
-# #------------------------------------------------------------------------------------
-# allWFdataset['race'] = 0
-# allWFdataset['sex'] = 0
-# X_train, y_train = allWFdataset.loc[:, allWFdataset.columns != 'Probability'], allWFdataset['Probability']
-# # --- LSR
-# clf3 = LogisticRegression(C=1.0, penalty='l2', solver='liblinear', max_iter=100)
-# clf3.fit(X_train, y_train)
-#
-# # # print(X_train_male['sex'])
-# # import matplotlib.pyplot as plt
-# # y = np.arange(len(allWFdataset.columns)-1)
-# # plt.barh(y,clf3.coef_[0])
-# # plt.yticks(y,allWFdataset.columns)
-# # plt.show()
-#
-# # print(clf3.coef_[0])
-#
-# #------------------------------------------------------------------------------------
-# allBFdataset['race'] = 0
-# allBFdataset['sex'] = 0
-# X_train, y_train = allBFdataset.loc[:, allBFdataset.columns != 'Probability'], allBFdataset['Probability']
-# # --- LSR
-# clf4 = LogisticRegression(C=1.0, penalty='l2', solver='liblinear', max_iter=100)
-# clf4.fit(X_train, y_train)
-#
-# # # print(X_train_male['sex'])
-# # import matplotlib.pyplot as plt
-# # y = np.arange(len(allBFdataset.columns)-1)
-# # plt.barh(y,clf4.coef_[0])
-# # plt.yticks(y,allBFdataset.columns)
-# # plt.show()
-#
-# # print(clf4.coef_[0])
+# y = np.arange(len(allBMdataset.columns)-1)
+# plt.barh(y,clf2.coef_[0])
+# plt.yticks(y,allBMdataset.columns)
+# plt.show()
+
+# print(clf2.coef_[0])
+
+#------------------------------------------------------------------------------------
+allWFdataset['race'] = 0
+allWFdataset['sex'] = 0
+X_train, y_train = allWFdataset.loc[:, allWFdataset.columns != 'Probability'], allWFdataset['Probability']
+# --- LSR
+clf3 = LogisticRegression(C=1.0, penalty='l2', solver='liblinear', max_iter=100)
+clf3.fit(X_train, y_train)
+
+# # print(X_train_male['sex'])
+# import matplotlib.pyplot as plt
+# y = np.arange(len(allWFdataset.columns)-1)
+# plt.barh(y,clf3.coef_[0])
+# plt.yticks(y,allWFdataset.columns)
+# plt.show()
+
+# print(clf3.coef_[0])
+
+#------------------------------------------------------------------------------------
+allBFdataset['race'] = 0
+allBFdataset['sex'] = 0
+X_train, y_train = allBFdataset.loc[:, allBFdataset.columns != 'Probability'], allBFdataset['Probability']
+# --- LSR
+clf4 = LogisticRegression(C=1.0, penalty='l2', solver='liblinear', max_iter=100)
+clf4.fit(X_train, y_train)
+
+# # print(X_train_male['sex'])
+# import matplotlib.pyplot as plt
+# y = np.arange(len(allBFdataset.columns)-1)
+# plt.barh(y,clf4.coef_[0])
+# plt.yticks(y,allBFdataset.columns)
+# plt.show()
+
+# print(clf4.coef_[0])
 
 dataset_orig = resetDataset()
 print(dataset_orig.shape)
