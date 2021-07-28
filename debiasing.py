@@ -2,11 +2,16 @@
 import os
 import sys
 from matplotlib.pyplot import yticks, show, barh
+
 import numpy as np
 import pandas as pd
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
+from Measure import measure_final_score,calculate_recall,calculate_far,calculate_precision,calculate_accuracy
+
+
+
 
 sys.path.append(os.path.abspath('..'))
 # from Measure import measure_final_score
@@ -20,7 +25,7 @@ sys.path.append(os.path.abspath('..'))
 # similarity threshold delta
 def resetDataset():
     state_string = 'CA'
-    dataset_orig = pd.read_csv(r'C:\Users\jasha\Documents\GitHub\fair-loan-predictor\WYHMDA.csv',
+    dataset_orig = pd.read_csv(r'C:\Users\Arash\OneDrive\Documents\GitHub\fair-loan-predictor\TestHMDA.csv',
                                dtype=object)
     print(dataset_orig.shape)
     ###--------------------Sex------------------------
@@ -139,10 +144,11 @@ def resetDataset():
 
 
 #####------------------Scaling?------------------------------------
-    # scaler = MinMaxScaler()
-    # dataset_orig = pd.DataFrame(scaler.fit_transform(dataset_orig), columns=dataset_orig.columns)
-
+    scaler = MinMaxScaler()
+    dataset_orig = pd.DataFrame(scaler.fit_transform(dataset_orig), columns=dataset_orig.columns)
 ####--------------------End of Scaling-----------------------------
+
+
     # print(dataset_orig[['derived_msa-md','derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(20))
     # divide the data based on sex
     # dataset_new = dataset_orig.groupby(dataset_orig['derived_sex'] == 0)
@@ -169,7 +175,7 @@ def splittingDatasetSecondLayer(columns, array_remove2, initDataset1):
     finalDataset = initDataset
     return finalDataset
 
-transitioner = 0
+transitioner = 1
 
 if (transitioner == 1):
     x1 = 0
@@ -186,6 +192,7 @@ else:
 allFemaleDataset = splittingDataset('derived_sex', [x2, x3])
 # print('Printing all female \n',
 #       allFemaleDataset[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
+allFemaleDataset.to_csv(r'C:\Users\Arash\OneDrive\Documents\GitHub\fair-loan-predictor\FDebuggingScaling.csv')
 
 
 def allFemaleReset():
@@ -220,7 +227,7 @@ allBFdataset = splittingDatasetSecondLayer('derived_race',[x2, x3], allFemaleDat
 #       allBFdataset[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
 
 
-# allBFdataset.to_csv(r'C:\Users\jasha\Documents\GitHub\fair-loan-predictor\allBFDataset.csv')
+allBFdataset.to_csv(r'C:\Users\Arash\OneDrive\Documents\GitHub\fair-loan-predictor\BFDebuggingScaling.csv')
 def allBFReset():
     allFemaleDataset = allFemaleReset()
     allBFdataset = splittingDatasetSecondLayer('derived_race',[x2, x3], allFemaleDataset)
@@ -338,8 +345,11 @@ allBFHOLdataset = splittingDatasetSecondLayer('derived_ethnicity',[x2, x3], allB
 #       allBFHOLdataset[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
 allBFdataset = allBFReset()
 allBFNHOLdataset = splittingDatasetSecondLayer('derived_ethnicity',[x1, x3], allBFdataset)
-# print('Printing all BFNHOLs \n',
-#       allBFNHOLdataset[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
+print('Printing all BFNHOLs \n',
+      allBFNHOLdataset[['loan_amount', 'derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
+print('Num of Rows: \n', (len(allBFNHOLdataset)))
+allBFNHOLdataset.to_csv(r'C:\Users\Arash\OneDrive\Documents\GitHub\fair-loan-predictor\NewBFNHOLDebuggingSCALING.csv')
+
 allBFdataset = allBFReset()
 allBFJointEthnicitydataset = splittingDatasetSecondLayer('derived_ethnicity', [x1, x2], allBFdataset)
 # print('Printing all BFJointEthnicitys \n',
@@ -451,6 +461,49 @@ allJointSexJointRaceJointEthnicitydataset = splittingDatasetSecondLayer('derived
 #     ['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
 
 
+
+arrayDatasets = [
+                allBFNHOLdataset,
+                allBFHOLdataset,
+                allBFJointEthnicitydataset,
+                allWFNHOLdataset,
+                allWFHOLdataset,
+                allWFJointEthnicitydataset,
+                allJointRaceFemaleNHOLdataset,
+                allJointRaceFemaleHOLdataset,
+                allJointRaceFemaleJointEthnicitydataset,
+                allBMNHOLdataset,
+                allBMHOLdataset,
+                allBMJointEthnicitydataset,
+                allWMNHOLdataset,
+                allWMHOLdataset,
+                allWMJointEthnicitydataset,
+                allJointRaceMaleNHOLdataset,
+                allJointRaceMaleHOLdataset,
+                allJointRaceMaleJointEthnicitydataset,
+                allJointSexBlacksNHOLdataset,
+                allJointSexBlacksHOLdataset,
+                allJointSexBlacksJointEthnicitydataset,
+                allJointSexWhitesNHOLdataset,
+                allJointSexWhitesHOLdataset,
+                allJointSexWhitesJointEthnicitydataset,
+                allJointSexJointRaceNHOLdataset,
+                allJointSexJointRaceHOLdataset,
+                allJointSexJointRaceJointEthnicitydataset
+                 ]
+
+#
+# def scaleDatasets():
+#     for i in range(len(arrayDatasets)):
+#         try:
+#             scaler = MinMaxScaler()
+#             arrayDatasets[i] = pd.DataFrame(scaler.fit_transform(arrayDatasets[i]), columns=arrayDatasets[i].columns)
+#         except:
+#             x = 1
+#
+# scaleDatasets()
+
+
 ##################################
 # Classifier Function (helps to build classifiers):
 
@@ -472,7 +525,7 @@ def createClassifier(D):
       action_element = D.loc[x].iat[numCols]
       if(action_element == 0 or action_element == 0.0):
           hasZero = True
-      if(action_element == 1 or action_element == 1.0 ):
+      if(action_element == 1 or action_element == 1.0):
           hasOne = True
     X_train, y_train = D.loc[:, D.columns != 'action_taken'], D['action_taken']
     # --- LSR
@@ -485,11 +538,11 @@ def createClassifier(D):
     else:
         return None
 
-
-
 ##################################
 # --------------------Classifiers ---------------------
-#THIS IS OUT OF ORDER -- PROBLEM?????
+# #THIS IS OUT OF ORDER -- PROBLEM?????
+# allFemaleDataset = allFemaleReset()
+# clf0 = createClassifier(allFemaleDataset)
 clf1 = createClassifier(allBFNHOLdataset)
 clf2 = createClassifier(allBFHOLdataset)
 clf3 = createClassifier(allBFJointEthnicitydataset)
@@ -521,15 +574,39 @@ clf27 = createClassifier(allJointSexJointRaceJointEthnicitydataset)
 # -----------Make Debiased Dataset (Remove Biased Points)------------
 dataset_orig = resetDataset()
 print(dataset_orig.shape)
-
+numOfOnes0 = 0
+numOfZeros0 = 0
+numOfNones0 = 0
+numOfOnes1 = 0
+numOfZeros1 = 0
+numOfOnes2 = 0
+numOfZeros2 = 0
 for index, row in dataset_orig.iterrows():
     row = [row.values[0:len(row.values) - 1]]
+
+    # try:
+    #     allFemale_y = clf0.predict(row)
+    #     if (allFemale_y[0] == 1):
+    #         numOfOnes0 = numOfOnes0 + 1
+    #     else:
+    #         numOfZeros0 = numOfZeros0 + 1
+    # except:
+    #     allFemale_y = None
+    #     numOfNones0 = numOfNones0 + 1
     try:
         allBFNHOL_y = clf1.predict(row)
+        if (allBFNHOL_y[0] == 1):
+            numOfOnes1 = numOfOnes1 + 1
+        else:
+            numOfZeros1 = numOfZeros1 + 1
     except:
         allBFNHOL_y = None
     try:
         allBFHOL_y = clf2.predict(row)
+        if (allBFHOL_y[0] == 1):
+            numOfOnes2 = numOfOnes2 + 1
+        else:
+            numOfZeros2 = numOfZeros2 + 1
     except:
         allBFHOL_y = None
     try:
@@ -771,6 +848,7 @@ for index, row in dataset_orig.iterrows():
         # except:
         #     allJointSexJointRaceJointEthnicity_y = None
 
+    # print("Priting Female Prediction:", allFemale_y)
     # print("Printing BFNHOL prediction:", allBFNHOL_y)
     # print("Printing allBFHOL_y prediction:",allBFHOL_y)
     # print("Printing allBFJointEthnicity_y prediction:", allBFJointEthnicity_y)
@@ -805,57 +883,79 @@ for index, row in dataset_orig.iterrows():
                         allJointSexJointRaceNHOL_y,
                         allJointSexJointRaceHOL_y,
                         allJointSexJointRaceJointEthnicity_y]
+    # for i in range((len(arrayClassifiers) - 1)):
+    #     arrayConditional = []
+    #     if arrayClassifiers[i] != None and arrayClassifiers[i + 1] != None:
+    #         if not(arrayClassifiers[i][0] == arrayClassifiers[i + 1][0]):
+    #             try:
+    #              dataset_orig = dataset_orig.drop(index)
+    #             except:
+    #              jashan = "yes"
+    #              # print('Yeah, already deleted')
+    arrayConditional = []
     for i in range((len(arrayClassifiers) - 1)):
-        arrayConditional = []
         if arrayClassifiers[i] != None and arrayClassifiers[i + 1] != None:
-            if not(arrayClassifiers[i][0] == arrayClassifiers[i + 1][0]):
-                try:
-                 dataset_orig = dataset_orig.drop(index)
-                except:
-                 jashan = "yes"
-                 # print('Yeah, already deleted')
-            # for i in range((len(arrayClassifiers) - 1)):
-            #     arrayConditional = []
-            #     if arrayClassifiers[i] != None and arrayClassifiers[i + 1] != None:
-            #         arrayConditional.append(arrayClassifiers[i][0] == arrayClassifiers[i + 1][0])
-            # for m in range((len(arrayConditional))):
-            #     if (arrayConditional[m] == False):
-            #         dataset_orig.drop(index, inplace=True)
+            result = (arrayClassifiers[i][0] == arrayClassifiers[i + 1][0])
+            arrayConditional.append(result)
+        # print('array conditional all', arrayConditional)
+    for m in range((len(arrayConditional))):
+        # print("this is arrayconditional ADASASDFASDFADSFASDFASDFm", arrayConditional[m])
+        if (arrayConditional[m] == False):
+            dataset_orig = dataset_orig.drop(index)
 
 print(dataset_orig.shape)
 print(list(dataset_orig.columns))
 print(dataset_orig[['derived_ethnicity', 'derived_race', 'derived_sex','action_taken']].head(50))
-dataset_orig.to_csv(r'C:\Users\jasha\Documents\GitHub\fair-loan-predictor\DebiasedDataset.csv')
+# print(numOfOnes0)
+# print(numOfZeros0)
+# print("Nones for female:", numOfNones0)
+# print(numOfOnes1)
+# print(numOfZeros1)
+# print(numOfOnes2)
+# print(numOfZeros2)
 
-'''Scaling it is possibly causing the problem; 
-    Is the loop running right?
-    Why does my dataset size change when I include more variables (columns) 
-    
-    I think one of these will lead us to our answer: 
-                 quadratic? CURRENTLY THIS IS THE ONE I AM WORKING ON; I don't think this it 
-                 unbalancedness? 
-                 Why are more rows deleted? (Promising)   ANSWER: NA and spaces are in the variables I include 
-                 Why is it that even though I have more than enough data in each classifer they are giving me null values? (Promising)
-                 
-     Solving this error should give a solution:             
-     Traceback (most recent call last):
-       File "C:\\jasha\Documents\GitHub\fair-loan-predictor\debiasing.py", line 503, in <module>
-       allBFNHOL_y = clf1.predict(row)
-       AttributeError: 'NoneType' object has no attribute 'predict'
-     
-     Okay, no, here is the real fix and problem: 
-     
-     problem: the dataset being unbalanced (a 2-3-7-8 label is like 4,050/29,000); now combining this when you add more 
-     varaibles the NA, spaces, and exempt rows are cut out; as such, this leads to about 25/29,000 to have a 2-3 label
-     This will furhter be broken done into seperate datasets and thus lead to 25 of your 27 datasets (IF YOUR LUCKY) 
-     classifers to be none. As such, they aren't even counted. 
-     
-     solution: don't include features that don't pass this step rule 
-        1. they must be important or else your risking the problem
-        2. a majoritity of the rows of this feature can not be NA or spaces 
-                 
-                 
-    I think that since big datasets when they are cut down still have errors and get turned into none this is the problem. 
-    As such, my found hypothesis is you need a large dataset --THIS IS THE SOLUTION I BELEIVE 
-    Okay, problem figured out: when I add more variables for some reason all the classifers become none (WHY IS THIS IS THE SOLUTION) 
-     '''
+dataset_orig.to_csv(r'C:\Users\Arash\OneDrive\Documents\GitHub\fair-loan-predictor\NewDebiasedDataset.csv')
+
+
+#
+#
+#
+# ################################################################################################################################
+# ################################################################################################################################
+# print(dataset_orig.shape)
+# np.random.seed(0)
+# ## Divide into train,validation,test
+# dataset_orig_train, dataset_orig_test = train_test_split(dataset_orig, test_size=0.2, random_state=0,shuffle = True)
+#
+# X_train, y_train = dataset_orig_train.loc[:, dataset_orig_train.columns != 'action_taken'], dataset_orig_train['action_taken']
+# X_test, y_test = dataset_orig_test.loc[:, dataset_orig_test.columns != 'action_taken'], dataset_orig_test['action_taken']
+#
+# # --- LSR
+# clf = LogisticRegression(C=1.0, penalty='l2', solver='liblinear', max_iter=100)
+# # --- CART
+# # clf = tree.DecisionTreeClassifier()
+#
+# # clf.fit(X_train, y_train)
+# # import matplotlib.pyplot as plt
+# # y = np.arange(len(dataset_orig_train.columns)-1)
+# # plt.barh(y,clf.coef_[0])
+# # plt.yticks(y,dataset_orig_train.columns)
+# # plt.show()
+#
+# # print(clf_male.coef_[0])
+# # y_pred = clf.predict(X_test)
+# # cnf_matrix_test = confusion_matrix(y_test,y_pred)
+#
+# # print(cnf_matrix_test)
+# # TN, FP, FN, TP = confusion_matrix(y_test,y_pred).ravel()
+#
+#
+# print("recall :", measure_final_score(dataset_orig_test, clf, X_train, y_train, X_test, y_test, 'derived_sex', 'recall'))
+# print("far :",measure_final_score(dataset_orig_test, clf, X_train, y_train, X_test, y_test, 'derived_sex', 'far'))
+# print("precision :", measure_final_score(dataset_orig_test, clf, X_train, y_train, X_test, y_test, 'derived_sex', 'precision'))
+# print("accuracy :",measure_final_score(dataset_orig_test, clf, X_train, y_train, X_test, y_test, 'derived_sex', 'accuracy'))
+# print("aod sex:",measure_final_score(dataset_orig_test, clf, X_train, y_train, X_test, y_test, 'derived_sex', 'aod'))
+# print("eod sex:",measure_final_score(dataset_orig_test, clf, X_train, y_train, X_test, y_test, 'derived_sex', 'eod'))
+#
+# print("TPR:",measure_final_score(dataset_orig_test, clf, X_train, y_train, X_test, y_test, 'derived_race', 'TPR'))
+# print("FPR:",measure_final_score(dataset_orig_test, clf, X_train, y_train, X_test, y_test, 'derived_race', 'FPR'))
