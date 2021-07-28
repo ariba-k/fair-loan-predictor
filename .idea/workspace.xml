@@ -2,12 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="08549712-c9b3-423f-a3e9-b196cf4c0b3f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Measure.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/TransferProject.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/TransferProject.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DebiasedDataset.csv" beforeDir="false" afterPath="$PROJECT_DIR$/DebiasedDataset.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/adultdebiasing.py" beforeDir="false" afterPath="$PROJECT_DIR$/adultdebiasing.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BothforWY.csv" beforeDir="false" afterPath="$PROJECT_DIR$/BothforWY.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NewDebiasedDataset.csv" beforeDir="false" afterPath="$PROJECT_DIR$/NewDebiasedDataset.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/debiasing.py" beforeDir="false" afterPath="$PROJECT_DIR$/debiasing.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -44,7 +43,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/adultdebiasing.py" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
@@ -55,7 +54,28 @@
       <recent name="C:\Users\jasha\Documents\GitHub\fair-loan-predictor" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.debiasing">
+  <component name="RunManager" selected="Python.Debiasing">
+    <configuration name="Debiasing" type="PythonConfigurationType" factoryName="Python">
+      <module name="TransferProject" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\jasha\venv\Scripts\pythonw.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/debiasing.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="adultdebiasing" type="PythonConfigurationType" factoryName="Python">
       <module name="TransferProject" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -144,6 +164,7 @@
       <item itemvalue="Python.otherdebiasing" />
       <item itemvalue="Python.debiasing" />
       <item itemvalue="Python.adultdebiasing" />
+      <item itemvalue="Python.Debiasing" />
       <item itemvalue="Python.main" />
     </list>
   </component>

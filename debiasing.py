@@ -1,17 +1,12 @@
 ## Here I am dividing the data first based onto protected attribute value and then train two separate models
 import os
+import random
 import sys
-from matplotlib.pyplot import yticks, show, barh
 
-import numpy as np
 import pandas as pd
+import numpy as np
 from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
-from Measure import measure_final_score,calculate_recall,calculate_far,calculate_precision,calculate_accuracy
-
-
-
 
 sys.path.append(os.path.abspath('..'))
 # from Measure import measure_final_score
@@ -25,7 +20,7 @@ sys.path.append(os.path.abspath('..'))
 # similarity threshold delta
 def resetDataset():
     state_string = 'CA'
-    dataset_orig = pd.read_csv(r'C:\Users\Arash\OneDrive\Documents\GitHub\fair-loan-predictor\TestHMDA.csv',
+    dataset_orig = pd.read_csv(r'C:\Users\jasha\Documents\GitHub\fair-loan-predictor\BalancedWYHMDA.csv',
                                dtype=object)
     print(dataset_orig.shape)
     ###--------------------Sex------------------------
@@ -58,9 +53,52 @@ def resetDataset():
             dataset_orig.drop(currentIndexName, inplace=True)
 
     remove(array_remove)
-    dataset_orig.loc[(dataset_orig.action_taken == '1'), 'action_taken'] = 0
-    dataset_orig.loc[(dataset_orig.action_taken == '2'), 'action_taken'] = 1
-    dataset_orig.loc[(dataset_orig.action_taken == '3'), 'action_taken'] = 1
+    # dataset_orig.loc[(dataset_orig.action_taken == '1'), 'action_taken'] = 0
+    # dataset_orig.loc[(dataset_orig.action_taken == '2'), 'action_taken'] = 1
+    # dataset_orig.loc[(dataset_orig.action_taken == '3'), 'action_taken'] = 1
+    # dataset_orig.reset_index(drop=True, inplace=True)
+
+    # D is the dataset that we are using--in other words, HMDA_df
+
+    # print("Before balancing this is the shape:", dataset_orig.shape)
+    #
+    # numCols = len(dataset_orig.columns) - 1
+    # numDeleted = 0
+    # threshold = 10800
+    #
+    # while(numDeleted < threshold):
+    #     numRows = len(dataset_orig) - 1
+    #     numRandom = random.randint(0, numRows)
+    #     print(numRandom)
+    #     numToss = random.randint(0,1)
+    #     randomRowActionTaken = dataset_orig.loc[numRandom].iat[numCols]
+    #
+    #     if(randomRowActionTaken == 0 and numToss == 1):
+    #         dataset_orig = dataset_orig.drop(numRandom)
+    #         dataset_orig.reset_index(drop=True, inplace=True)
+    #         numDeleted = numDeleted + 1
+    #
+    # dataset_orig.reset_index(drop=True, inplace=True)
+    # dataset_orig.to_csv(r'C:\Users\jasha\Documents\GitHub\fair-loan-predictor\BalancedWYHMDA.csv')
+    # print("After balancing this is the shape:", dataset_orig.shape)
+
+    #
+    # print("Before balancing this is the shape:", dataset_orig.shape)
+    #
+    # for index, row in dataset_orig.iterrows():
+    #     y_label = [row.values[len(row.values) - 1]]
+    #     print(y_label[0])
+    #     print(y_labelCountForZero)
+    #     #Have to cut out roughly 12,500 rows of zeros after bucketing to balance the dataset
+    #     if(y_label[0] == 0 and y_labelCountForZero < 10800):
+    #         y_labelCountForZero = y_labelCountForZero + 1
+    #         dataset_orig = dataset_orig.drop(index)
+    #
+    # dataset_orig.reset_index(drop=True, inplace=True    randomRowActionTaken = dataset_orig.loc[numRandom].iat[numCols])
+    # dataset_orig.to_csv(r'C:\Users\jasha\Documents\GitHub\fair-loan-predictor\BalancedWYHMDA.csv')
+    # print("After balancing this is the shape:", dataset_orig.shape)
+
+
 
     ##-------------------NA Removal------------------
     def removeNA(array_columns):
@@ -153,6 +191,8 @@ def resetDataset():
     # divide the data based on sex
     # dataset_new = dataset_orig.groupby(dataset_orig['derived_sex'] == 0)
     # print(dataset_new[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(20))
+    dataset_orig.to_csv(r'C:\Users\jasha\Documents\GitHub\fair-loan-predictor\AfterScalingTestHMDA.csv')
+
     return dataset_orig
 
 
@@ -190,9 +230,9 @@ else:
 
 # =============================FIRST LAYER DIVIDE=====================================
 allFemaleDataset = splittingDataset('derived_sex', [x2, x3])
-# print('Printing all female \n',
-#       allFemaleDataset[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
-allFemaleDataset.to_csv(r'C:\Users\Arash\OneDrive\Documents\GitHub\fair-loan-predictor\FDebuggingScaling.csv')
+print('Printing all female \n',
+      allFemaleDataset[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(55))
+# allFemaleDataset.to_csv(r'C:\Users\Arash\OneDrive\Documents\GitHub\fair-loan-predictor\FDebuggingScaling.csv')
 
 
 def allFemaleReset():
@@ -223,11 +263,11 @@ def allJointSexReset():
 # ===============================Second Layer Divide====================================
 # First White and Black Females
 allBFdataset = splittingDatasetSecondLayer('derived_race',[x2, x3], allFemaleDataset)
-# print('Printing all BFs \n',
-#       allBFdataset[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
+print('Printing all BFs \n',
+      allBFdataset[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
 
 
-allBFdataset.to_csv(r'C:\Users\Arash\OneDrive\Documents\GitHub\fair-loan-predictor\BFDebuggingScaling.csv')
+# allBFdataset.to_csv(r'C:\Users\Arash\OneDrive\Documents\GitHub\fair-loan-predictor\BFDebuggingScaling.csv')
 def allBFReset():
     allFemaleDataset = allFemaleReset()
     allBFdataset = splittingDatasetSecondLayer('derived_race',[x2, x3], allFemaleDataset)
@@ -348,7 +388,7 @@ allBFNHOLdataset = splittingDatasetSecondLayer('derived_ethnicity',[x1, x3], all
 print('Printing all BFNHOLs \n',
       allBFNHOLdataset[['loan_amount', 'derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
 print('Num of Rows: \n', (len(allBFNHOLdataset)))
-allBFNHOLdataset.to_csv(r'C:\Users\Arash\OneDrive\Documents\GitHub\fair-loan-predictor\NewBFNHOLDebuggingSCALING.csv')
+# allBFNHOLdataset.to_csv(r'C:\Users\Arash\OneDrive\Documents\GitHub\fair-loan-predictor\NewBFNHOLDebuggingSCALING.csv')
 
 allBFdataset = allBFReset()
 allBFJointEthnicitydataset = splittingDatasetSecondLayer('derived_ethnicity', [x1, x2], allBFdataset)
@@ -459,6 +499,7 @@ allJointSexJointRaceJointEthnicitydataset = splittingDatasetSecondLayer('derived
                                                                         allJointSexJointRaceDataset)
 # print('Printing all JointSexJointRaceJointEthnicity \n', allJointSexJointRaceJointEthnicitydataset[
 #     ['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
+allJointSexJointRaceJointEthnicitydataset.to_csv(r'C:\Users\jasha\Documents\GitHub\fair-loan-predictor\allJointSexJointRaceJointEthnicitydataset.csv')
 
 
 
@@ -509,7 +550,7 @@ arrayDatasets = [
 
 def createClassifier(D):
     D.reset_index(drop=True, inplace=True)
-    # print(D[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
+    print(D[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
 
     D['derived_ethnicity'] = 0
     # print(D[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(30))
@@ -530,9 +571,9 @@ def createClassifier(D):
     X_train, y_train = D.loc[:, D.columns != 'action_taken'], D['action_taken']
     # --- LSR
     clf = LogisticRegression(C=1.0, penalty='l2', solver='liblinear', max_iter=200)
-    # print(hasZero)
-    # print(hasOne)
-    # print(numRows >= 2)
+    print(hasZero)
+    print(hasOne)
+    print(numRows >= 2)
     if numRows >= 2 and hasZero and hasOne:
         return clf.fit(X_train, y_train)
     else:
@@ -542,7 +583,7 @@ def createClassifier(D):
 # --------------------Classifiers ---------------------
 # #THIS IS OUT OF ORDER -- PROBLEM?????
 # allFemaleDataset = allFemaleReset()
-# clf0 = createClassifier(allFemaleDataset)
+clf0 = createClassifier(allFemaleDataset)
 clf1 = createClassifier(allBFNHOLdataset)
 clf2 = createClassifier(allBFHOLdataset)
 clf3 = createClassifier(allBFJointEthnicitydataset)
@@ -582,8 +623,8 @@ numOfZeros1 = 0
 numOfOnes2 = 0
 numOfZeros2 = 0
 for index, row in dataset_orig.iterrows():
+    y_label = [row.values[len(row.values) - 1]]
     row = [row.values[0:len(row.values) - 1]]
-
     # try:
     #     allFemale_y = clf0.predict(row)
     #     if (allFemale_y[0] == 1):
@@ -848,14 +889,38 @@ for index, row in dataset_orig.iterrows():
         # except:
         #     allJointSexJointRaceJointEthnicity_y = None
 
-    # print("Priting Female Prediction:", allFemale_y)
-    # print("Printing BFNHOL prediction:", allBFNHOL_y)
-    # print("Printing allBFHOL_y prediction:",allBFHOL_y)
-    # print("Printing allBFJointEthnicity_y prediction:", allBFJointEthnicity_y)
-    # print("Printing allWFNHOL_y prediction:", allWFNHOL_y)
-    # print("Printing allWFHOL_y prediction:", allWFHOL_y)
-    # print("Printing allWFJointEthnicity_y prediction:", allWFJointEthnicity_y)
-    # print("Printing allJointRaceFemaleNHOL_y prediction:", allJointRaceFemaleNHOL_y)
+    print(row)
+    print('printing y', y_label)
+    print(allBFNHOL_y, allBFHOL_y,
+                        allBFJointEthnicity_y,
+                        allWFNHOL_y,
+                        allWFHOL_y,
+                        allWFJointEthnicity_y,
+                        allJointRaceFemaleNHOL_y,
+                        allJointRaceFemaleHOL_y,
+                        allJointRaceFemaleJointEthnicity_y,
+                        allBMNHOL_y,
+                        allBMHOL_y,
+                        allBMJointEthnicity_y,
+                        allWMNHOL_y,
+                        allWMHOL_y,
+                        allWMJointEthnicity_y,
+                        allJointRaceMaleNHOL_y,
+                        allJointRaceMaleHOL_y,
+                        allJointRaceMaleJointEthnicity_y,
+                        allJointSexBlacksNHOL_y,
+                        allJointSexBlacksHOL_y,
+                        allJointSexBlacksJointEthnicity_y,
+                        allJointSexWhitesNHOL_y,
+                        allJointSexWhitesHOL_y,
+                        allJointSexWhitesJointEthnicity_y,
+                        allJointSexJointRaceNHOL_y,
+                        allJointSexJointRaceHOL_y,
+                        allJointSexJointRaceJointEthnicity_y)
+
+
+
+
 
     arrayClassifiers = [allBFNHOL_y, allBFHOL_y,
                         allBFJointEthnicity_y,
@@ -883,6 +948,8 @@ for index, row in dataset_orig.iterrows():
                         allJointSexJointRaceNHOL_y,
                         allJointSexJointRaceHOL_y,
                         allJointSexJointRaceJointEthnicity_y]
+
+
     # for i in range((len(arrayClassifiers) - 1)):
     #     arrayConditional = []
     #     if arrayClassifiers[i] != None and arrayClassifiers[i + 1] != None:
@@ -901,7 +968,10 @@ for index, row in dataset_orig.iterrows():
     for m in range((len(arrayConditional))):
         # print("this is arrayconditional ADASASDFASDFADSFASDFASDFm", arrayConditional[m])
         if (arrayConditional[m] == False):
-            dataset_orig = dataset_orig.drop(index)
+            try:
+              dataset_orig = dataset_orig.drop(index)
+            except:
+                jashan = "yes"
 
 print(dataset_orig.shape)
 print(list(dataset_orig.columns))
@@ -914,7 +984,7 @@ print(dataset_orig[['derived_ethnicity', 'derived_race', 'derived_sex','action_t
 # print(numOfOnes2)
 # print(numOfZeros2)
 
-dataset_orig.to_csv(r'C:\Users\Arash\OneDrive\Documents\GitHub\fair-loan-predictor\NewDebiasedDataset.csv')
+dataset_orig.to_csv(r'C:\Users\jasha\Documents\GitHub\fair-loan-predictor\NewDebiasedDataset.csv')
 
 
 #
