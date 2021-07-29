@@ -531,7 +531,7 @@ def createClassifier(D):
     print(hasZero)
     print(hasOne)
     print(numRows >= 2)
-    if numRows >= 2 and hasZero and hasOne:
+    if numRows >= 15 and hasZero and hasOne:
         return clf.fit(X_train, y_train)
     else:
         return None

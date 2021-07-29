@@ -7,7 +7,7 @@ import numpy as np
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import MinMaxScaler
 
-dataset_orig = pd.read_csv(r'C:\Users\jasha\Documents\GitHub\fair-loan-predictor\MEHMDA.csv',
+dataset_orig = pd.read_csv(r'C:\Users\jasha\Documents\GitHub\fair-loan-predictor\HMDACT.csv',
                            dtype=object)
 print(dataset_orig.shape)
 ###--------------------Sex------------------------
@@ -56,7 +56,8 @@ print("Before balancing this is the shape:", dataset_orig.shape)
 
 numCols = len(dataset_orig.columns) - 1
 numDeleted = 0
-threshold = 24300
+threshold = 98984
+
 
 while(numDeleted < threshold):
     numRows = len(dataset_orig) - 1
@@ -64,7 +65,7 @@ while(numDeleted < threshold):
     # print(numRandom)
     randomRowActionTaken = dataset_orig.loc[numRandom].iat[numCols]
 
-    print("Action:", randomRowActionTaken)
+
     if(randomRowActionTaken == 0):
         dataset_orig = dataset_orig.drop(numRandom)
         dataset_orig.reset_index(drop=True, inplace=True)
@@ -72,5 +73,5 @@ while(numDeleted < threshold):
         print(numDeleted)
 
 dataset_orig.reset_index(drop=True, inplace=True)
-dataset_orig.to_csv(r'C:\Users\jasha\Documents\GitHub\fair-loan-predictor\BalancedMEHMDA.csv')
+dataset_orig.to_csv(r'C:\Users\jasha\Documents\GitHub\fair-loan-predictor\BalancedCTHMDA.csv')
 print("After balancing this is the shape:", dataset_orig.shape)
