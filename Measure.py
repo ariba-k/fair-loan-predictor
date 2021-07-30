@@ -18,35 +18,35 @@ def get_counts(clf, x_train, y_train, x_test, y_test, test_df, biased_col, metri
     test_df_copy = copy.deepcopy(test_df)
     test_df_copy['current_pred_'  + biased_col] = y_pred
 
-    test_df_copy['TP_' + biased_col + "_1"] = np.where((test_df_copy['Probability'] == 1) &
+    test_df_copy['TP_' + biased_col + "_1"] = np.where((test_df_copy['action_taken'] == 1) &
                                            (test_df_copy['current_pred_' + biased_col] == 1) &
                                            (test_df_copy[biased_col] == 1), 1, 0)
 
-    test_df_copy['TN_' + biased_col + "_1"] = np.where((test_df_copy['Probability'] == 0) &
+    test_df_copy['TN_' + biased_col + "_1"] = np.where((test_df_copy['action_taken'] == 0) &
                                                   (test_df_copy['current_pred_' + biased_col] == 0) &
                                                   (test_df_copy[biased_col] == 1), 1, 0)
 
-    test_df_copy['FN_' + biased_col + "_1"] = np.where((test_df_copy['Probability'] == 1) &
+    test_df_copy['FN_' + biased_col + "_1"] = np.where((test_df_copy['action_taken'] == 1) &
                                                   (test_df_copy['current_pred_' + biased_col] == 0) &
                                                   (test_df_copy[biased_col] == 1), 1, 0)
 
-    test_df_copy['FP_' + biased_col + "_1"] = np.where((test_df_copy['Probability'] == 0) &
+    test_df_copy['FP_' + biased_col + "_1"] = np.where((test_df_copy['action_taken'] == 0) &
                                                   (test_df_copy['current_pred_' + biased_col] == 1) &
                                                   (test_df_copy[biased_col] == 1), 1, 0)
 
-    test_df_copy['TP_' + biased_col + "_0"] = np.where((test_df_copy['Probability'] == 1) &
+    test_df_copy['TP_' + biased_col + "_0"] = np.where((test_df_copy['action_taken'] == 1) &
                                                   (test_df_copy['current_pred_' + biased_col] == 1) &
                                                   (test_df_copy[biased_col] == 0), 1, 0)
 
-    test_df_copy['TN_' + biased_col + "_0"] = np.where((test_df_copy['Probability'] == 0) &
+    test_df_copy['TN_' + biased_col + "_0"] = np.where((test_df_copy['action_taken'] == 0) &
                                                   (test_df_copy['current_pred_' + biased_col] == 0) &
                                                   (test_df_copy[biased_col] == 0), 1, 0)
 
-    test_df_copy['FN_' + biased_col + "_0"] = np.where((test_df_copy['Probability'] == 1) &
+    test_df_copy['FN_' + biased_col + "_0"] = np.where((test_df_copy['action_taken'] == 1) &
                                                   (test_df_copy['current_pred_' + biased_col] == 0) &
                                                   (test_df_copy[biased_col] == 0), 1, 0)
 
-    test_df_copy['FP_' + biased_col + "_0"] = np.where((test_df_copy['Probability'] == 0) &
+    test_df_copy['FP_' + biased_col + "_0"] = np.where((test_df_copy['action_taken'] == 0) &
                                                   (test_df_copy['current_pred_' + biased_col] == 1) &
                                                   (test_df_copy[biased_col] == 0), 1, 0)
 
@@ -83,35 +83,35 @@ def get_counts_german(clf, x_train, y_train, x_test, y_test, test_df, biased_col
     test_df_copy = copy.deepcopy(test_df)
     test_df_copy['current_pred_'  + biased_col] = y_pred
 
-    test_df_copy['TP_' + biased_col + "_1"] = np.where((test_df_copy['Probability'] == 1) &
+    test_df_copy['TP_' + biased_col + "_1"] = np.where((test_df_copy['action_taken'] == 1) &
                                            (test_df_copy['current_pred_' + biased_col] == 1) &
                                            (test_df_copy[biased_col] == 1), 1, 0)
 
-    test_df_copy['TN_' + biased_col + "_1"] = np.where((test_df_copy['Probability'] == 2) &
+    test_df_copy['TN_' + biased_col + "_1"] = np.where((test_df_copy['action_taken'] == 2) &
                                                   (test_df_copy['current_pred_' + biased_col] == 2) &
                                                   (test_df_copy[biased_col] == 1), 1, 0)
 
-    test_df_copy['FN_' + biased_col + "_1"] = np.where((test_df_copy['Probability'] == 1) &
+    test_df_copy['FN_' + biased_col + "_1"] = np.where((test_df_copy['action_taken'] == 1) &
                                                   (test_df_copy['current_pred_' + biased_col] == 2) &
                                                   (test_df_copy[biased_col] == 1), 1, 0)
 
-    test_df_copy['FP_' + biased_col + "_1"] = np.where((test_df_copy['Probability'] == 2) &
+    test_df_copy['FP_' + biased_col + "_1"] = np.where((test_df_copy['action_taken'] == 2) &
                                                   (test_df_copy['current_pred_' + biased_col] == 1) &
                                                   (test_df_copy[biased_col] == 1), 1, 0)
 
-    test_df_copy['TP_' + biased_col + "_0"] = np.where((test_df_copy['Probability'] == 1) &
+    test_df_copy['TP_' + biased_col + "_0"] = np.where((test_df_copy['action_taken'] == 1) &
                                                   (test_df_copy['current_pred_' + biased_col] == 1) &
                                                   (test_df_copy[biased_col] == 0), 1, 0)
 
-    test_df_copy['TN_' + biased_col + "_0"] = np.where((test_df_copy['Probability'] == 2) &
+    test_df_copy['TN_' + biased_col + "_0"] = np.where((test_df_copy['action_taken'] == 2) &
                                                   (test_df_copy['current_pred_' + biased_col] == 2) &
                                                   (test_df_copy[biased_col] == 0), 1, 0)
 
-    test_df_copy['FN_' + biased_col + "_0"] = np.where((test_df_copy['Probability'] == 1) &
+    test_df_copy['FN_' + biased_col + "_0"] = np.where((test_df_copy['action_taken'] == 1) &
                                                   (test_df_copy['current_pred_' + biased_col] == 2) &
                                                   (test_df_copy[biased_col] == 0), 1, 0)
 
-    test_df_copy['FP_' + biased_col + "_0"] = np.where((test_df_copy['Probability'] == 2) &
+    test_df_copy['FP_' + biased_col + "_0"] = np.where((test_df_copy['action_taken'] == 2) &
                                                   (test_df_copy['current_pred_' + biased_col] == 1) &
                                                   (test_df_copy[biased_col] == 0), 1, 0)
 
