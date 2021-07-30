@@ -9,9 +9,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import MinMaxScaler
 
 sys.path.append(os.path.abspath('..'))
-# from Measure import measure_final_score
-sys.path.append(os.path.abspath('..'))
-
+fileloc = str(sys.path[0]) + '\\' + 'BalancedCTHMDA.csv'
 
 ##----KEY FUNCTIONS----##
 # ==========================ABOVE IMPORTS========================================
@@ -19,9 +17,7 @@ sys.path.append(os.path.abspath('..'))
 # classification model M trained on D, Input space
 # similarity threshold delta
 def resetDataset():
-    state_string = 'CA'
-    dataset_orig = pd.read_csv(r'C:\Users\jasha\Documents\GitHub\fair-loan-predictor\BalancedCTHMDA.csv',
-                               dtype=object)
+    dataset_orig = pd.read_csv(fileloc, dtype=object)
     print(dataset_orig.shape)
 
 #####------------------Scaling?------------------------------------
@@ -34,7 +30,8 @@ def resetDataset():
     # divide the data based on sex
     # dataset_new = dataset_orig.groupby(dataset_orig['derived_sex'] == 0)
     # print(dataset_new[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(20))
-    dataset_orig.to_csv(r'C:\Users\jasha\Documents\GitHub\fair-loan-predictor\AfterScalingTestHMDA.csv')
+    fileToSaveTo1 =  str(sys.path[0]) + '\\' + 'AfterScalingTestHMDA.csv'
+    dataset_orig.to_csv(fileToSaveTo1)
 
     return dataset_orig
 
@@ -154,7 +151,7 @@ allBMdataset = splittingDatasetSecondLayer('derived_race',[x2, x3], allMaleDatas
 #       allBMdataset[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
 
 
-# allBFdataset.to_csv(r'C:\Users\jasha\Documents\GitHub\fair-loan-predictor\allBFDataset.csv')
+# allBFdataset.to_csv(r'C:\Users\Arash\OneDrive\Documents\GitHub\fair-loan-predictor\allBFDataset.csv')
 def allBMReset():
     allMaleDataset = allMaleReset()
     allBMdataset = splittingDatasetSecondLayer('derived_race',[x2, x3], allMaleDataset)
@@ -191,7 +188,7 @@ allJointSexBlacksDataset = splittingDatasetSecondLayer('derived_race',[x2, x3], 
 #       allJointSexBlacksDataset[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
 
 
-# allBFdataset.to_csv(r'C:\Users\jasha\Documents\GitHub\fair-loan-predictor\allBFDataset.csv')
+# allBFdataset.to_csv(r'C:\Users\Arash\OneDrive\Documents\GitHub\fair-loan-predictor\allBFDataset.csv')
 def allJointSexBlacksReset():
     allJointSexDataset = allJointSexReset()
     allJointSexBlacksDataset = splittingDatasetSecondLayer('derived_race',[x2, x3], allJointSexDataset)
@@ -204,7 +201,7 @@ allJointSexWhitesDataset = splittingDatasetSecondLayer('derived_race',[x1, x3], 
 #       allJointSexWhitesDataset[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
 
 
-# allBFdataset.to_csv(r'C:\Users\jasha\Documents\GitHub\fair-loan-predictor\allBFDataset.csv')
+# allBFdataset.to_csv(r'C:\Users\Arash\OneDrive\Documents\GitHub\fair-loan-predictor\allBFDataset.csv')
 def allJointSexWhitesReset():
     allJointSexDataset = allJointSexReset()
     allJointSexWhitesDataset = splittingDatasetSecondLayer('derived_race',[x1, x3], allJointSexDataset)
@@ -217,7 +214,7 @@ allJointSexJointRaceDataset = splittingDatasetSecondLayer('derived_race', [x1, x
 #       allJointSexJointRaceDataset[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
 
 
-# allBFdataset.to_csv(r'C:\Users\jasha\Documents\GitHub\fair-loan-predictor\allBFDataset.csv')
+# allBFdataset.to_csv(r'C:\Users\Arash\OneDrive\Documents\GitHub\fair-loan-predictor\allBFDataset.csv')
 def allJointSexJointRaceReset():
     allJointSexDataset = allJointSexReset()
     allJointSexJointRaceDataset = splittingDatasetSecondLayer('derived_race', [x1, x2], allJointSexDataset)
@@ -345,7 +342,8 @@ allJointSexJointRaceJointEthnicitydataset = splittingDatasetSecondLayer('derived
                                                                         allJointSexJointRaceDataset)
 # print('Printing all JointSexJointRaceJointEthnicity \n', allJointSexJointRaceJointEthnicitydataset[
 #     ['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
-allJointSexJointRaceJointEthnicitydataset.to_csv(r'C:\Users\jasha\Documents\GitHub\fair-loan-predictor\allJointSexJointRaceJointEthnicitydataset.csv')
+fileToSaveTo2 = str(sys.path[0]) + '\\' + 'allJointSexJointRaceJointEthnicitydataset.csv'
+allJointSexJointRaceJointEthnicitydataset.to_csv(fileToSaveTo2)
 
 
 
@@ -830,7 +828,8 @@ print(dataset_orig[['derived_ethnicity', 'derived_race', 'derived_sex','action_t
 # print(numOfOnes2)
 # print(numOfZeros2)
 
-dataset_orig.to_csv(r'C:\Users\jasha\Documents\GitHub\fair-loan-predictor\NewDebiasedDataset.csv')
+fileToSaveTo3 = str(sys.path[0]) + '\\' + 'NewDebiasedDataset.csv'
+dataset_orig.to_csv(fileToSaveTo3)
 
 
 #

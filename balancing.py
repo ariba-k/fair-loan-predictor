@@ -6,9 +6,10 @@ import pandas as pd
 import numpy as np
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import MinMaxScaler
+sys.path.append(os.path.abspath('..'))
+fileloc = str(sys.path[0]) + '\\' + 'HMDACT.csv'
 
-dataset_orig = pd.read_csv(r'C:\Users\jasha\Documents\GitHub\fair-loan-predictor\HMDACT.csv',
-                           dtype=object)
+dataset_orig = pd.read_csv(fileloc, dtype=object)
 print(dataset_orig.shape)
 ###--------------------Sex------------------------
 indexNames1 = dataset_orig[dataset_orig['derived_sex'] == "Sex Not Available"].index
@@ -42,9 +43,9 @@ def remove(array_remove):
 
 
 remove(array_remove)
-dataset_orig.loc[(dataset_orig.action_taken == '1'), 'action_taken'] = 0
-dataset_orig.loc[(dataset_orig.action_taken == '2'), 'action_taken'] = 1
-dataset_orig.loc[(dataset_orig.action_taken == '3'), 'action_taken'] = 1
+dataset_orig.loc[(dataset_orig.action_taken == '1'), 'action_taken'] = 1
+dataset_orig.loc[(dataset_orig.action_taken == '2'), 'action_taken'] = 0
+dataset_orig.loc[(dataset_orig.action_taken == '3'), 'action_taken'] = 0
 
 ##-------------------NA Removal------------------
 def removeNA(array_columns):
@@ -141,7 +142,7 @@ dataset_orig.reset_index(drop=True, inplace=True)
 # D is the dataset that we are using--in other words, HMDA_df
 
 print("Before balancing this is the shape:", dataset_orig.shape)
-dataset_orig.to_csv(r'C:\Users\jasha\Documents\GitHub\fair-loan-predictor\BeforeBalancingDataset.csv')
+dataset_orig.to_csv(r'C:\Users\Arash\OneDrive\Documents\GitHub\fair-loan-predictor\BeforeBalancingDataset.csv')
 
 numCols = len(dataset_orig.columns) - 1
 numDeleted = 0
@@ -162,5 +163,5 @@ while(numDeleted < threshold):
         print(numDeleted)
 
 dataset_orig.reset_index(drop=True, inplace=True)
-dataset_orig.to_csv(r'C:\Users\jasha\Documents\GitHub\fair-loan-predictor\BalancedCTHMDA.csv')
+dataset_orig.to_csv(r'C:\Users\Arash\OneDrive\Documents\GitHub\fair-loan-predictor\BalancedCTHMDA.csv')
 print("After balancing this is the shape:", dataset_orig.shape)
