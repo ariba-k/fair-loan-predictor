@@ -5,12 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="08549712-c9b3-423f-a3e9-b196cf4c0b3f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/TransferProject.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/TransferProject.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AfterScalingTestHMDA.csv" beforeDir="false" afterPath="$PROJECT_DIR$/AfterScalingTestHMDA.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Measure.py" beforeDir="false" afterPath="$PROJECT_DIR$/Measure.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Usage.py" beforeDir="false" afterPath="$PROJECT_DIR$/Usage.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/balancing.py" beforeDir="false" afterPath="$PROJECT_DIR$/balancing.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/debiasing.py" beforeDir="false" afterPath="$PROJECT_DIR$/debiasing.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,7 +55,7 @@
       <recent name="C:\Users\jasha\Documents\GitHub\fair-loan-predictor" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.debiasing">
+  <component name="RunManager" selected="Python.usage">
     <configuration name="Balancing" type="PythonConfigurationType" factoryName="Python">
       <module name="TransferProject" />
       <option name="INTERPRETER_OPTIONS" value="" />
