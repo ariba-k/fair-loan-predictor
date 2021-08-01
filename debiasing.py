@@ -9,7 +9,14 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import MinMaxScaler
 
 sys.path.append(os.path.abspath('..'))
-fileloc = str(sys.path[0]) + '\\' + 'BalancedCTHMDA.csv'
+
+'''This file is the main file to debias a dataset. Before using this file, make sure your dataset is balanced
+as you will get a very bad debiased dataset with very low number of rows. You can begin to debias the dataset
+by chaning line 18 where it says BalancedCTHMDA. Lastly, you can save it at the end (line 837) doing the same
+process'''
+
+
+fileloc = str(sys.path[0]) + '\\Data\\' + 'BalancedCTHMDA.csv'
 
 ##----KEY FUNCTIONS----##
 # ==========================ABOVE IMPORTS========================================
@@ -20,7 +27,7 @@ def resetDataset():
     dataset_orig = pd.read_csv(fileloc, dtype=object)
     print(dataset_orig.shape)
 
-#####------------------Scaling?------------------------------------
+#####------------------Scaling------------------------------------
     scaler = MinMaxScaler()
     dataset_orig = pd.DataFrame(scaler.fit_transform(dataset_orig), columns=dataset_orig.columns)
 ####--------------------End of Scaling-----------------------------
@@ -30,7 +37,7 @@ def resetDataset():
     # divide the data based on sex
     # dataset_new = dataset_orig.groupby(dataset_orig['derived_sex'] == 0)
     # print(dataset_new[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(20))
-    fileToSaveTo1 =  str(sys.path[0]) + '\\' + 'AfterScalingTestHMDA.csv'
+    fileToSaveTo1 =  str(sys.path[0]) + '\\Data\\' + 'AfterScalingTestHMDA.csv'
     dataset_orig.to_csv(fileToSaveTo1)
 
     return dataset_orig
@@ -41,6 +48,8 @@ def resetDataset():
 #===============================================DONE WITH PREPROCESSING =======================================================
 # dataset_orig = resetDataset()
 # print(dataset_orig[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(30))
+
+#Here we will start creating functions to split dataset_orig into its 27 subcomponents
 def splittingDataset(columns, array_remove2):
     dataset_orig = resetDataset()
     for newIndex in range(len(array_remove2)):
@@ -58,6 +67,9 @@ def splittingDatasetSecondLayer(columns, array_remove2, initDataset1):
     finalDataset = initDataset
     return finalDataset
 
+
+#This transitioner will change depending on if you want to use scaling (1) or not use scaling (any other number)
+#Normally, you will be using scaling, so you don't have to tamper with this.
 transitioner = 1
 
 if (transitioner == 1):
@@ -70,6 +82,7 @@ else:
     x3 = 2
 
 
+#BELOW YOU WILL BEGIN DIVIDING THE DATASETS USING THE FUNCTIONS WE MADE FROM LINES 87 TO 356
 
 # =============================FIRST LAYER DIVIDE=====================================
 allFemaleDataset = splittingDataset('derived_sex', [x2, x3])
@@ -342,10 +355,11 @@ allJointSexJointRaceJointEthnicitydataset = splittingDatasetSecondLayer('derived
                                                                         allJointSexJointRaceDataset)
 # print('Printing all JointSexJointRaceJointEthnicity \n', allJointSexJointRaceJointEthnicitydataset[
 #     ['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(50))
-fileToSaveTo2 = str(sys.path[0]) + '\\' + 'allJointSexJointRaceJointEthnicitydataset.csv'
+fileToSaveTo2 = str(sys.path[0]) + '\\Data\\' + 'allJointSexJointRaceJointEthnicitydataset.csv'
 allJointSexJointRaceJointEthnicitydataset.to_csv(fileToSaveTo2)
 
 
+#Starting here down you will actually start to debiase the dataset
 
 arrayDatasets = [
                 allBFNHOLdataset,
@@ -828,49 +842,5 @@ print(dataset_orig[['derived_ethnicity', 'derived_race', 'derived_sex','action_t
 # print(numOfOnes2)
 # print(numOfZeros2)
 
-fileToSaveTo3 = str(sys.path[0]) + '\\' + 'NewDebiasedDataset.csv'
+fileToSaveTo3 = str(sys.path[0]) + '\\Data\\' + 'NewDebiasedDataset.csv'
 dataset_orig.to_csv(fileToSaveTo3)
-
-
-#
-#
-#
-# ################################################################################################################################
-# ################################################################################################################################
-# print(dataset_orig.shape)
-# np.random.seed(0)
-# ## Divide into train,validation,test
-# dataset_orig_train, dataset_orig_test = train_test_split(dataset_orig, test_size=0.2, random_state=0,shuffle = True)
-#
-# X_train, y_train = dataset_orig_train.loc[:, dataset_orig_train.columns != 'action_taken'], dataset_orig_train['action_taken']
-# X_test, y_test = dataset_orig_test.loc[:, dataset_orig_test.columns != 'action_taken'], dataset_orig_test['action_taken']
-#
-# # --- LSR
-# clf = LogisticRegression(C=1.0, penalty='l2', solver='liblinear', max_iter=100)
-# # --- CART
-# # clf = tree.DecisionTreeClassifier()
-#
-# # clf.fit(X_train, y_train)
-# # import matplotlib.pyplot as plt
-# # y = np.arange(len(dataset_orig_train.columns)-1)
-# # plt.barh(y,clf.coef_[0])
-# # plt.yticks(y,dataset_orig_train.columns)
-# # plt.show()
-#
-# # print(clf_male.coef_[0])
-# # y_pred = clf.predict(X_test)
-# # cnf_matrix_test = confusion_matrix(y_test,y_pred)
-#
-# # print(cnf_matrix_test)
-# # TN, FP, FN, TP = confusion_matrix(y_test,y_pred).ravel()
-#
-#
-# print("recall :", measure_final_score(dataset_orig_test, clf, X_train, y_train, X_test, y_test, 'derived_sex', 'recall'))
-# print("far :",measure_final_score(dataset_orig_test, clf, X_train, y_train, X_test, y_test, 'derived_sex', 'far'))
-# print("precision :", measure_final_score(dataset_orig_test, clf, X_train, y_train, X_test, y_test, 'derived_sex', 'precision'))
-# print("accuracy :",measure_final_score(dataset_orig_test, clf, X_train, y_train, X_test, y_test, 'derived_sex', 'accuracy'))
-# print("aod sex:",measure_final_score(dataset_orig_test, clf, X_train, y_train, X_test, y_test, 'derived_sex', 'aod'))
-# print("eod sex:",measure_final_score(dataset_orig_test, clf, X_train, y_train, X_test, y_test, 'derived_sex', 'eod'))
-#
-# print("TPR:",measure_final_score(dataset_orig_test, clf, X_train, y_train, X_test, y_test, 'derived_race', 'TPR'))
-# print("FPR:",measure_final_score(dataset_orig_test, clf, X_train, y_train, X_test, y_test, 'derived_race', 'FPR'))

@@ -7,9 +7,13 @@ import numpy as np
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import MinMaxScaler
 
+'''This script is suppose to balance a dataset again that has already been debiased. To clarify, this is different from the normal balancing 
+script as this takes into account that your dataset is already debiased. You can balance a fair dataset of your choice by 
+changing line 15 where it says TheDebiasedDataset to your select csv. Also, at the end you can do the same processes to save your balancedDebiasedDataset
+on line 45'''
 
 sys.path.append(os.path.abspath('..'))
-fileloc = str(sys.path[0]) + '\\' + 'TheDebiasedDataset.csv'
+fileloc = str(sys.path[0]) + '\\Data\\' + 'TheDebiasedDataset.csv'
 
 dataset_orig = pd.read_csv(fileloc, dtype=object)
 dataset_orig.reset_index(drop=True, inplace=True)
@@ -39,7 +43,7 @@ while(numDeleted < threshold):
 dataset_orig.reset_index(drop=True, inplace=True)
 
 print("After balancing this is the shape:", dataset_orig.shape)
-fileToSaveTo = str(sys.path[0]) + '\\' + 'BalancedTheDebiasedDataset.csv'
+fileToSaveTo = str(sys.path[0]) + '\\Data\\' + 'BalancedTheDebiasedDataset.csv'
 
 dataset_orig.to_csv(fileToSaveTo)
 # print("After balancing this is the shape:", dataset_orig.shape)

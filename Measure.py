@@ -285,22 +285,25 @@ def get_counts_editing(clf, x_train, y_train, x_test, y_test, test_df, biased_ve
     print(test_df_copy.head(200))
     print('After makeAddedColumns function:', len(test_df_copy))
 
-    print('EOD:', calculate_eod_other(test_df_copy, arrayUNPRIVAddedColumns, arrayPRIVAddedColumns))
+    EODdiff = calculate_eod_other(test_df_copy, arrayUNPRIVAddedColumns, arrayPRIVAddedColumns)
 
-    #
-    # if metric == 'aod':
-    # # return calculate_average_odds_difference(a, b, c, d, e, f, g, h)
-    # elif metric == 'eod':
-    # # return calculate_equal_opportunity_difference(a, b, c, d, e, f, g, h)
-    # elif metric == 'recall':
-    #     return calculate_recall(TP, FP, FN, TN)
-    # elif metric == 'far':
-    #     return calculate_far(TP, FP, FN, TN)
-    # elif metric == 'precision':
-    #     return calculate_precision(TP, FP, FN, TN)
-    # elif metric == 'accuracy':
-    #     return calculate_accuracy(TP, FP, FN, TN)
+    if metric == 'eod':
+        return calculate_eod_other(test_df_copy, arrayUNPRIVAddedColumns, arrayPRIVAddedColumns)
+    elif metric == 'aod':
+        return calculate_aod_other(test_df_copy, arrayUNPRIVAddedColumns, arrayPRIVAddedColumns, EODdiff)
+    elif metric == 'recall':
+        return calculate_recall(TP, FP, FN, TN)
+    elif metric == 'far':
+        return calculate_far(TP, FP, FN, TN)
+    elif metric == 'precision':
+        return calculate_precision(TP, FP, FN, TN)
+    elif metric == 'accuracy':
+        return calculate_accuracy(TP, FP, FN, TN)
 
+
+#----------------Calculates EOD Metric Function --------------
+
+#Set up Arrays that will be used in the function to compute values
 arrayEOD1 = []
 arrayEOD2 = []
 arrayEOD3 = []
@@ -311,19 +314,21 @@ def calculate_eod_other(test_df_copy, arrayUNPRIV, arrayPRIV):
     allTPRp = 0
     countu = 0
     countp = 0
+
+    #This for loop will trek the arrayUnpriviliged function, which holds the TP, TN, FP, FN of all unprivileged datasets, and get the sum of the TP column as well as the FN column and put it in a list (e.g [TP, FN, TP, FN, TP, FN), where TP and FN are actual numerical values
     for k in range(len(arrayUNPRIV)):
         if k % 4 == 0 or k % 4 == 2:
-           arrayEOD1.append(test_df_copy[arrayUNPRIV[k]].sum()) #The problem is most likely originating here and is due to the; the sum function might not be the problem and it is actually the fact that you do the makeAddColumns function and creation of columns incorrectly, which leads to the sum actually being 0
+           arrayEOD1.append(test_df_copy[arrayUNPRIV[k]].sum())
     print('EOD1:', arrayEOD1)
 
     for x in range((len(arrayEOD1) - 1)): # - 1 due to index error
         if x % 2 == 0:
             currentTP = arrayEOD1[x]
-            totalTPFP = arrayEOD1[x] + arrayEOD1[x + 1]
-            if (totalTPFP == 0):
+            totalTPFN = arrayEOD1[x] + arrayEOD1[x + 1]
+            if (totalTPFN == 0):
                 arrayEOD3.append(0)
             else:
-                arrayEOD3.append(currentTP/totalTPFP)
+                arrayEOD3.append(currentTP/totalTPFN)
     print('EOD3:', arrayEOD3)
 
     for l in range(len(arrayPRIV)):
@@ -334,11 +339,11 @@ def calculate_eod_other(test_df_copy, arrayUNPRIV, arrayPRIV):
     for y in range((len(arrayEOD2) - 1)): # - 1 due to index error
         if y % 2 == 0:
             currentTP = arrayEOD2[y]
-            totalTPFP = arrayEOD2[y] + arrayEOD2[y + 1]
-            if (totalTPFP == 0):
+            totalTPFN = arrayEOD2[y] + arrayEOD2[y + 1]
+            if (totalTPFN == 0):
                 arrayEOD4.append(0)
             else:
-                arrayEOD4.append(currentTP/totalTPFP)
+                arrayEOD4.append(currentTP/totalTPFN)
     print('EOD4:', arrayEOD4)
 
     for w in range(len(arrayEOD3)):
@@ -354,96 +359,62 @@ def calculate_eod_other(test_df_copy, arrayUNPRIV, arrayPRIV):
     EODdiff = avgTPRu - avgTPRp
     return EODdiff
 
+
+#Calculates AOD Metric Function
 arrayAOD1 = []
 arrayAOD2 = []
 arrayAOD3 = []
 arrayAOD4 = []
 def calculate_aod_other(test_df_copy, arrayUNPRIV, arrayPRIV, EODdiff):
-    allTPRu = 0
-    allTPRp = 0
+    allFPRu = 0
+    allFPRp = 0
     countu = 0
     countp = 0
     for k in range(len(arrayUNPRIV)):
-        if k % 4 == 0 or k % 4 == 3:
-            arrayEOD1.append(test_df_copy[arrayUNPRIV[k]].sum())  # The problem is most likely originating here and is due to the; the sum function might not be the problem and it is actually the fact that you do the makeAddColumns function and creation of columns incorrectly, which leads to the sum actually being 0
-    print('EOD1:', arrayEOD1)
+        if k % 4 == 1 or k % 4 == 3:
+            arrayAOD1.append(test_df_copy[arrayUNPRIV[k]].sum())
+    print('AOD1:', arrayAOD1)
 
-    for x in range((len(arrayEOD1) - 1)):  # - 1 due to index error
+    for x in range((len(arrayAOD1) - 1)):  # - 1 due to index error
         if x % 2 == 0:
-            currentTP = arrayEOD1[x]
-            totalTPFP = arrayEOD1[x] + arrayEOD1[x + 1]
-            if (totalTPFP == 0):
-                arrayEOD3.append(0)
+            currentFP = arrayAOD1[x + 1]
+            totalFPTN = arrayAOD1[x] + arrayAOD1[x + 1]
+            if (totalFPTN == 0):
+                arrayAOD3.append(0)
             else:
-                arrayEOD3.append(currentTP / totalTPFP)
-    print('EOD3:', arrayEOD3)
+                arrayAOD3.append(currentFP / totalFPTN)
+    print('AOD3:', arrayAOD3)
 
     for l in range(len(arrayPRIV)):
-        if l % 4 == 0 or l % 4 == 3:
-            arrayEOD2.append(test_df_copy[arrayPRIV[l]].sum())
-    print('EOD2:', arrayEOD2)
+        if l % 4 == 1 or l % 4 == 3:
+            arrayAOD2.append(test_df_copy[arrayPRIV[l]].sum())
+    print('AOD2:', arrayAOD2)
 
-    for y in range((len(arrayEOD2) - 1)):  # - 1 due to index error
+    for y in range((len(arrayAOD2) - 1)):  # - 1 due to index error
         if y % 2 == 0:
-            currentTP = arrayEOD2[y]
-            totalTPFP = arrayEOD2[y] + arrayEOD2[y + 1]
-            if (totalTPFP == 0):
-                arrayEOD4.append(0)
+            currentFP = arrayAOD2[y + 1]
+            totalFPTN = arrayAOD2[y] + arrayAOD2[y + 1]
+            if (totalFPTN == 0):
+                arrayAOD4.append(0)
             else:
-                arrayEOD4.append(currentTP / totalTPFP)
-    print('EOD4:', arrayEOD4)
+                arrayAOD4.append(currentFP / totalFPTN)
+    print('AOD4:', arrayAOD4)
 
-    for w in range(len(arrayEOD3)):
-        allTPRu = allTPRu + arrayEOD3[w]
+    for w in range(len(arrayAOD3)):
+        allFPRu = allFPRu + arrayAOD3[w]
         countu = countu + 1
-    avgTPRu = (allTPRu / countu)
+    avgFPRu = (allFPRu / countu)
 
-    for e in range(len(arrayEOD4)):
-        allTPRp = allTPRp + arrayEOD4[e]
+    for e in range(len(arrayAOD4)):
+        allFPRp = allFPRp + arrayAOD4[e]
         countp = countp + 1
-    avgTPRp = (allTPRp / countp)
-
-    EODdiff = avgTPRu - avgTPRp
-    return EODdiff
-
-
-def calculate_average_odds_difference(TP_male , TN_male, FN_male,FP_male, TP_female , TN_female , FN_female,  FP_female):
-	TPR_male = TP_male/(TP_male+FN_male)
-	TPR_female = TP_female/(TP_female+FN_female)
-	FPR_male = FP_male/(FP_male+TN_male)
-	FPR_female = FP_female/(FP_female+TN_female)
-	average_odds_difference = abs(abs(TPR_male - TPR_female) + abs(FPR_male - FPR_female))/2
-	#print("average_odds_difference",average_odds_difference)
-	return average_odds_difference
+    avgFPRp = (allFPRp / countp)
+    FPRdiff = (avgFPRu - avgFPRp)
+    AODdiff = (FPRdiff + EODdiff) * 0.5
+    return AODdiff
 
 
-def calculate_equal_opportunity_difference(TP_male , TN_male, FN_male,FP_male, TP_female , TN_female , FN_female,  FP_female):
-	TPR_male = TP_male/(TP_male+FN_male)
-	TPR_female = TP_female/(TP_female+FN_female)
-	equal_opportunity_difference = abs(TPR_male - TPR_female)
-	#print("equal_opportunity_difference:",equal_opportunity_difference)
-	return equal_opportunity_difference
-
-
-
-def calculate_TPR_difference(TP_male , TN_male, FN_male,FP_male, TP_female , TN_female , FN_female,  FP_female):
-    TPR_male = TP_male/(TP_male+FN_male)
-    TPR_female = TP_female/(TP_female+FN_female)
-    print("TPR_male:",TPR_male,"TPR_female:",TPR_female)
-    diff = (TPR_male - TPR_female)
-    return round(diff,2)
-
-def calculate_FPR_difference(TP_male , TN_male, FN_male,FP_male, TP_female , TN_female , FN_female,  FP_female):
-    FPR_male = FP_male/(FP_male+TN_male)
-    FPR_female = FP_female/(FP_female+TN_female)
-    print("FPR_male:",FPR_male,"FPR_female:",FPR_female)
-    diff = (FPR_female - FPR_male)
-    return round(diff,2)
-
-
-def calculate_imbalance(full_df):
-    full_df_copy = copy.deepcopy(full_df)
-
+#Calculates Recall Metric
 def calculate_recall(TP,FP,FN,TN):
     if (TP + FN) != 0:
         recall = TP / (TP + FN)
@@ -451,6 +422,7 @@ def calculate_recall(TP,FP,FN,TN):
         recall = 0
     return recall
 
+#Calculates Far Metric
 def calculate_far(TP,FP,FN,TN):
     if (FP + TN) != 0:
         far = FP / (FP + TN)
@@ -458,6 +430,7 @@ def calculate_far(TP,FP,FN,TN):
         far = 0
     return far
 
+#Calculates Precision Metric
 def calculate_precision(TP,FP,FN,TN):
     if (TP + FP) != 0:
         prec = TP / (TP + FP)
@@ -465,10 +438,12 @@ def calculate_precision(TP,FP,FN,TN):
         prec = 0
     return prec
 
+#Calculates Accuracy Metric
 def calculate_accuracy(TP,FP,FN,TN):
     return (TP + TN)/(TP + TN + FP + FN)
 
 
+#Starting/Base function that calls other functions depending upon the metric and paramaters
 def measure_final_score(test_df, clf, X_train, y_train, X_test, y_test, biased_version, sexCArray, raceCArray, ethnicityCArray, metric):
     df = copy.deepcopy(test_df)
     return get_counts_editing(clf, X_train, y_train, X_test, y_test, df, biased_version, sexCArray, raceCArray, ethnicityCArray, metric)

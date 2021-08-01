@@ -7,10 +7,20 @@ import numpy as np
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import MinMaxScaler
 sys.path.append(os.path.abspath('..'))
-fileloc = str(sys.path[0]) + '\\' + 'HMDACT.csv'
+
+'''This is the first script in the debiasing pipeline, and, as such, you should always run this first if 
+you are trying to debias a random CSV from HMDA. This script will balance your said dataset intial and 
+change some categories into numeric values. To do all these things, you want to change the CSV name
+on line 15 to your said csv. Lastly, you can save the balanced dataset using line 173. The program
+will automatically do these things. IT IS IMPORTANT TO NOTE, THOUGH, YOU MUST PERSONALLY CHANGE 
+THE THRESHOLD NUMBER ON LINE 164 (this is your approved - rejected people in the CSV)'''
+
+fileloc = str(sys.path[0]) + '\\Data\\' + 'HMDACT.csv'
 
 dataset_orig = pd.read_csv(fileloc, dtype=object)
 print(dataset_orig.shape)
+
+#Below we are taking out rows in the dataset with values we do not care for. This is from lines 23 - 99.
 ###--------------------Sex------------------------
 indexNames1 = dataset_orig[dataset_orig['derived_sex'] == "Sex Not Available"].index
 dataset_orig.drop(indexNames1, inplace=True)
@@ -88,6 +98,9 @@ dataset_orig.reset_index(drop=True, inplace=True)
 ###----------------Begin Code------------------
 # print(dataset_orig[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(70))
 ####################################################################################################################################
+
+#Here we will start dropping collums from the dataset that we don't care about as much and have NA -- we can always change this
+#We do this from lines 103 - 157
 dataset_orig = dataset_orig.drop(
     ['census_tract', 'activity_year', 'lei', 'state_code', 'county_code', 'conforming_loan_limit',
      'derived_dwelling_category', 'loan_to_value_ratio', 'interest_rate',
@@ -144,6 +157,8 @@ dataset_orig.reset_index(drop=True, inplace=True)
 print("Before balancing this is the shape:", dataset_orig.shape)
 dataset_orig.to_csv(r'C:\Users\Arash\OneDrive\Documents\GitHub\fair-loan-predictor\BeforeBalancingDataset.csv')
 
+
+#Finally, from this point down we will begin to balance the dataset. YOU HAVE TO CHANGE THE THRESHOLD NUMBER EACH TIME.
 numCols = len(dataset_orig.columns) - 1
 numDeleted = 0
 threshold = 72058
@@ -164,7 +179,7 @@ while(numDeleted < threshold):
 
 dataset_orig.reset_index(drop=True, inplace=True)
 
-fileToSaveTo = str(sys.path[0]) + '\\' + 'ProcessedCTHMDA.csv'
+fileToSaveTo = str(sys.path[0]) + '\\Data\\' + 'ProcessedCTHMDA.csv'
 
 dataset_orig.to_csv(fileToSaveTo)
 # print("After balancing this is the shape:", dataset_orig.shape)

@@ -7,11 +7,13 @@ import pandas as pd
 import sklearn.metrics as metrics
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
+from Measure import measure_final_score
+
+'''This file is the main file to calculate the fairness metrics of your said dataset. To do this, you want to change the dataset in line 15 to whatever
+dataset you want. For instance, you will change TestHMDABalanced to your choice.'''
 
 sys.path.append(os.path.abspath('..'))
-fileloc = str(sys.path[0]) + '\\' + 'BalancedWYHMDA.csv'
-
-from Measure import measure_final_score
+fileloc = str(sys.path[0]) + '\\Data\\' + 'TestHMDABalanced.csv'
 
 dataset_orig = pd.read_csv(fileloc, dtype=object)
 
@@ -64,7 +66,7 @@ print(dataset_orig.shape)
 np.random.seed(0)
 # Divide into train,validation,test
 
-dataset_orig_train, dataset_orig_test = train_test_split(dataset_orig, test_size=0.2, random_state=0,shuffle = True)
+dataset_orig_train, dataset_orig_test = train_test_split(dataset_orig, test_size=0.6, random_state=0,shuffle = True)
 print(dataset_orig_train)
 print(dataset_orig_test)
 X_train, y_train = dataset_orig_train.loc[:, dataset_orig_train.columns != 'action_taken'], dataset_orig_train['action_taken']
@@ -96,18 +98,15 @@ clf = LogisticRegression(C=1.0, penalty='l2', solver='liblinear', max_iter=100)
 # TN, FP, FN, TP = confusion_matrix(y_test,y_pred).ravel()
 
 
-# #
-#
-# print("recall :", measure_final_score(dataset_orig_test, clf, X_train, y_train, X_test, y_test, 'derived_sex', 'recall'))
-# print("far :",measure_final_score(dataset_orig_test, clf, X_train, y_train, X_test, y_test, 'derived_sex', 'far'))
-# print("precision :", measure_final_score(dataset_orig_test, clf, X_train, y_train, X_test, y_test, 'derived_sex', 'precision'))
-# print("accuracy :",measure_final_score(dataset_orig_test, clf, X_train, y_train, X_test, y_test, 'derived_sex', 'accuracy'))
-print("aod sex:",measure_final_score(dataset_orig_test, clf, X_train, y_train, X_test, y_test, arrayDatasets, sexCArray, raceCArray, ethnicityCArray, 'aod'))
-# print("eod sex:",measure_final_score_general(dataset_orig_test, clf, X_train, y_train, X_test, y_test, 'eod'))
-#
-# print("TPR:",measure_final_score(dataset_orig_test, clf, X_train, y_train, X_test, y_test, 'derived_race', 'TPR'))
-# print("FPR:",measure_final_score(dataset_orig_test, clf, X_train, y_train, X_test, y_test, 'derived_race', 'FPR'))
-#
+
+#Below is the REAL fairness metrics; you have to run them at one at a time and the only ones that currently are functional are EOD and AOD
+
+# print("recall :", measure_final_score(dataset_orig_test, clf, X_train, y_train, X_test, y_test, arrayDatasets, sexCArray, raceCArray, ethnicityCArray, 'derived_sex', 'recall'))
+# print("far :",measure_final_score(dataset_orig_test, clf, X_train, y_train, X_test, y_test, arrayDatasets, sexCArray, raceCArray, ethnicityCArray, 'derived_sex', 'far'))
+# print("precision :", measure_final_score(dataset_orig_test, clf, X_train, y_train, X_test, y_test, arrayDatasets, sexCArray, raceCArray, ethnicityCArray, 'precision'))
+# print("accuracy :",measure_final_score(dataset_orig_test, clf, X_train, y_train, X_test, y_test, arrayDatasets, sexCArray, raceCArray, ethnicityCArray,  'accuracy'))
+print("AOD:",measure_final_score(dataset_orig_test, clf, X_train, y_train, X_test, y_test, arrayDatasets, sexCArray, raceCArray, ethnicityCArray, 'aod'))
+# print("EOD:",measure_final_score(dataset_orig_test, clf, X_train, y_train, X_test, y_test, arrayDatasets, sexCArray, raceCArray, ethnicityCArray,'eod'))
 #
 # print("Precision", metrics.precision_score(y_test,y_pred))
 # print("Recall", metrics.recall_score(y_test,y_pred))

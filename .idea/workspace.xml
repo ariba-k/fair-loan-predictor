@@ -5,12 +5,37 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="08549712-c9b3-423f-a3e9-b196cf4c0b3f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/balancing2.0.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Data/FirstTestDFCopy.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Data/TestDFCopyAddedColumns.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ActuallyDebiasedDataset.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/ActuallyDebiasedDataset.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BalancedCTHMDA.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/BalancedCTHMDA.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BalancedMEHMDA.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/BalancedMEHMDA.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BalancedRIHMDA.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/BalancedRIHMDA.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BalancedTheDebiasedDataset.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/BalancedTheDebiasedDataset.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BalancedWYHMDA.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BeforeBalancingDataset.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/BeforeBalancingDataset.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ComparedDF.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/ComparedDF.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/BalancedWYHMDA.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/BalancedWYHMDA.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DebiasedDataset.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/DebiasedDataset.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FirstTestDFCopy.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GenuinelyDebiasedDataset.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/GenuinelyDebiasedDataset.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HMDACT.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/HMDACT.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MEHMDA.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/MEHMDA.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Measure.py" beforeDir="false" afterPath="$PROJECT_DIR$/Measure.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TrueDebiasedDataset.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/NewDebiasedDataset.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/NewDebiasedDataset.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProcessedCTHMDA.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/ProcessedCTHMDA.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RIHMDA.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/RIHMDA.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestDFCopyAddedColumns.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestHMDA.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/TestHMDA.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestHMDABalanced.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/TestHMDABalanced.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TheDebiasedDataset.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/TheDebiasedDataset.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Usage.py" beforeDir="false" afterPath="$PROJECT_DIR$/Usage.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WYHMDA.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/WYHMDA.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/allJointSexJointRaceJointEthnicitydataset.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/allJointSexJointRaceJointEthnicitydataset.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/balancing.py" beforeDir="false" afterPath="$PROJECT_DIR$/balancing.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/balancing2.0.py" beforeDir="false" afterPath="$PROJECT_DIR$/balancing2.0.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/debiasing.py" beforeDir="false" afterPath="$PROJECT_DIR$/debiasing.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,6 +79,7 @@
       <recent name="C:\Users\Arash\PycharmProjects\TransferProject" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Arash\OneDrive\Documents\GitHub\fair-loan-predictor\Data" />
       <recent name="C:\Users\jasha\Documents\GitHub\fair-loan-predictor" />
     </key>
   </component>
