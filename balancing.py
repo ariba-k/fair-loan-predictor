@@ -163,5 +163,8 @@ while(numDeleted < threshold):
         print(numDeleted)
 
 dataset_orig.reset_index(drop=True, inplace=True)
-dataset_orig.to_csv(r'C:\Users\Arash\OneDrive\Documents\GitHub\fair-loan-predictor\BalancedCTHMDA.csv')
-print("After balancing this is the shape:", dataset_orig.shape)
+
+fileToSaveTo = str(sys.path[0]) + '\\' + 'ProcessedCTHMDA.csv'
+
+dataset_orig.to_csv(fileToSaveTo)
+# print("After balancing this is the shape:", dataset_orig.shape)

@@ -9,11 +9,54 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 
 sys.path.append(os.path.abspath('..'))
-fileloc = str(sys.path[0]) + '\\' + 'BalancedCTHMDA.csv'
+fileloc = str(sys.path[0]) + '\\' + 'BalancedWYHMDA.csv'
 
 from Measure import measure_final_score
 
 dataset_orig = pd.read_csv(fileloc, dtype=object)
+
+dataset_orig["derived_sex"] = pd.to_numeric(dataset_orig.derived_sex, errors='coerce')
+dataset_orig["derived_race"] = pd.to_numeric(dataset_orig.derived_race, errors='coerce')
+dataset_orig["derived_ethnicity"] = pd.to_numeric(dataset_orig.derived_ethnicity, errors='coerce')
+dataset_orig["action_taken"] = pd.to_numeric(dataset_orig.action_taken, errors='coerce')
+
+
+arrayDatasets = [
+                'allBFNHOLdataset',
+                'allBFHOLdataset',
+                'allBFJointEthnicitydataset',
+                'allWFNHOLdataset',
+                'allWFHOLdataset',
+                'allWFJointEthnicitydataset',
+                'allJointRaceFemaleNHOLdataset',
+                'allJointRaceFemaleHOLdataset',
+                'allJointRaceFemaleJointEthnicitydataset',
+                'allBMNHOLdataset',
+                'allBMHOLdataset',
+                'allBMJointEthnicitydataset',
+                'allWMNHOLdataset',
+                'allWMHOLdataset',
+                'allWMJointEthnicitydataset',
+                'allJointRaceMaleNHOLdataset',
+                'allJointRaceMaleHOLdataset',
+                'allJointRaceMaleJointEthnicitydataset',
+                'allJointSexBlacksNHOLdataset',
+                'allJointSexBlacksHOLdataset',
+                'allJointSexBlacksJointEthnicitydataset',
+                'allJointSexWhitesNHOLdataset',
+                'allJointSexWhitesHOLdataset',
+                'allJointSexWhitesJointEthnicitydataset',
+                'allJointSexJointRaceNHOLdataset',
+                'allJointSexJointRaceHOLdataset',
+                'allJointSexJointRaceJointEthnicitydataset'
+                 ]
+
+sexCArray = [0,0,0,0,0,0,0,0,0,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,1,1,1,1,1,1,1,1,1]
+
+raceCArray = [0,0,0,0.5,0.5,0.5,1,1,1,0,0,0,0.5,0.5,0.5,1,1,1,0,0,0,0.5,0.5,0.5,1,1,1]
+
+ethnicityCArray = [0.5, 0, 1, 0.5, 0, 1, 0.5, 0, 1, 0.5, 0, 1, 0.5, 0, 1, 0.5, 0, 1, 0.5, 0, 1, 0.5, 0, 1, 0.5, 0, 1]
+
 
 # print(dataset_orig.head(50))
 
@@ -55,11 +98,11 @@ clf = LogisticRegression(C=1.0, penalty='l2', solver='liblinear', max_iter=100)
 
 # #
 #
-print("recall :", measure_final_score(dataset_orig_test, clf, X_train, y_train, X_test, y_test, 'derived_sex', 'recall'))
-print("far :",measure_final_score(dataset_orig_test, clf, X_train, y_train, X_test, y_test, 'derived_sex', 'far'))
-print("precision :", measure_final_score(dataset_orig_test, clf, X_train, y_train, X_test, y_test, 'derived_sex', 'precision'))
-print("accuracy :",measure_final_score(dataset_orig_test, clf, X_train, y_train, X_test, y_test, 'derived_sex', 'accuracy'))
-# print("aod sex:",measure_final_score(dataset_orig_test, clf, X_train, y_train, X_test, y_test, 'derived_sex', 'aod'))
+# print("recall :", measure_final_score(dataset_orig_test, clf, X_train, y_train, X_test, y_test, 'derived_sex', 'recall'))
+# print("far :",measure_final_score(dataset_orig_test, clf, X_train, y_train, X_test, y_test, 'derived_sex', 'far'))
+# print("precision :", measure_final_score(dataset_orig_test, clf, X_train, y_train, X_test, y_test, 'derived_sex', 'precision'))
+# print("accuracy :",measure_final_score(dataset_orig_test, clf, X_train, y_train, X_test, y_test, 'derived_sex', 'accuracy'))
+print("aod sex:",measure_final_score(dataset_orig_test, clf, X_train, y_train, X_test, y_test, arrayDatasets, sexCArray, raceCArray, ethnicityCArray, 'aod'))
 # print("eod sex:",measure_final_score_general(dataset_orig_test, clf, X_train, y_train, X_test, y_test, 'eod'))
 #
 # print("TPR:",measure_final_score(dataset_orig_test, clf, X_train, y_train, X_test, y_test, 'derived_race', 'TPR'))
@@ -76,9 +119,8 @@ print("accuracy :",measure_final_score(dataset_orig_test, clf, X_train, y_train,
 
 
 
-
-
-
+#  get_counts_editing(clf, X_train, y_train, X_test, y_test, test_df, biased_version, sexCArray, raceCArray, ethnicityCArray, metric)
+#  measure_final_score(test_df, clf, X_train, y_train, X_test, y_test, biased_version, sexCArray, raceCArray, ethnicityCArray,  metric):
 
 
 
