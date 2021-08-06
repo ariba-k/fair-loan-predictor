@@ -15,7 +15,7 @@ on line 15 to your said csv. Lastly, you can save the balanced dataset using lin
 will automatically do these things. IT IS IMPORTANT TO NOTE, THOUGH, YOU MUST PERSONALLY CHANGE 
 THE THRESHOLD NUMBER ON LINE 164 (this is your approved - rejected people in the CSV)'''
 
-fileloc = str(sys.path[0]) + '\\Data\\' + 'HMDACT.csv'
+fileloc = str(sys.path[0]) + '\\Data\\' + 'WYHMDA.csv'
 
 dataset_orig = pd.read_csv(fileloc, dtype=object)
 print(dataset_orig.shape)
@@ -149,7 +149,6 @@ for col in float_col.columns.values:
     dataset_orig[col] = dataset_orig[col].astype('int64')
 
 
-
 dataset_orig.reset_index(drop=True, inplace=True)
 
 # D is the dataset that we are using--in other words, HMDA_df
@@ -157,11 +156,10 @@ dataset_orig.reset_index(drop=True, inplace=True)
 print("Before balancing this is the shape:", dataset_orig.shape)
 dataset_orig.to_csv(r'C:\Users\Arash\OneDrive\Documents\GitHub\fair-loan-predictor\BeforeBalancingDataset.csv')
 
-
 #Finally, from this point down we will begin to balance the dataset. YOU HAVE TO CHANGE THE THRESHOLD NUMBER EACH TIME.
 numCols = len(dataset_orig.columns) - 1
 numDeleted = 0
-threshold = 72058
+threshold = dataset_orig.action_taken.value_counts()[1] - dataset_orig.action_taken.value_counts()[0]
 
 
 while(numDeleted < threshold):
@@ -171,7 +169,7 @@ while(numDeleted < threshold):
     randomRowActionTaken = dataset_orig.loc[numRandom].iat[numCols]
 
 
-    if(randomRowActionTaken == 0):
+    if(randomRowActionTaken == 1):
         dataset_orig = dataset_orig.drop(numRandom)
         dataset_orig.reset_index(drop=True, inplace=True)
         numDeleted = numDeleted + 1
@@ -179,7 +177,7 @@ while(numDeleted < threshold):
 
 dataset_orig.reset_index(drop=True, inplace=True)
 
-fileToSaveTo = str(sys.path[0]) + '\\Data\\' + 'ProcessedCTHMDA.csv'
 
+fileToSaveTo = str(sys.path[0]) + '\\Data\\' + 'BalancedWYHMDA.csv'
 dataset_orig.to_csv(fileToSaveTo)
 # print("After balancing this is the shape:", dataset_orig.shape)

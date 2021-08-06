@@ -16,7 +16,7 @@ by chaning line 18 where it says BalancedCTHMDA. Lastly, you can save it at the 
 process'''
 
 
-fileloc = str(sys.path[0]) + '\\Data\\' + 'BalancedCTHMDA.csv'
+fileloc = str(sys.path[0]) + '\\Data\\' + 'BalancedWYHMDA.csv'
 
 ##----KEY FUNCTIONS----##
 # ==========================ABOVE IMPORTS========================================
@@ -842,5 +842,5 @@ print(dataset_orig[['derived_ethnicity', 'derived_race', 'derived_sex','action_t
 # print(numOfOnes2)
 # print(numOfZeros2)
 
-fileToSaveTo3 = str(sys.path[0]) + '\\Data\\' + 'NewDebiasedDataset.csv'
+fileToSaveTo3 = str(sys.path[0]) + '\\Data\\' + 'DebiasedWYHMDA.csv'
 dataset_orig.to_csv(fileToSaveTo3)

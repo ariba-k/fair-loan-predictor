@@ -11,9 +11,9 @@ from Measure import measure_final_score
 
 '''This file is the main file to calculate the fairness metrics of your said dataset. To do this, you want to change the dataset in line 15 to whatever
 dataset you want. For instance, you will change TestHMDABalanced to your choice.'''
-
+#Thus in binary classification, the count of true negatives is 0,0, false negatives is 1,0, true positives is 1,1, and false positives is 0,1 .
 sys.path.append(os.path.abspath('..'))
-fileloc = str(sys.path[0]) + '\\Data\\' + 'TestHMDABalanced.csv'
+fileloc = str(sys.path[0]) + '\\Data\\' + 'KYDebiasedDataset.csv'
 
 dataset_orig = pd.read_csv(fileloc, dtype=object)
 
@@ -66,7 +66,7 @@ print(dataset_orig.shape)
 np.random.seed(0)
 # Divide into train,validation,test
 
-dataset_orig_train, dataset_orig_test = train_test_split(dataset_orig, test_size=0.6, random_state=0,shuffle = True)
+dataset_orig_train, dataset_orig_test = train_test_split(dataset_orig, test_size=0.2, random_state=0,shuffle = True)
 print(dataset_orig_train)
 print(dataset_orig_test)
 X_train, y_train = dataset_orig_train.loc[:, dataset_orig_train.columns != 'action_taken'], dataset_orig_train['action_taken']
@@ -106,7 +106,7 @@ clf = LogisticRegression(C=1.0, penalty='l2', solver='liblinear', max_iter=100)
 # print("precision :", measure_final_score(dataset_orig_test, clf, X_train, y_train, X_test, y_test, arrayDatasets, sexCArray, raceCArray, ethnicityCArray, 'precision'))
 # print("accuracy :",measure_final_score(dataset_orig_test, clf, X_train, y_train, X_test, y_test, arrayDatasets, sexCArray, raceCArray, ethnicityCArray,  'accuracy'))
 print("AOD:",measure_final_score(dataset_orig_test, clf, X_train, y_train, X_test, y_test, arrayDatasets, sexCArray, raceCArray, ethnicityCArray, 'aod'))
-# print("EOD:",measure_final_score(dataset_orig_test, clf, X_train, y_train, X_test, y_test, arrayDatasets, sexCArray, raceCArray, ethnicityCArray,'eod'))
+print("EOD:",measure_final_score(dataset_orig_test, clf, X_train, y_train, X_test, y_test, arrayDatasets, sexCArray, raceCArray, ethnicityCArray,'eod'))
 #
 # print("Precision", metrics.precision_score(y_test,y_pred))
 # print("Recall", metrics.recall_score(y_test,y_pred))

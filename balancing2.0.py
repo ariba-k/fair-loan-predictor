@@ -13,7 +13,7 @@ changing line 15 where it says TheDebiasedDataset to your select csv. Also, at t
 on line 45'''
 
 sys.path.append(os.path.abspath('..'))
-fileloc = str(sys.path[0]) + '\\Data\\' + 'TheDebiasedDataset.csv'
+fileloc = str(sys.path[0]) + '\\Data\\' + 'NewWYHMDATry.csv'
 
 dataset_orig = pd.read_csv(fileloc, dtype=object)
 dataset_orig.reset_index(drop=True, inplace=True)
@@ -24,11 +24,10 @@ print("Before balancing this is the shape:", dataset_orig.shape)
 
 numCols = len(dataset_orig.columns) - 1
 numDeleted = 0
-threshold = 4164
+threshold = dataset_orig.action_taken.value_counts()[1] - dataset_orig.action_taken.value_counts()[0]
 
 
 while(numDeleted < threshold):
-    x = 0
     numRows = len(dataset_orig) - 1
     numRandom = random.randint(0, numRows)
     # print(numRandom)
@@ -43,7 +42,7 @@ while(numDeleted < threshold):
 dataset_orig.reset_index(drop=True, inplace=True)
 
 print("After balancing this is the shape:", dataset_orig.shape)
-fileToSaveTo = str(sys.path[0]) + '\\Data\\' + 'BalancedTheDebiasedDataset.csv'
+fileToSaveTo = str(sys.path[0]) + '\\Data\\' + 'BalancedDebiasedNewWYHMDA.csv'
 
 dataset_orig.to_csv(fileToSaveTo)
 # print("After balancing this is the shape:", dataset_orig.shape)
