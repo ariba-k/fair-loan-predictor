@@ -4,19 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="08549712-c9b3-423f-a3e9-b196cf4c0b3f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/newdebiasing.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/AfterScalingTestHMDA.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/AfterScalingTestHMDA.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/BalancedWYHMDA.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/BalancedWYHMDA.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/allJointSexJointRaceJointEthnicitydataset.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/allJointSexJointRaceJointEthnicitydataset.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FirstTestDFCopy.csv" beforeDir="false" afterPath="$PROJECT_DIR$/FirstTestDFCopy.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TestDFCopyAddedColumns.csv" beforeDir="false" afterPath="$PROJECT_DIR$/TestDFCopyAddedColumns.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Usage.py" beforeDir="false" afterPath="$PROJECT_DIR$/Usage.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/balancing.py" beforeDir="false" afterPath="$PROJECT_DIR$/balancing.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/balancing2.0.py" beforeDir="false" afterPath="$PROJECT_DIR$/balancing2.0.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/debiasing.py" beforeDir="false" afterPath="$PROJECT_DIR$/debiasing.py" afterDir="false" />
-    </list>
+    <list default="true" id="08549712-c9b3-423f-a3e9-b196cf4c0b3f" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -233,14 +221,14 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.otherdebiasing" />
       <item itemvalue="Python.adultdebiasing" />
-      <item itemvalue="Python.debiasing" />
-      <item itemvalue="Python.usage" />
-      <item itemvalue="Python.newdebiasing" />
       <item itemvalue="Python.balancing2.0" />
       <item itemvalue="Python.balancing" />
+      <item itemvalue="Python.debiasing" />
       <item itemvalue="Python.main" />
+      <item itemvalue="Python.newdebiasing" />
+      <item itemvalue="Python.otherdebiasing" />
+      <item itemvalue="Python.usage" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
