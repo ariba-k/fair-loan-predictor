@@ -4,7 +4,7 @@ import pandas as pd
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import MinMaxScaler
 from itertools import product
-from balancing import balance
+from aribabalancing import balance
 
 sys.path.append(os.path.abspath('..'))
 

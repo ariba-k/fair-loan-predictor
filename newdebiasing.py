@@ -16,7 +16,10 @@ by chaning line 18 where it says BalancedCTHMDA. Lastly, you can save it at the 
 process'''
 
 
-fileloc = str(sys.path[0]) + '\\Data\\' + 'WYHMDA.csv'
+in_file = str(sys.path[0]) + '\\Data\\' + 'WYHMDA.csv'
+interm_file = str(sys.path[0]) + '\\Data\\' + 'reference_Arash_WY.csv'
+out_file = str(sys.path[0]) + '\\Data\\' + 'ActuallyDebiasedWYHMDA.csv'
+
 
 ##----KEY FUNCTIONS----##
 # ==========================ABOVE IMPORTS========================================
@@ -24,7 +27,7 @@ fileloc = str(sys.path[0]) + '\\Data\\' + 'WYHMDA.csv'
 # classification model M trained on D, Input space
 # similarity threshold delta
 def resetDataset():
-    dataset_orig = pd.read_csv(fileloc, dtype=object)
+    dataset_orig = pd.read_csv(in_file, dtype=object)
     print(dataset_orig.shape)
 
     # Below we are taking out rows in the dataset with values we do not care for. This is from lines 23 - 99.
@@ -168,7 +171,10 @@ def resetDataset():
 
 
 
-# dataset_orig = resetDataset()
+dataset_orig = resetDataset()
+dataset_orig.to_csv(interm_file)
+print(list(dataset_orig.columns))
+
 # print(dataset_orig[['derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']].head(30))
 
 #Here we will start creating functions to split dataset_orig into its 27 subcomponents
@@ -832,19 +838,24 @@ for index, row in dataset_orig.iterrows():
     #              jashan = "yes"
     #              # print('Yeah, already deleted')
     arrayConditional = []
+    real_array_conditonal = []
     for i in range((len(arrayClassifiers) - 1)):
-        if arrayClassifiers[i] != None and arrayClassifiers[i + 1] != None:
-            result = (arrayClassifiers[i][0] == arrayClassifiers[i + 1][0])
-            arrayConditional.append(result)
-        # print('array conditional all', arrayConditional)
-    for m in range((len(arrayConditional))):
-        # print("this is arrayconditional ADASASDFASDFADSFASDFASDFm", arrayConditional[m])
-        if (arrayConditional[m] == False):
+        temp = arrayClassifiers[i]
+        if (temp != None):
+            for j in range((len(arrayClassifiers) - 1)):
+                if (arrayClassifiers[j] != None):
+                    result = (temp[0] == arrayClassifiers[j][0])
+                    arrayConditional.append(result)
+            result2 = arrayConditional.count(arrayConditional[0]) == len(arrayConditional)
+            real_array_conditonal.append(result2)
+
+    print('real array conditonal:', real_array_conditonal)
+    for m in range((len(real_array_conditonal))):
+        if (real_array_conditonal[m] == False):
             try:
-              dataset_orig = dataset_orig.drop(index)
+                dataset_orig = dataset_orig.drop(index)
             except:
                 jashan = "yes"
-
 print(dataset_orig.shape)
 print(list(dataset_orig.columns))
 print(dataset_orig[['derived_ethnicity', 'derived_race', 'derived_sex','action_taken']].head(50))
@@ -858,5 +869,4 @@ print('Final Number 0s:', dataset_orig.action_taken.value_counts()[0])
 # print(numOfOnes2)
 # print(numOfZeros2)
 
-fileToSaveTo3 = str(sys.path[0]) + '\\Data\\' + 'NewWYHMDATry.csv'
-dataset_orig.to_csv(fileToSaveTo3)
+dataset_orig.to_csv(out_file)

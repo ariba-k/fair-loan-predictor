@@ -13,7 +13,7 @@ from Measure import measure_final_score
 dataset you want. For instance, you will change TestHMDABalanced to your choice.'''
 #Thus in binary classification, the count of true negatives is 0,0, false negatives is 1,0, true positives is 1,1, and false positives is 0,1 .
 sys.path.append(os.path.abspath('..'))
-fileloc = str(sys.path[0]) + '\\Data\\' + 'KYDebiasedDataset.csv'
+fileloc = str(sys.path[0]) + '\\Data\\' + 'debiased_state_WY.csv'
 
 dataset_orig = pd.read_csv(fileloc, dtype=object)
 
@@ -66,7 +66,7 @@ print(dataset_orig.shape)
 np.random.seed(0)
 # Divide into train,validation,test
 
-dataset_orig_train, dataset_orig_test = train_test_split(dataset_orig, test_size=0.2, random_state=0,shuffle = True)
+dataset_orig_train, dataset_orig_test = train_test_split(dataset_orig, test_size=0.3, random_state=0,shuffle = True)
 print(dataset_orig_train)
 print(dataset_orig_test)
 X_train, y_train = dataset_orig_train.loc[:, dataset_orig_train.columns != 'action_taken'], dataset_orig_train['action_taken']

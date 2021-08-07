@@ -11,9 +11,9 @@ change some categories into numeric values. To do all these things, you want to 
 on line 15 to your said csv. Lastly, you can save the balanced dataset using line 173. The program
 will automatically do these things. '''
 
-input_file = str(sys.path[0]) + '/data/state_WY.csv'
 # str(sys.path[0]) + '\\Data\\' + 'HMDACT.csv'
-output_file = str(sys.path[0]) + '/data/processed_state_WY.csv'
+input_file = str(sys.path[0]) + '\\Data\\WYHMDA.csv'
+output_file = str(sys.path[0]) + '\\Data\\processed_state_WY.csv'
 
 # str(sys.path[0]) + '\\Data\\' + 'ProcessedCTHMDA.csv'
 
