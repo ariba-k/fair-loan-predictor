@@ -119,8 +119,8 @@ def balance(dataset_orig):
 ###---------Call the Function to create processed_scaled_df---------------
 processed_scaled_df = preprocessing(dataset_orig)
 processed_scaled_shape = processed_scaled_df.shape
-processed_scaled_df = balance(processed_scaled_df)
-processed_scaled_balanced_shape = processed_scaled_df.shape
+# processed_scaled_df = balance(processed_scaled_df)
+# processed_scaled_balanced_shape = processed_scaled_df.shape
 processed_scaled_df.to_csv(interm_file, index=True)
 
 ###===============Part 2: Working with the processed_scaled_df=================
@@ -291,8 +291,9 @@ def debias_dataset(dataset_orig, classifiers):
 
 debias_df = debias_dataset(processed_scaled_df, classifiers)
 debias_df_shape = debias_df.shape
+
 print('processed_scaled_shape\n', processed_scaled_shape)
-print('processed_scaled_balanced_shape\n', processed_scaled_balanced_shape)
+# print('processed_scaled_balanced_shape\n', processed_scaled_balanced_shape)
 print('debias_shape\n', debias_df_shape)
 
 # debias_balance_df = balance(debias_df)
