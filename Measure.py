@@ -5,80 +5,6 @@ import numpy as np
 from sklearn.metrics import confusion_matrix
 
 
-
-def get_counts(clf, x_train, y_train, x_test, y_test, test_df, biased_version, metric):
-    clf.fit(x_train, y_train)
-    y_pred = clf.predict(x_test)
-    cnf_matrix = confusion_matrix(y_test, y_pred)
-
-    print(cnf_matrix)
-    # print(classification_report(y_test, y_pred))
-
-
-    TN, FP, FN, TP = confusion_matrix(y_test,y_pred).ravel()
-
-    test_df_copy = copy.deepcopy(test_df)
-    print('Before:', test_df_copy.head(20))
-
-    test_df_copy['current_pred_'  + biased_version] = y_pred
-
-    print('You\'re here', test_df_copy.head(20))
-
-    test_df_copy['TP_' + biased_version + "_1"] = np.where((test_df_copy['action_taken'] == 1) &
-                                           (test_df_copy['current_pred_' + biased_version] == 1) &
-                                           (test_df_copy[biased_version] == 1), 1, 0)
-
-    test_df_copy['TN_' + biased_version + "_1"] = np.where((test_df_copy['action_taken'] == 0) &
-                                                  (test_df_copy['current_pred_' + biased_version] == 0) &
-                                                  (test_df_copy[biased_version] == 1), 1, 0)
-
-    test_df_copy['FN_' + biased_version + "_1"] = np.where((test_df_copy['action_taken'] == 1) &
-                                                  (test_df_copy['current_pred_' + biased_version] == 0) &
-                                                  (test_df_copy[biased_version] == 1), 1, 0)
-
-    test_df_copy['FP_' + biased_version + "_1"] = np.where((test_df_copy['action_taken'] == 0) &
-                                                  (test_df_copy['current_pred_' + biased_version] == 1) &
-                                                  (test_df_copy[biased_version] == 1), 1, 0)
-
-    test_df_copy['TP_' + biased_version + "_0"] = np.where((test_df_copy['action_taken'] == 1) &
-                                                  (test_df_copy['current_pred_' + biased_version] == 1) &
-                                                  (test_df_copy[biased_version] == 0), 1, 0)
-
-    test_df_copy['TN_' + biased_version + "_0"] = np.where((test_df_copy['action_taken'] == 0) &
-                                                  (test_df_copy['current_pred_' + biased_version] == 0) &
-                                                  (test_df_copy[biased_version] == 0), 1, 0)
-
-    test_df_copy['FN_' + biased_version + "_0"] = np.where((test_df_copy['action_taken'] == 1) &
-                                                  (test_df_copy['current_pred_' + biased_version] == 0) &
-                                                  (test_df_copy[biased_version] == 0), 1, 0)
-
-    test_df_copy['FP_' + biased_version + "_0"] = np.where((test_df_copy['action_taken'] == 0) &
-                                                  (test_df_copy['current_pred_' + biased_version] == 1) &
-                                                  (test_df_copy[biased_version] == 0), 1, 0)
-
-    a = test_df_copy['TP_' + biased_version + "_1"].sum()
-    b = test_df_copy['TN_' + biased_version + "_1"].sum()
-    c = test_df_copy['FN_' + biased_version + "_1"].sum()
-    d = test_df_copy['FP_' + biased_version + "_1"].sum()
-    e = test_df_copy['TP_' + biased_version + "_0"].sum()
-    f = test_df_copy['TN_' + biased_version + "_0"].sum()
-    g = test_df_copy['FN_' + biased_version + "_0"].sum()
-    h = test_df_copy['FP_' + biased_version + "_0"].sum()
-
-    if metric == 'aod':
-        return calculate_average_odds_difference(a, b, c, d, e, f, g, h)
-    elif metric == 'eod':
-        return calculate_equal_opportunity_difference(a, b, c, d, e, f, g, h)
-    elif metric == 'recall':
-        return calculate_recall(TP, FP, FN, TN)
-    elif metric == 'far':
-        return calculate_far(TP, FP, FN, TN)
-    elif metric == 'precision':
-        return calculate_precision(TP, FP, FN, TN)
-    elif metric == 'accuracy':
-        return calculate_accuracy(TP, FP, FN, TN)
-
-
 arrayAddedColumns = []
 arrayPRIVAddedColumns = []
 arrayUNPRIVAddedColumns = []
@@ -287,9 +213,9 @@ def get_counts_editing(clf, x_train, y_train, x_test, y_test, test_df, biased_ve
 
     EODdiff = calculate_eod_other(test_df_copy, arrayUNPRIVAddedColumns, arrayPRIVAddedColumns)
 
-    if metric == 'eod':
+    if metric == 'mEOD':
         return calculate_eod_other(test_df_copy, arrayUNPRIVAddedColumns, arrayPRIVAddedColumns)
-    elif metric == 'aod':
+    elif metric == 'mAOD':
         return calculate_aod_other(test_df_copy, arrayUNPRIVAddedColumns, arrayPRIVAddedColumns, EODdiff)
     elif metric == 'recall':
         return calculate_recall(TP, FP, FN, TN)
