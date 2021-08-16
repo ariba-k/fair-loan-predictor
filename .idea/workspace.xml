@@ -5,18 +5,31 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="08549712-c9b3-423f-a3e9-b196cf4c0b3f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/FairSMOTE/Generate_Samples.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FairSMOTE/HMDAsmote.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FairSMOTE/fairsmote.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FairSMOTE/otherSMOTE.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SMOTE.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/newactualdebiasing.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Generate_Samples.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/HMDACT.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/processed_scaled_state_WY.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/processed_scaled_state_WY.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Measure.py" beforeDir="false" afterPath="$PROJECT_DIR$/Measure.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/fair-loan-predictor/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/fair-loan-predictor/AfterScalingTestHMDA.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/fair-loan-predictor/BeforeBalancingDataset.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/fair-loan-predictor/FirstTestDFCopy.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/fair-loan-predictor/Measure.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/fair-loan-predictor/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/fair-loan-predictor/SMOTE.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/fair-loan-predictor/TestDFCopyAddedColumns.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/fair-loan-predictor/Usage.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/fair-loan-predictor/actualdebiasing.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/fair-loan-predictor/aribabalancing.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/fair-loan-predictor/aribadebiasing.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/fair-loan-predictor/balancing.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/fair-loan-predictor/balancing2.0.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/fair-loan-predictor/debiasing.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/fair-loan-predictor/jashandebiasing.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/fair-loan-predictor/main.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/fair-loan-predictor/newactualdebiasing.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/fair-loan-predictor/newdebiasing.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/fair-loan-predictor/otherdebiasing.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/processed_scaled_state_CT.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/processed_scaled_state_CT.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FairSMOTE/Generate_Samples.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/newactualdebiasing.py" beforeDir="false" afterPath="$PROJECT_DIR$/newactualdebiasing.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,6 +74,7 @@
       <recent name="C:\Users\Arash\PycharmProjects\TransferProject" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Arash\OneDrive\Documents\GitHub\fair-loan-predictor" />
       <recent name="C:\Users\Arash\OneDrive\Documents\GitHub\fair-loan-predictor\FairSMOTE" />
       <recent name="C:\Users\Arash\OneDrive\Documents\GitHub\fair-loan-predictor\Data" />
       <recent name="C:\Users\jasha\Documents\GitHub\fair-loan-predictor" />
