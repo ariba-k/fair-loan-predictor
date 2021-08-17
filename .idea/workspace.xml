@@ -5,10 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="08549712-c9b3-423f-a3e9-b196cf4c0b3f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Delete_Samples.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fairsmote_and_RUS.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/newactualdebiasing.py" beforeDir="false" afterPath="$PROJECT_DIR$/fairsmote.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fairsmote.py" beforeDir="false" afterPath="$PROJECT_DIR$/fairsmote.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fairsmote_and_RUS.py" beforeDir="false" afterPath="$PROJECT_DIR$/fairsmote_and_RUS.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

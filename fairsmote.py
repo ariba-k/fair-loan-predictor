@@ -1,14 +1,18 @@
 #-------------------Imports---------------------------
 import os
 import sys
+import numpy as np
 from itertools import product
 
 import pandas as pd
 from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
 
 from SMOTE import smote
 from Generate_Samples import generate_samples
+from Measure import measure_final_score
+from Usage import arrayDatasets, sexCArray, raceCArray, ethnicityCArray
 
 sys.path.append(os.path.abspath('..'))
 
@@ -279,7 +283,7 @@ for index,row in new_dataset_orig.iterrows():
         pred_list.append(y_current_pred)
     num_unique_vals = len(set(pred_list))
 
-    print('Num Uniue Values:', num_unique_vals)
+    print('Num Unique Values:', num_unique_vals)
 
     if num_unique_vals > 1:
         removal_list.append(index)
@@ -303,10 +307,31 @@ for index,row in new_dataset_orig.iterrows():
 
 
 
+##--------------------------Get Final Measures----------------------------
+
+balanced_and_situation_df["derived_sex"] = pd.to_numeric(balanced_and_situation_df.derived_sex, errors='coerce')
+balanced_and_situation_df["derived_race"] = pd.to_numeric(balanced_and_situation_df.derived_race, errors='coerce')
+balanced_and_situation_df["derived_ethnicity"] = pd.to_numeric(balanced_and_situation_df.derived_ethnicity, errors='coerce')
+balanced_and_situation_df["action_taken"] = pd.to_numeric(balanced_and_situation_df.action_taken, errors='coerce')
 
 
+print(balanced_and_situation_df.shape)
+np.random.seed(0)
+# Divide into train,validation,test
+
+balanced_and_situation_train, balanced_and_situation_test = train_test_split(balanced_and_situation_df, test_size=0.3, random_state=0,shuffle = True)
+print(balanced_and_situation_train)
+print(balanced_and_situation_test)
+X_train, y_train = balanced_and_situation_train.loc[:, balanced_and_situation_train.columns != 'action_taken'], balanced_and_situation_train['action_taken']
+X_test , y_test = balanced_and_situation_test.loc[:, balanced_and_situation_test.columns != 'action_taken'], balanced_and_situation_test['action_taken']
 
 
+# --- LSR
+clf = LogisticRegression(C=1.0, penalty='l2', solver='liblinear', max_iter=100)
+
+print("mAOD:",measure_final_score(balanced_and_situation_test, clf, X_train, y_train, X_test, y_test, arrayDatasets, sexCArray, raceCArray, ethnicityCArray, 'mAOD'))
+print("mEOD:",measure_final_score(balanced_and_situation_test, clf, X_train, y_train, X_test, y_test, arrayDatasets, sexCArray, raceCArray, ethnicityCArray,'mEOD'))
+#
 
 
 
