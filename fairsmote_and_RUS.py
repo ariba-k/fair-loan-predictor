@@ -1,6 +1,7 @@
 #-------------------Imports---------------------------
 import os
 import sys
+
 import numpy as np
 from itertools import product
 
@@ -25,8 +26,8 @@ sys.path.append(os.path.abspath('..'))
 base_path = str(sys.path[0])
 
 input_file = base_path + '\\Data\\raw_state_CT.csv'
-interm_file = base_path + '\\Data\\processed_scaled_state_CT.csv'
-output_file = base_path + '\\Data\\debiased_state_CT.csv'
+interm_file = base_path + '\\Data\\FirstBalancedCT.csv'
+output_file = base_path + '\\Data\\DoubleBalancedCT.csv'
 
 
 dataset_orig = pd.read_csv(input_file, dtype=object)
@@ -119,6 +120,35 @@ print(processed_scaled_df[['derived_msa-md', 'derived_ethnicity', 'derived_race'
 processed_scaled_shape = processed_scaled_df.shape
 
 processed_scaled_df.to_csv(interm_file, index=True)
+
+##------------------Check beginning Measures----------------------
+
+processed_scaled_df["derived_sex"] = pd.to_numeric(processed_scaled_df.derived_sex, errors='coerce')
+processed_scaled_df["derived_race"] = pd.to_numeric(processed_scaled_df.derived_race, errors='coerce')
+processed_scaled_df["derived_ethnicity"] = pd.to_numeric(processed_scaled_df.derived_ethnicity, errors='coerce')
+processed_scaled_df["action_taken"] = pd.to_numeric(processed_scaled_df.action_taken, errors='coerce')
+
+
+print(processed_scaled_df.shape)
+np.random.seed(0)
+# Divide into train,validation,test
+
+processed_scaled_train, processed_and_scaled_test = train_test_split(processed_scaled_df, test_size=0.3, random_state=0,shuffle = True)
+print(processed_scaled_train)
+print(processed_and_scaled_test)
+X_train, y_train = processed_scaled_train.loc[:, processed_scaled_train.columns != 'action_taken'], processed_scaled_train['action_taken']
+X_test , y_test = processed_and_scaled_test.loc[:, processed_and_scaled_test.columns != 'action_taken'], processed_and_scaled_test['action_taken']
+
+# --- LSR
+clf = LogisticRegression(C=1.0, penalty='l2', solver='liblinear', max_iter=100)
+
+print("mAOD:",measure_final_score(processed_and_scaled_test, clf, X_train, y_train, X_test, y_test, arrayDatasets, sexCArray, raceCArray, ethnicityCArray, 'mAOD'))
+print("mEOD:",measure_final_score(processed_and_scaled_test, clf, X_train, y_train, X_test, y_test, arrayDatasets, sexCArray, raceCArray, ethnicityCArray,'mEOD'))
+##-----------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
 
 ###===============Part 2: Working with the processed_scaled_df=================
 class EmptyList(Exception):
@@ -215,7 +245,7 @@ def get_mean_val():
 
     return round(mean_val)
 
-mean_val = get_mean_val()
+mean_val = 500
 print("Here is the aim:", mean_val)
 ####
 def RUS_balance(dataset_orig):
@@ -265,82 +295,93 @@ def smote_balance(c):
 
     return train_df
 
-smoted_list =[]
-RUS_list = []
-for c in combination_df:
-    num1 = 0
-    num0 = 0
-    try:
-        num1 = len(c[(c['action_taken'] == 1)])
-        num0 = len(c[(c['action_taken'] == 0)])
-    except:
-        pass
+def do_balancing_procedure(dataframe):
+    combination_df = split_dataset(dataframe, ind_cols)
+    smoted_list =[]
+    RUS_list = []
+    for c in combination_df:
+        num1 = 0
+        num0 = 0
+        try:
+            num1 = len(c[(c['action_taken'] == 1)])
+            num0 = len(c[(c['action_taken'] == 0)])
+        except:
+            pass
 
-    current_max = max(num1, num0)
-    current_min = min(num1, num0)
+        # print("NOW HERE aslkd:", num1, num0, c[['derived_race', 'derived_sex', 'derived_ethnicity','action_taken']].head(10))
+        current_max = max(num1, num0)
+        current_min = min(num1, num0)
 
-    if(current_max <  mean_val):
-        smoted_df = smote_balance(c)
-        smoted_list.append(smoted_df)
-    elif((current_max > mean_val) and (current_min < mean_val)):
-        diff_to_max = current_max - mean_val
-        diff_to_min = mean_val - current_min
-        if(diff_to_max < diff_to_min):
+        if(current_max <  mean_val):
+            print('current_max', current_max)
             smoted_df = smote_balance(c)
             smoted_list.append(smoted_df)
-        else:
+        elif((current_max > mean_val) and (current_min < mean_val)):
+            print('current_max2', current_max, current_min)
+            diff_to_max = current_max - mean_val
+            diff_to_min = mean_val - current_min
+            if(diff_to_max < diff_to_min):
+                smoted_df = smote_balance(c)
+                RUS_list.append(smoted_df)
+            else:
+                RUS_df = RUS_balance(c)
+                smoted_list.append(RUS_df) ##don't assign to correct list?
+        elif((current_max > mean_val) and (current_min > mean_val)):
+            print('current_max3', current_max, current_min)
             RUS_df = RUS_balance(c)
             RUS_list.append(RUS_df)
-    elif((current_max > mean_val) and (current_min > mean_val)):
-         RUS_df = RUS_balance(c)
-         RUS_list.append(RUS_df)
 
-super_balanced_RUS = []
-for df in RUS_list:
-    temp_val_0 = len(df[(df['action_taken'] == 0)])
-    temp_val_1 = len(df[(df['action_taken'] == 1)])
+    # print('smoted', smoted_list)
+    # print('RUS list', RUS_list)
+    super_balanced_RUS = []
+    for df in RUS_list:
+        temp_val_0 = len(df[(df['action_taken'] == 0)])
+        temp_val_1 = len(df[(df['action_taken'] == 1)])
 
-    num_decrease_of_0 = temp_val_0 - mean_val
-    num_decrease_of_1 = temp_val_1 - mean_val
+        num_decrease_of_0 = temp_val_0 - mean_val
+        num_decrease_of_1 = temp_val_1 - mean_val
 
-    print('Before Distribution\n', df['action_taken'].value_counts())
+        print('Before Distribution\n', df['action_taken'].value_counts())
 
-    df = delete_samples(num_decrease_of_0, df, 0) ##@params = {value_of_increase, dataset_name, only_this_action_taken_value}
-    df = delete_samples(num_decrease_of_1, df, 1)
+        df = delete_samples(num_decrease_of_0, df, 0) ##@params = {value_of_increase, dataset_name, only_this_action_taken_value}
+        df = delete_samples(num_decrease_of_1, df, 1)
 
-    print('After Distribution\n', df['action_taken'].value_counts())
-    super_balanced_RUS.append(df)
-
-
-super_balanced_smote = []
-for df in smoted_list:
-    temp_val_0 = len(df[(df['action_taken'] == 0)])
-    temp_val_1 = len(df[(df['action_taken'] == 1)])
-
-    num_increase_of_0 = mean_val - temp_val_0
-    num_increase_of_1 = mean_val - temp_val_1
-
-    print('Before Distribution\n', df['action_taken'].value_counts())
-
-    df = generate_samples(num_increase_of_0, df, 'HMDA', 0) ##@params = {value_of_increase, dataframe, dataset_name, only_this_action_taken_value}
-    df = generate_samples(num_increase_of_1, df, 'HMDA', 1)
-
-    print('After Distribution\n', df['action_taken'].value_counts())
-    super_balanced_smote.append(df)
+        print('After Distribution\n', df['action_taken'].value_counts())
+        super_balanced_RUS.append(df)
 
 
+    super_balanced_smote = []
+    for df in smoted_list:
+        temp_val_0 = len(df[(df['action_taken'] == 0)])
+        temp_val_1 = len(df[(df['action_taken'] == 1)])
 
-def concat_and_shuffle(smote_version, RUS_version):
-    concat_smote_df = pd.concat(smote_version)
-    concat_RUS_df = pd.concat(RUS_version)
-    concat_df = pd.concat(concat_RUS_df, concat_smote_df)
-    concat_df = concat_df.sample(frac=1).reset_index(drop=True)
+        num_increase_of_0 = mean_val - temp_val_0
+        num_increase_of_1 = mean_val - temp_val_1
 
-    print('shuffle:', concat_df)
-    return concat_df
+        print("This is the num of increase:", num_increase_of_0, num_increase_of_1)
+        print('Before Distribution\n', df['action_taken'].value_counts())
 
-new_dataset_orig = concat_and_shuffle(super_balanced_smote, super_balanced_RUS)
+        df = generate_samples(num_increase_of_0, df, 'HMDA', 0) ##@params = {value_of_increase, dataframe, dataset_name, only_this_action_taken_value}
+        # print('Middle Distribution\n', df['action_taken'].value_counts())
+        df = generate_samples(num_increase_of_1, df, 'HMDA', 1)
 
+        print('After Distribution\n', df['action_taken'].value_counts())
+        super_balanced_smote.append(df)
+
+    def concat_and_shuffle(smote_version, RUS_version):
+        concat_smote_df = pd.concat(smote_version)
+        concat_RUS_df = pd.concat(RUS_version)
+        tempArray = [concat_RUS_df, concat_smote_df]
+        concat_df = pd.concat(tempArray)
+        concat_df = concat_df.sample(frac=1).reset_index(drop=True)
+
+        print('shuffle:', concat_df)
+        return concat_df
+
+    new_dataset_orig = concat_and_shuffle(super_balanced_smote, super_balanced_RUS)
+    return new_dataset_orig
+
+new_dataset_orig = do_balancing_procedure(processed_scaled_df)
 #-----------------Situation Testing-------------------
 X_train, y_train = new_dataset_orig.loc[:, new_dataset_orig.columns != 'action_taken'], new_dataset_orig['action_taken']
 
@@ -348,19 +389,20 @@ clf = LogisticRegression(C=1.0, penalty='l2', solver='liblinear', max_iter=100)
 clf.fit(X_train,y_train)
 
 removal_list = []
-pred_list = []
 
 ##Gets you bad rows that need to be deleted
 for index,row in new_dataset_orig.iterrows():
+    pred_list = []
     row_ = [row.values[0:len(row.values) - 1]]
     for other_index, other_row in global_unique_df.iterrows():
-        current_comb = [other_row.values[0:len(other_row.values) - 1]]  ## indexes are 2, 3, 4 for ethnicity, race, sex respectively
-        print('current_com[0]', current_comb[0])
+        current_comb = other_row.values[0:len(other_row.values)]  ## indexes are 2, 3, 4 for ethnicity, race, sex respectively
+        print('current_com', current_comb)
         row_[0][2] = current_comb[0] ##don't know confirm what this is
         row_[0][3] = current_comb[1]
         row_[0][4] = current_comb[2]
-        y_current_pred = clf.predict(row_)
+        y_current_pred = clf.predict(row_)[0]
         pred_list.append(y_current_pred)
+        print('pred_list', pred_list)
     num_unique_vals = len(set(pred_list))
 
     print('Num Unique Values:', num_unique_vals)
@@ -384,38 +426,38 @@ for index,row in new_dataset_orig.iterrows():
         print(balanced_and_situation_df.shape)
 
 
+print('Final Distribution1\n', balanced_and_situation_df['action_taken'].value_counts())
 
 
 ##--------------------------Get Final Measures----------------------------
-
-balanced_and_situation_df["derived_sex"] = pd.to_numeric(balanced_and_situation_df.derived_sex, errors='coerce')
-balanced_and_situation_df["derived_race"] = pd.to_numeric(balanced_and_situation_df.derived_race, errors='coerce')
-balanced_and_situation_df["derived_ethnicity"] = pd.to_numeric(balanced_and_situation_df.derived_ethnicity, errors='coerce')
-balanced_and_situation_df["action_taken"] = pd.to_numeric(balanced_and_situation_df.action_taken, errors='coerce')
-
-
-print(balanced_and_situation_df.shape)
-np.random.seed(0)
-# Divide into train,validation,test
-
-balanced_and_situation_train, balanced_and_situation_test = train_test_split(balanced_and_situation_df, test_size=0.3, random_state=0,shuffle = True)
-print(balanced_and_situation_train)
-print(balanced_and_situation_test)
-X_train, y_train = balanced_and_situation_train.loc[:, balanced_and_situation_train.columns != 'action_taken'], balanced_and_situation_train['action_taken']
-X_test , y_test = balanced_and_situation_test.loc[:, balanced_and_situation_test.columns != 'action_taken'], balanced_and_situation_test['action_taken']
+def get_metrics(df):
+    df["derived_sex"] = pd.to_numeric(df.derived_sex, errors='coerce')
+    df["derived_race"] = pd.to_numeric(df.derived_race, errors='coerce')
+    df["derived_ethnicity"] = pd.to_numeric(df.derived_ethnicity, errors='coerce')
+    df["action_taken"] = pd.to_numeric(df.action_taken, errors='coerce')
 
 
-# --- LSR
-clf = LogisticRegression(C=1.0, penalty='l2', solver='liblinear', max_iter=100)
+    print(df.shape)
+    np.random.seed(0)
+    # Divide into train,validation,test
 
-print("mAOD:",measure_final_score(balanced_and_situation_test, clf, X_train, y_train, X_test, y_test, arrayDatasets, sexCArray, raceCArray, ethnicityCArray, 'mAOD'))
-print("mEOD:",measure_final_score(balanced_and_situation_test, clf, X_train, y_train, X_test, y_test, arrayDatasets, sexCArray, raceCArray, ethnicityCArray,'mEOD'))
-#
-
-
-
-
-
+    df_train, df_test = train_test_split(df, test_size=0.3, random_state=0,shuffle = True)
+    print(df_train)
+    print(df_test)
+    X_train, y_train = df_train.loc[:, df_train.columns != 'action_taken'], df_train['action_taken']
+    X_test , y_test = df_test.loc[:, df_test.columns != 'action_taken'], df_test['action_taken']
 
 
+    clf = LogisticRegression(C=1.0, penalty='l2', solver='liblinear', max_iter=100)
+
+    print("mAOD:",measure_final_score(df_test, clf, X_train, y_train, X_test, y_test, arrayDatasets, sexCArray, raceCArray, ethnicityCArray, 'mAOD'))
+    print("mEOD:",measure_final_score(df_test, clf, X_train, y_train, X_test, y_test, arrayDatasets, sexCArray, raceCArray, ethnicityCArray,'mEOD'))
+
+balanced_and_situation_df.to_csv(interm_file)
+get_metrics(balanced_and_situation_df)
+#-----------------------------------Second Balancing--------------------------------
+othernew_dataset_orig = do_balancing_procedure(balanced_and_situation_df)
+
+othernew_dataset_orig.to_csv(output_file)
+get_metrics(othernew_dataset_orig)
 

@@ -18,6 +18,6 @@ def delete_samples(how_much_cut, df, num_to_cut):
             df = df.drop(numRandom)
             df.reset_index(drop=True, inplace=True)
             numDeleted += 1
-            print('numdeleted:', numDeleted)
+            # print('numdeleted:', numDeleted)
 
     return df
