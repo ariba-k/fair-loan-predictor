@@ -1,4 +1,5 @@
 #-------------------Imports---------------------------
+import copy
 import os
 import sys
 
@@ -27,6 +28,8 @@ base_path = str(sys.path[0])
 
 input_file = base_path + '\\Data\\raw_state_CT.csv'
 interm_file = base_path + '\\Data\\FirstBalancedCT.csv'
+process_scale_file = base_path + '\\Data\\processedscaledCTNOW.csv'
+other_file = base_path + '\\Data\\newDatasetOrig.csv'
 output_file = base_path + '\\Data\\DoubleBalancedCT.csv'
 
 
@@ -119,7 +122,8 @@ processed_scaled_df = preprocessing(dataset_orig)
 print(processed_scaled_df[['derived_msa-md', 'derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']])
 processed_scaled_shape = processed_scaled_df.shape
 
-processed_scaled_df.to_csv(interm_file, index=True)
+processed_scaled_df.to_csv(process_scale_file, index=False)
+print('NOWWWWWWWWWWWWWWW P')
 
 ##------------------Check beginning Measures----------------------
 
@@ -181,6 +185,7 @@ def split_dataset(processed_scaled_df, ind_cols):
     return combination_df
 
 global_unique_df = get_unique_df(processed_scaled_df, ind_cols)
+print(global_unique_df)
 combination_df = split_dataset(processed_scaled_df, ind_cols)
 
 combination_names = ['nhol_w_m', 'nhol_w_f', 'nhol_w_j',
@@ -245,7 +250,7 @@ def get_mean_val():
 
     return round(mean_val)
 
-mean_val = 500
+mean_val = 100
 print("Here is the aim:", mean_val)
 ####
 def RUS_balance(dataset_orig):
@@ -289,6 +294,8 @@ def smote_balance(c):
 
     train_df = X_train
     train_df['action_taken'] = y_train
+
+    train_df["action_taken"] = y_train.astype("category")
 
     train_df = apply_smote(train_df)
 
@@ -382,6 +389,9 @@ def do_balancing_procedure(dataframe):
     return new_dataset_orig
 
 new_dataset_orig = do_balancing_procedure(processed_scaled_df)
+new_dataset_orig.to_csv(other_file, index=False)
+
+
 #-----------------Situation Testing-------------------
 X_train, y_train = new_dataset_orig.loc[:, new_dataset_orig.columns != 'action_taken'], new_dataset_orig['action_taken']
 
@@ -397,12 +407,14 @@ for index,row in new_dataset_orig.iterrows():
     for other_index, other_row in global_unique_df.iterrows():
         current_comb = other_row.values[0:len(other_row.values)]  ## indexes are 2, 3, 4 for ethnicity, race, sex respectively
         print('current_com', current_comb)
+        original_ethnic, original_race, original_sex = row_[0][2], row_[0][3], row_[0][4]
         row_[0][2] = current_comb[0] ##don't know confirm what this is
         row_[0][3] = current_comb[1]
         row_[0][4] = current_comb[2]
         y_current_pred = clf.predict(row_)[0]
         pred_list.append(y_current_pred)
         print('pred_list', pred_list)
+        row_[0][2], row_[0][3], row_[0][4] =  original_ethnic, original_race, original_sex
     num_unique_vals = len(set(pred_list))
 
     print('Num Unique Values:', num_unique_vals)
@@ -418,6 +430,7 @@ print(len(removal_list))
 
 print(new_dataset_orig.shape)
 df_removed = pd.DataFrame(columns=new_dataset_orig.columns)
+print(df_removed)
 
 for index,row in new_dataset_orig.iterrows():
     if index in removal_list:
@@ -426,7 +439,8 @@ for index,row in new_dataset_orig.iterrows():
         print(balanced_and_situation_df.shape)
 
 
-print('Final Distribution1\n', balanced_and_situation_df['action_taken'].value_counts())
+# print('Final Distribution1\n', balanced_and_situation_df['action_taken'].value_counts())
+print('XXXXXXXXTRAINNNNNNNNNNNN', X_train, y_train)
 
 
 ##--------------------------Get Final Measures----------------------------
@@ -456,8 +470,8 @@ def get_metrics(df):
 balanced_and_situation_df.to_csv(interm_file)
 get_metrics(balanced_and_situation_df)
 #-----------------------------------Second Balancing--------------------------------
-othernew_dataset_orig = do_balancing_procedure(balanced_and_situation_df)
-
-othernew_dataset_orig.to_csv(output_file)
-get_metrics(othernew_dataset_orig)
+# othernew_dataset_orig = do_balancing_procedure(balanced_and_situation_df)
+#
+# othernew_dataset_orig.to_csv(output_file, index=False)
+# get_metrics(othernew_dataset_orig)
 

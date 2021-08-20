@@ -5,11 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="08549712-c9b3-423f-a3e9-b196cf4c0b3f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/fairsmotedit.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Data/FirstBalancedCT2.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Delete_Samples.py" beforeDir="false" afterPath="$PROJECT_DIR$/Delete_Samples.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/FirstBalancedCT.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/FirstBalancedCT.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FirstTestDFCopy.csv" beforeDir="false" afterPath="$PROJECT_DIR$/FirstTestDFCopy.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TestDFCopyAddedColumns.csv" beforeDir="false" afterPath="$PROJECT_DIR$/TestDFCopyAddedColumns.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Usage.py" beforeDir="false" afterPath="$PROJECT_DIR$/Usage.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/fairsmote_and_RUS.py" beforeDir="false" afterPath="$PROJECT_DIR$/fairsmote_and_RUS.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -44,14 +45,16 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/fairsmotedit.py" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Data" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.smartKeys" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Arash\OneDrive\Documents\GitHub\fair-loan-predictor\Data" />
       <recent name="C:\Users\Arash\OneDrive\Documents\GitHub\fair-loan-predictor" />
       <recent name="C:\Users\Arash\PycharmProjects\TransferProject" />
     </key>
@@ -373,6 +376,9 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

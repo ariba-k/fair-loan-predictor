@@ -13,9 +13,10 @@ from Measure import measure_final_score
 dataset you want. For instance, you will change TestHMDABalanced to your choice.'''
 #Thus in binary classification, the count of true negatives is 0,0, false negatives is 1,0, true positives is 1,1, and false positives is 0,1 .
 sys.path.append(os.path.abspath('..'))
-fileloc = str(sys.path[0]) + '\\Data\\' + 'debiased_state_WY.csv'
+fileloc = str(sys.path[0]) + '\\Data\\' + 'processedscaledCTNOW.csv'
 
 dataset_orig = pd.read_csv(fileloc, dtype=object)
+print('Starting before split:' , dataset_orig['action_taken'].value_counts())
 
 dataset_orig["derived_sex"] = pd.to_numeric(dataset_orig.derived_sex, errors='coerce')
 dataset_orig["derived_race"] = pd.to_numeric(dataset_orig.derived_race, errors='coerce')
@@ -66,9 +67,9 @@ print(dataset_orig.shape)
 np.random.seed(0)
 # Divide into train,validation,test
 
-dataset_orig_train, dataset_orig_test = train_test_split(dataset_orig, test_size=0.3, random_state=0,shuffle = True)
-print(dataset_orig_train)
-print(dataset_orig_test)
+dataset_orig_train, dataset_orig_test = train_test_split(dataset_orig, test_size=0.2, random_state=0,shuffle = True)
+print('train shape:', dataset_orig_train['action_taken'].value_counts())
+print('test shape:', dataset_orig_test['action_taken'].value_counts())
 X_train, y_train = dataset_orig_train.loc[:, dataset_orig_train.columns != 'action_taken'], dataset_orig_train['action_taken']
 X_test , y_test = dataset_orig_test.loc[:, dataset_orig_test.columns != 'action_taken'], dataset_orig_test['action_taken']
 
@@ -105,8 +106,8 @@ clf = LogisticRegression(C=1.0, penalty='l2', solver='liblinear', max_iter=100)
 # print("far :",measure_final_score(dataset_orig_test, clf, X_train, y_train, X_test, y_test, arrayDatasets, sexCArray, raceCArray, ethnicityCArray, 'derived_sex', 'far'))
 # print("precision :", measure_final_score(dataset_orig_test, clf, X_train, y_train, X_test, y_test, arrayDatasets, sexCArray, raceCArray, ethnicityCArray, 'precision'))
 # print("accuracy :",measure_final_score(dataset_orig_test, clf, X_train, y_train, X_test, y_test, arrayDatasets, sexCArray, raceCArray, ethnicityCArray,  'accuracy'))
-print("AOD:",measure_final_score(dataset_orig_test, clf, X_train, y_train, X_test, y_test, arrayDatasets, sexCArray, raceCArray, ethnicityCArray, 'aod'))
-print("EOD:",measure_final_score(dataset_orig_test, clf, X_train, y_train, X_test, y_test, arrayDatasets, sexCArray, raceCArray, ethnicityCArray,'eod'))
+print("mAOD:",measure_final_score(dataset_orig_test, clf, X_train, y_train, X_test, y_test, arrayDatasets, sexCArray, raceCArray, ethnicityCArray, 'mAOD'))
+print("mEOD:",measure_final_score(dataset_orig_test, clf, X_train, y_train, X_test, y_test, arrayDatasets, sexCArray, raceCArray, ethnicityCArray,'mEOD'))
 #
 # print("Precision", metrics.precision_score(y_test,y_pred))
 # print("Recall", metrics.recall_score(y_test,y_pred))
