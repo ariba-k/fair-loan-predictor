@@ -20,11 +20,13 @@ def get_ngbr(df, knn):
     return parent_candidate, candidate_2, candidate_3
 
 
-def generate_samples(no_of_samples, df, df_name, num):
-    total_data = df.values.tolist()
+def generate_samples(no_of_samples_zeros, no_of_samples_ones, df, df_name):
+    total_data_zero = []
+    total_data_one = []
     knn = NN(n_neighbors=5, algorithm='auto').fit(df)
-    count = 0
-    while (count < no_of_samples):
+    count_zero = 0
+    count_one = 0
+    while (count_one < no_of_samples_ones or count_zero < no_of_samples_zeros):
         cr = 0.8
         f = 0.8
         parent_candidate, child_candidate_1, child_candidate_2 = get_ngbr(df, knn)
@@ -44,11 +46,15 @@ def generate_samples(no_of_samples, df, df_name, num):
                 new_candidate.append(temp_lst)
             else:
                 new_candidate.append(abs(parent_candidate[key] + f * (child_candidate_1[key] - child_candidate_2[key])))
-        if(num == new_candidate[-1]):
-            total_data.append(new_candidate)
-            count += 1
+        if(new_candidate[-1] == 0 and count_zero < no_of_samples_zeros):
+            total_data_zero.append(new_candidate)
+            count_zero += 1
+        elif(new_candidate[-1] == 1 and count_one < no_of_samples_ones):
+            total_data_one.append(new_candidate)
+            count_one += 1
 
-    final_df = pd.DataFrame(total_data)
+    final_df_zero = pd.DataFrame(total_data_zero)
+    final_df_one = pd.DataFrame(total_data_one)
     if df_name == 'HMDA':
         column_array = ['derived_msa-md', 'derived_loan_product_type', 'derived_ethnicity', 'derived_race',
                         'derived_sex', 'purchaser_type', 'preapproval', 'loan_type', 'loan_purpose', 'lien_status',
@@ -65,9 +71,12 @@ def generate_samples(no_of_samples, df, df_name, num):
                         'ffiec_msa_md_median_family_income', 'tract_to_msa_income_percentage',
                         'tract_owner_occupied_units', 'tract_one_to_four_family_homes',
                         'tract_median_age_of_housing_units', 'action_taken']
-        final_df = final_df.rename(columns={c: column_array[c] for c in range(len(column_array))}, errors="raise")
-    if df_name == 'Adult':
-        final_df = final_df.rename(
-            columns={0: "age", 1: "education-num", 2: "race", 3: "sex", 4: "capital-gain", 5: "capital-loss",
-                     6: "hours-per-week", 7: "Probability"}, errors="raise")
-    return final_df
+        final_df_zero = final_df_zero.rename(columns={c: column_array[c] for c in range(len(column_array))}, errors="raise")
+        final_df_one = final_df_one.rename(columns={c: column_array[c] for c in range(len(column_array))},errors="raise")
+    # if df_name == 'Adult':
+    #     final_df = final_df.rename(
+    #         columns={0: "age", 1: "education-num", 2: "race", 3: "sex", 4: "capital-gain", 5: "capital-loss",
+    #                  6: "hours-per-week", 7: "Probability"}, errors="raise")
+    # print(final_df_one)
+    # print(final_df_zero)
+    return final_df_zero, final_df_one

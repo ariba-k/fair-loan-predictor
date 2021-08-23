@@ -250,7 +250,7 @@ def get_mean_val():
 
     return round(mean_val)
 
-mean_val = 100
+mean_val = 35000 #THIS IS HYPER
 print("Here is the aim:", mean_val)
 ####
 def RUS_balance(dataset_orig):
@@ -358,7 +358,10 @@ def do_balancing_procedure(dataframe):
 
 
     super_balanced_smote = []
+    # count = 0
     for df in smoted_list:
+        # count = count + 1
+        # print('WE ARE ON THE', count, 'DATASET')
         temp_val_0 = len(df[(df['action_taken'] == 0)])
         temp_val_1 = len(df[(df['action_taken'] == 1)])
 
@@ -368,22 +371,22 @@ def do_balancing_procedure(dataframe):
         print("This is the num of increase:", num_increase_of_0, num_increase_of_1)
         print('Before Distribution\n', df['action_taken'].value_counts())
 
-        df = generate_samples(num_increase_of_0, df, 'HMDA', 0) ##@params = {value_of_increase, dataframe, dataset_name, only_this_action_taken_value}
-        # print('Middle Distribution\n', df['action_taken'].value_counts())
-        df = generate_samples(num_increase_of_1, df, 'HMDA', 1)
-
-        print('After Distribution\n', df['action_taken'].value_counts())
-        super_balanced_smote.append(df)
+        df_zeros, df_ones = generate_samples(num_increase_of_0, num_increase_of_1, df, 'HMDA') ##@params = {value_of_increase, dataframe, dataset_name, only_this_action_taken_value}
+        df_added = pd.concat([df_zeros, df_ones])
+        concat_df = pd.concat([df, df_added])
+        concat_df = concat_df.sample(frac=1).reset_index(drop=True)
+        print('After Distribution\n', concat_df['action_taken'].value_counts())
+        super_balanced_smote.append(concat_df)
 
     def concat_and_shuffle(smote_version, RUS_version):
         concat_smote_df = pd.concat(smote_version)
         concat_RUS_df = pd.concat(RUS_version)
         tempArray = [concat_RUS_df, concat_smote_df]
-        concat_df = pd.concat(tempArray)
-        concat_df = concat_df.sample(frac=1).reset_index(drop=True)
+        total_concat_df = pd.concat(tempArray)
+        total_concat_df = total_concat_df.sample(frac=1).reset_index(drop=True)
 
-        print('shuffle:', concat_df)
-        return concat_df
+        print('shuffle:', total_concat_df.head(50))
+        return total_concat_df
 
     new_dataset_orig = concat_and_shuffle(super_balanced_smote, super_balanced_RUS)
     return new_dataset_orig
@@ -414,7 +417,9 @@ for index,row in new_dataset_orig.iterrows():
         y_current_pred = clf.predict(row_)[0]
         pred_list.append(y_current_pred)
         print('pred_list', pred_list)
-        row_[0][2], row_[0][3], row_[0][4] =  original_ethnic, original_race, original_sex
+        row_[0][2], row_[0][3], row_[0][4] = original_ethnic, original_race, original_sex
+
+    print('DONE HERE 1')
     num_unique_vals = len(set(pred_list))
 
     print('Num Unique Values:', num_unique_vals)
@@ -425,18 +430,22 @@ for index,row in new_dataset_orig.iterrows():
         raise EmptyList
 
 removal_list = set(removal_list)
-print(len(removal_list))
+print('length of removal:', len(removal_list))
 
-
+print('YEAH IM REMOVAL', removal_list)
 print(new_dataset_orig.shape)
 df_removed = pd.DataFrame(columns=new_dataset_orig.columns)
-print(df_removed)
+
 
 for index,row in new_dataset_orig.iterrows():
     if index in removal_list:
         df_removed = df_removed.append(row, ignore_index=True)
         balanced_and_situation_df = new_dataset_orig.drop(index)
         print(balanced_and_situation_df.shape)
+
+df_removed.to_csv(r'C:\Users\jasha\Documents\GitHub\fair-loan-predictor\Data\hijashan.csv')
+print(df_removed)
+
 
 
 # print('Final Distribution1\n', balanced_and_situation_df['action_taken'].value_counts())
