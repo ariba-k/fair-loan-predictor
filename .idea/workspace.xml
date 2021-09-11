@@ -5,14 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="08549712-c9b3-423f-a3e9-b196cf4c0b3f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Data/hijashan.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Data/FirstBalancedCA.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Data/processedscaledCANOW.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Data/raw_state_CA.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HMDA_2020.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/PSCF.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Reference/TestDFCopyAddedColumns.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Data/FirstBalancedCT.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/FirstBalancedCT.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/hijashan.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/hijashan.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Data/newDatasetOrig.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/newDatasetOrig.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FirstTestDFCopy.csv" beforeDir="false" afterPath="$PROJECT_DIR$/FirstTestDFCopy.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Generate_Samples.py" beforeDir="false" afterPath="$PROJECT_DIR$/Generate_Samples.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TestDFCopyAddedColumns.csv" beforeDir="false" afterPath="$PROJECT_DIR$/TestDFCopyAddedColumns.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/actualdebiasing.py" beforeDir="false" afterPath="$PROJECT_DIR$/Reference/actualdebiasing.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/codeAndcollproblem.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Reference/codeAndcollproblem.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fairsmote.py" beforeDir="false" afterPath="$PROJECT_DIR$/fairsmote.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/fairsmote_and_RUS.py" beforeDir="false" afterPath="$PROJECT_DIR$/fairsmote_and_RUS.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/findingData.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Reference/findingData.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,7 +58,7 @@
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../WobotPizzaSimilarityDetection" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.smartKeys" />
   </component>
@@ -60,10 +69,11 @@
       <recent name="C:\Users\Arash\PycharmProjects\TransferProject" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\jasha\Documents\GitHub\fair-loan-predictor" />
+      <recent name="C:\Users\jasha\Documents\GitHub\fair-loan-predictor\Reference" />
+      <recent name="C:\Users\jasha\Documents\GitHub\fair-loan-predictor\Data" />
       <recent name="C:\Users\Arash\OneDrive\Documents\GitHub\fair-loan-predictor" />
       <recent name="C:\Users\Arash\OneDrive\Documents\GitHub\fair-loan-predictor\FairSMOTE" />
-      <recent name="C:\Users\Arash\OneDrive\Documents\GitHub\fair-loan-predictor\Data" />
-      <recent name="C:\Users\jasha\Documents\GitHub\fair-loan-predictor" />
     </key>
   </component>
   <component name="RunManager" selected="Python.Fair_SMOTE">
@@ -100,7 +110,7 @@
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/actualdebiasing.py" />
+      <option name="SCRIPT_NAME" value="C:\Users\jasha\Documents\GitHub\fair-loan-predictor\Reference\actualdebiasing.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -362,19 +372,19 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.otherdebiasing" />
-      <item itemvalue="Python.adultdebiasing" />
-      <item itemvalue="Python.debiasing" />
-      <item itemvalue="Python.usage" />
-      <item itemvalue="Python.actualdebiasing" />
-      <item itemvalue="Python.fairsmote" />
-      <item itemvalue="Python.fairsmote_and_RUS " />
       <item itemvalue="Python.Fair_SMOTE" />
-      <item itemvalue="Python.fairsmoteedit" />
-      <item itemvalue="Python.newdebiasing" />
+      <item itemvalue="Python.actualdebiasing" />
+      <item itemvalue="Python.adultdebiasing" />
       <item itemvalue="Python.balancing2.0" />
       <item itemvalue="Python.balancing" />
+      <item itemvalue="Python.debiasing" />
+      <item itemvalue="Python.fairsmote" />
+      <item itemvalue="Python.fairsmote_and_RUS " />
+      <item itemvalue="Python.fairsmoteedit" />
       <item itemvalue="Python.main" />
+      <item itemvalue="Python.newdebiasing" />
+      <item itemvalue="Python.otherdebiasing" />
+      <item itemvalue="Python.usage" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

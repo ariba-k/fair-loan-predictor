@@ -1,0 +1,7 @@
+- ethnicity conforming problem 
+- ethnicity already not being right problem
+- smote doing weird stuff do the right people problem
+
+ m waitlist 
+ f overdue 
+ h cant find anything about HSE 

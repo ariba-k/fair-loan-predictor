@@ -19,9 +19,9 @@ sys.path.append(os.path.abspath('..'))
 ###======================Part 1: Code and Preprocessing Begins======================
 base_path = str(sys.path[0])
 
-input_file = base_path + '\\Data\\raw_state_CT.csv'
-interm_file = base_path + '\\Data\\processed_scaled_state_CT.csv'
-output_file = base_path + '\\Data\\debiased_state_CT.csv'
+input_file = base_path + '\\Data\\HMDA_2020.csv'
+interm_file = base_path + '\\Data\\processed_scaled_HMDA_2020.csv'
+output_file = base_path + '\\Data\\debiased_HMDA_2020.csv'
 
 
 dataset_orig = pd.read_csv(input_file, dtype=object)

@@ -26,16 +26,20 @@ sys.path.append(os.path.abspath('..'))
 ###======================Part 1: Code and Preprocessing Begins======================
 base_path = str(sys.path[0])
 
-input_file = base_path + '\\Data\\raw_state_CT.csv'
-interm_file = base_path + '\\Data\\FirstBalancedCT.csv'
-process_scale_file = base_path + '\\Data\\processedscaledCTNOW.csv'
+input_file = base_path + '\\Data\\raw_state_CA.csv'
+interm_file = base_path + '\\Data\\FirstBalancedCA.csv'
+process_scale_file = base_path + '\\Data\\processedscaledCANOW.csv'
 other_file = base_path + '\\Data\\newDatasetOrig.csv'
-output_file = base_path + '\\Data\\DoubleBalancedCT.csv'
+output_file = base_path + '\\Data\\DoubleBalancedCA.csv'
 
 
 dataset_orig = pd.read_csv(input_file, dtype=object)
 print('Data', dataset_orig.shape)
 print(dataset_orig[['derived_msa-md', 'derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']])
+
+#switch action_taken to last column 
+action_taken_col = dataset_orig.pop('action_taken')
+dataset_orig.insert(len(dataset_orig.columns), 'action_taken', action_taken_col)
 
 ###------------Scaling Function to be used later----------------------
 def scale_dataset(processed_df):
@@ -137,7 +141,7 @@ print(processed_scaled_df.shape)
 np.random.seed(0)
 # Divide into train,validation,test
 
-processed_scaled_train, processed_and_scaled_test = train_test_split(processed_scaled_df, test_size=0.3, random_state=0,shuffle = True)
+processed_scaled_train, processed_and_scaled_test = train_test_split(processed_scaled_df, test_size=0.2, random_state=0,shuffle = True)
 print(processed_scaled_train)
 print(processed_and_scaled_test)
 X_train, y_train = processed_scaled_train.loc[:, processed_scaled_train.columns != 'action_taken'], processed_scaled_train['action_taken']
@@ -250,7 +254,7 @@ def get_mean_val():
 
     return round(mean_val)
 
-mean_val = 35000 #THIS IS HYPER
+mean_val = 500 #THIS IS HYPER
 print("Here is the aim:", mean_val)
 ####
 def RUS_balance(dataset_orig):
@@ -464,7 +468,7 @@ def get_metrics(df):
     np.random.seed(0)
     # Divide into train,validation,test
 
-    df_train, df_test = train_test_split(df, test_size=0.3, random_state=0,shuffle = True)
+    df_train, df_test = train_test_split(df, test_size=0.2, random_state=0,shuffle = True)
     print(df_train)
     print(df_test)
     X_train, y_train = df_train.loc[:, df_train.columns != 'action_taken'], df_train['action_taken']
