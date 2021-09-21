@@ -13,7 +13,7 @@ from Measure import measure_final_score
 dataset you want. For instance, you will change TestHMDABalanced to your choice.'''
 #Thus in binary classification, the count of true negatives is 0,0, false negatives is 1,0, true positives is 1,1, and false positives is 0,1 .
 sys.path.append(os.path.abspath('..'))
-fileloc = str(sys.path[0]) + '\\Data\\' + 'processedscaledCTNOW.csv'
+fileloc = str(sys.path[0]) + '\\Data\\' + 'HMDA_2020.csv'
 
 dataset_orig = pd.read_csv(fileloc, dtype=object)
 print('Starting before split:' , dataset_orig['action_taken'].value_counts())

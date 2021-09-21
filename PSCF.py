@@ -26,7 +26,7 @@ print('Data', dataset_orig.shape)
 print(dataset_orig[['derived_msa-md', 'derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']])
 
 
-
+nonbiased_features = ["activity_year", "tract_median_age_of_housing_units", "tract_one_to_four_family_homes", "tract_owner_occupied_units", "tract_population", "initially_payable_to_institution", "submission_of_application", "co-applicant_credit_score_type", "applicant_credit_score_type", "multifamily_affordable_units", "total_units", "other_nonamortizing_features", "balloon_payment", "interest_only_payment", "negative_amortization"]
 
 ###======================Part 2: Using PSCF Begins================================
 #Make sure the list of nonbiased featueres also contains the label
@@ -45,3 +45,6 @@ def PSCF(list_of_nonbiased_features, dataset_orig=dataset_orig):
     clf.fit(X_train, y_train)
 
     return clf, X_test, y_test
+
+
+final_clf, X_test, y_test = PSCF(nonbiased_features)

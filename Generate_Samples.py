@@ -56,21 +56,7 @@ def generate_samples(no_of_samples_zeros, no_of_samples_ones, df, df_name):
     final_df_zero = pd.DataFrame(total_data_zero)
     final_df_one = pd.DataFrame(total_data_one)
     if df_name == 'HMDA':
-        column_array = ['derived_msa-md', 'derived_loan_product_type', 'derived_ethnicity', 'derived_race',
-                        'derived_sex', 'purchaser_type', 'preapproval', 'loan_type', 'loan_purpose', 'lien_status',
-                        'reverse_mortgage', 'open-end_line_of_credit', 'business_or_commercial_purpose', 'loan_amount',
-                        'hoepa_status', 'negative_amortization', 'interest_only_payment', 'balloon_payment',
-                        'other_nonamortizing_features', 'construction_method', 'occupancy_type',
-                        'manufactured_home_secured_property_type', 'manufactured_home_land_property_interest',
-                        'applicant_credit_score_type', 'co-applicant_credit_score_type', 'applicant_ethnicity-1',
-                        'co-applicant_ethnicity-1', 'applicant_ethnicity_observed', 'co-applicant_ethnicity_observed',
-                        'applicant_race-1', 'co-applicant_race-1', 'applicant_race_observed',
-                        'co-applicant_race_observed', 'applicant_sex', 'co-applicant_sex', 'applicant_sex_observed',
-                        'co-applicant_sex_observed', 'submission_of_application', 'initially_payable_to_institution',
-                        'aus-1', 'denial_reason-1', 'tract_population', 'tract_minority_population_percent',
-                        'ffiec_msa_md_median_family_income', 'tract_to_msa_income_percentage',
-                        'tract_owner_occupied_units', 'tract_one_to_four_family_homes',
-                        'tract_median_age_of_housing_units', 'action_taken']
+        column_array = ['derived_msa-md',  'derived_loan_product_type', 'derived_ethnicity', 'derived_race', 'derived_sex', 'purchaser_type', 'preapproval', 'loan_type', 'loan_purpose', 'lien_status', 'reverse_mortgage', 'open-end_line_of_credit', 'business_or_commercial_purpose', 'loan_amount', 'hoepa_status', 'negative_amortization', 'interest_only_payment', 'balloon_payment', 'other_nonamortizing_features', 'construction_method', 'occupancy_type', 'manufactured_home_secured_property_type', 'manufactured_home_land_property_interest', 'applicant_credit_score_type', 'co-applicant_credit_score_type', 'applicant_ethnicity-1', 'co-applicant_ethnicity-1', 'applicant_ethnicity_observed', 'co-applicant_ethnicity_observed', 'applicant_race-1', 'co-applicant_race-1', 'applicant_race_observed', 'co-applicant_race_observed', 'applicant_sex', 'co-applicant_sex', 'applicant_sex_observed', 'co-applicant_sex_observed', 'submission_of_application', 'initially_payable_to_institution', 'aus-1', 'denial_reason-1', 'tract_population', 'tract_minority_population_percent', 'ffiec_msa_md_median_family_income', 'tract_to_msa_income_percentage', 'tract_owner_occupied_units', 'tract_one_to_four_family_homes', 'tract_median_age_of_housing_units', 'action_taken']
         final_df_zero = final_df_zero.rename(columns={c: column_array[c] for c in range(len(column_array))}, errors="raise")
         final_df_one = final_df_one.rename(columns={c: column_array[c] for c in range(len(column_array))},errors="raise")
     # if df_name == 'Adult':

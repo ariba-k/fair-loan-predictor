@@ -5,10 +5,11 @@ import numpy as np
 from sklearn.metrics import confusion_matrix
 
 
-arrayAddedColumns = []
-arrayPRIVAddedColumns = []
-arrayUNPRIVAddedColumns = []
+
 def makeAddedColumns(test_df_copy, biased_version, sexCArray, raceCArray, ethnicityCArray, y_pred):
+    arrayAddedColumns = []
+    arrayPRIVAddedColumns = []
+    arrayUNPRIVAddedColumns = []
     for i in range(len(biased_version)):
         test_df_copy['current_pred_'] = y_pred
         # test_df_copy["current_pred_"] = pd.to_numeric(test_df_copy.current_pred_, errors='coerce')
@@ -48,22 +49,22 @@ def makeAddedColumns(test_df_copy, biased_version, sexCArray, raceCArray, ethnic
 
         arrayAddedColumns.append('FP_' + biased_version[i])
 
-        if(biased_version[i] == 'allBFNHOLdataset'):
+        if (biased_version[i] == 'allBFNHOLdataset'):
             arrayUNPRIVAddedColumns.append('TP_' + biased_version[i])
             arrayUNPRIVAddedColumns.append('TN_' + biased_version[i])
             arrayUNPRIVAddedColumns.append('FN_' + biased_version[i])
             arrayUNPRIVAddedColumns.append('FP_' + biased_version[i])
-        elif(biased_version[i] == 'allBFHOLdataset'):
+        elif (biased_version[i] == 'allBFHOLdataset'):
             arrayUNPRIVAddedColumns.append('TP_' + biased_version[i])
             arrayUNPRIVAddedColumns.append('TN_' + biased_version[i])
             arrayUNPRIVAddedColumns.append('FN_' + biased_version[i])
             arrayUNPRIVAddedColumns.append('FP_' + biased_version[i])
-        elif(biased_version[i] == 'allBFJointEthnicitydataset'):
+        elif (biased_version[i] == 'allBFJointEthnicitydataset'):
             arrayUNPRIVAddedColumns.append('TP_' + biased_version[i])
             arrayUNPRIVAddedColumns.append('TN_' + biased_version[i])
             arrayUNPRIVAddedColumns.append('FN_' + biased_version[i])
             arrayUNPRIVAddedColumns.append('FP_' + biased_version[i])
-        elif(biased_version[i] == 'allWFNHOLdataset'):
+        elif (biased_version[i] == 'allWFNHOLdataset'):
             arrayPRIVAddedColumns.append('TP_' + biased_version[i])
             arrayPRIVAddedColumns.append('TN_' + biased_version[i])
             arrayPRIVAddedColumns.append('FN_' + biased_version[i])
@@ -93,12 +94,12 @@ def makeAddedColumns(test_df_copy, biased_version, sexCArray, raceCArray, ethnic
             arrayUNPRIVAddedColumns.append('TN_' + biased_version[i])
             arrayUNPRIVAddedColumns.append('FN_' + biased_version[i])
             arrayUNPRIVAddedColumns.append('FP_' + biased_version[i])
-        elif (biased_version[i] ==  'allBMNHOLdataset'):
+        elif (biased_version[i] == 'allBMNHOLdataset'):
             arrayUNPRIVAddedColumns.append('TP_' + biased_version[i])
             arrayUNPRIVAddedColumns.append('TN_' + biased_version[i])
             arrayUNPRIVAddedColumns.append('FN_' + biased_version[i])
             arrayUNPRIVAddedColumns.append('FP_' + biased_version[i])
-        elif (biased_version[i] ==  'allBMHOLdataset'):
+        elif (biased_version[i] == 'allBMHOLdataset'):
             arrayUNPRIVAddedColumns.append('TP_' + biased_version[i])
             arrayUNPRIVAddedColumns.append('TN_' + biased_version[i])
             arrayUNPRIVAddedColumns.append('FN_' + biased_version[i])
@@ -186,6 +187,7 @@ def makeAddedColumns(test_df_copy, biased_version, sexCArray, raceCArray, ethnic
     print(arrayAddedColumns)
     print(arrayUNPRIVAddedColumns)
     print(arrayPRIVAddedColumns)
+    return arrayUNPRIVAddedColumns, arrayPRIVAddedColumns
 
 
 def get_counts_editing(clf, x_train, y_train, x_test, y_test, test_df, biased_version, sexCArray, raceCArray, ethnicityCArray, metric):
@@ -204,19 +206,19 @@ def get_counts_editing(clf, x_train, y_train, x_test, y_test, test_df, biased_ve
     fileToSaveTo1 = str(sys.path[0]) + '\\' + 'FirstTestDFCopy.csv'
     test_df_copy.to_csv(fileToSaveTo1)
 
-    makeAddedColumns(test_df_copy, biased_version, sexCArray, raceCArray, ethnicityCArray, y_pred)
+    arrayUNPRIVAddedColumns, arrayPRIVAddedColumns = makeAddedColumns(test_df_copy, biased_version, sexCArray, raceCArray, ethnicityCArray, y_pred)
 
     fileToSaveTo = str(sys.path[0]) + '\\' + 'TestDFCopyAddedColumns.csv'
     test_df_copy.to_csv(fileToSaveTo)
     print(test_df_copy.head(200))
     print('After makeAddedColumns function:', len(test_df_copy))
 
-    EODdiff = calculate_eod_other(test_df_copy, arrayUNPRIVAddedColumns, arrayPRIVAddedColumns)
+
 
     if metric == 'mEOD':
         return calculate_eod_other(test_df_copy, arrayUNPRIVAddedColumns, arrayPRIVAddedColumns)
     elif metric == 'mAOD':
-        return calculate_aod_other(test_df_copy, arrayUNPRIVAddedColumns, arrayPRIVAddedColumns, EODdiff)
+        return calculate_aod_other(test_df_copy, arrayUNPRIVAddedColumns, arrayPRIVAddedColumns, calculate_eod(test_df_copy, arrayUNPRIVAddedColumns, arrayPRIVAddedColumns))
     elif metric == 'recall':
         return calculate_recall(TP, FP, FN, TN)
     elif metric == 'far':
@@ -230,12 +232,18 @@ def get_counts_editing(clf, x_train, y_train, x_test, y_test, test_df, biased_ve
 #----------------Calculates EOD Metric Function --------------
 
 #Set up Arrays that will be used in the function to compute values
-arrayEOD1 = []
-arrayEOD2 = []
-arrayEOD3 = []
-arrayEOD4 = []
+
 
 def calculate_eod_other(test_df_copy, arrayUNPRIV, arrayPRIV):
+    arrayEOD1 = []
+    arrayEOD2 = []
+    arrayEOD3 = []
+    arrayEOD4 = []
+
+    print("Here is arrayUNPRIV:,", arrayUNPRIV)
+    print("Here is arrayPRIV:", arrayPRIV)
+    print(len(arrayUNPRIV))
+    print(len(arrayPRIV))
     allTPRu = 0
     allTPRp = 0
     countu = 0
@@ -246,31 +254,87 @@ def calculate_eod_other(test_df_copy, arrayUNPRIV, arrayPRIV):
         if k % 4 == 0 or k % 4 == 2:
            arrayEOD1.append(test_df_copy[arrayUNPRIV[k]].sum())
     print('EOD1:', arrayEOD1)
+    print(len(arrayEOD1))
 
     for x in range((len(arrayEOD1) - 1)): # - 1 due to index error
         if x % 2 == 0:
             currentTP = arrayEOD1[x]
+            currentFN = arrayEOD1[x+1]
             totalTPFN = arrayEOD1[x] + arrayEOD1[x + 1]
-            if (totalTPFN == 0):
-                arrayEOD3.append(0)
-            else:
+            if ((currentTP > 4 or currentFN > 4) and totalTPFN != 0):
                 arrayEOD3.append(currentTP/totalTPFN)
     print('EOD3:', arrayEOD3)
+    print(len(arrayEOD3))
 
     for l in range(len(arrayPRIV)):
         if l % 4 == 0 or l % 4 == 2:
            arrayEOD2.append(test_df_copy[arrayPRIV[l]].sum())
     print('EOD2:', arrayEOD2)
+    print(len(arrayEOD2))
 
     for y in range((len(arrayEOD2) - 1)): # - 1 due to index error
         if y % 2 == 0:
             currentTP = arrayEOD2[y]
+            currentFN = arrayEOD2[y + 1]
             totalTPFN = arrayEOD2[y] + arrayEOD2[y + 1]
-            if (totalTPFN == 0):
-                arrayEOD4.append(0)
-            else:
-                arrayEOD4.append(currentTP/totalTPFN)
+            if ((currentTP > 4 or currentFN > 4) and totalTPFN != 0):
+                arrayEOD4.append(currentTP / totalTPFN)
     print('EOD4:', arrayEOD4)
+    print(len(arrayEOD4))
+
+    for w in range(len(arrayEOD3)):
+        allTPRu = allTPRu + arrayEOD3[w]
+        countu = countu + 1
+    avgTPRu = (allTPRu/countu)
+    print(avgTPRu)
+
+    for e in range(len(arrayEOD4)):
+        allTPRp = allTPRp + arrayEOD4[e]
+        countp = countp + 1
+    avgTPRp = (allTPRp/countp)
+    print(avgTPRp)
+
+    EODdiff = avgTPRu - avgTPRp
+
+
+    return EODdiff,
+
+def calculate_eod(test_df_copy, arrayUNPRIV, arrayPRIV):
+    arrayEOD1 = []
+    arrayEOD2 = []
+    arrayEOD3 = []
+    arrayEOD4 = []
+
+    allTPRu = 0
+    allTPRp = 0
+    countu = 0
+    countp = 0
+
+    #This for loop will trek the arrayUnpriviliged function, which holds the TP, TN, FP, FN of all unprivileged datasets, and get the sum of the TP column as well as the FN column and put it in a list (e.g [TP, FN, TP, FN, TP, FN), where TP and FN are actual numerical values
+    for k in range(len(arrayUNPRIV)):
+        if k % 4 == 0 or k % 4 == 2:
+           arrayEOD1.append(test_df_copy[arrayUNPRIV[k]].sum())
+
+
+    for x in range((len(arrayEOD1) - 1)): # - 1 due to index error
+        if x % 2 == 0:
+            currentTP = arrayEOD1[x]
+            currentFN = arrayEOD1[x + 1]
+            totalTPFN = arrayEOD1[x] + arrayEOD1[x + 1]
+            if ((currentTP > 4 or currentFN > 4) and totalTPFN != 0):
+                arrayEOD3.append(currentTP / totalTPFN)
+
+    for l in range(len(arrayPRIV)):
+        if l % 4 == 0 or l % 4 == 2:
+           arrayEOD2.append(test_df_copy[arrayPRIV[l]].sum())
+
+    for y in range((len(arrayEOD2) - 1)): # - 1 due to index error
+        if y % 2 == 0:
+            currentTP = arrayEOD2[y]
+            currentFN = arrayEOD2[y + 1]
+            totalTPFN = arrayEOD2[y] + arrayEOD2[y + 1]
+            if ((currentTP > 4 or currentFN > 4) and totalTPFN != 0):
+                arrayEOD4.append(currentTP / totalTPFN)
 
     for w in range(len(arrayEOD3)):
         allTPRu = allTPRu + arrayEOD3[w]
@@ -286,12 +350,17 @@ def calculate_eod_other(test_df_copy, arrayUNPRIV, arrayPRIV):
     return EODdiff
 
 
+
+
+
 #Calculates AOD Metric Function
-arrayAOD1 = []
-arrayAOD2 = []
-arrayAOD3 = []
-arrayAOD4 = []
+
 def calculate_aod_other(test_df_copy, arrayUNPRIV, arrayPRIV, EODdiff):
+    arrayAOD1 = []
+    arrayAOD2 = []
+    arrayAOD3 = []
+    arrayAOD4 = []
+
     allFPRu = 0
     allFPRp = 0
     countu = 0
@@ -300,6 +369,7 @@ def calculate_aod_other(test_df_copy, arrayUNPRIV, arrayPRIV, EODdiff):
         if k % 4 == 1 or k % 4 == 3:
             arrayAOD1.append(test_df_copy[arrayUNPRIV[k]].sum())
     print('AOD1:', arrayAOD1)
+    print(len(arrayAOD1))
 
     for x in range((len(arrayAOD1) - 1)):  # - 1 due to index error
         if x % 2 == 0:
@@ -310,11 +380,13 @@ def calculate_aod_other(test_df_copy, arrayUNPRIV, arrayPRIV, EODdiff):
             else:
                 arrayAOD3.append(currentFP / totalFPTN)
     print('AOD3:', arrayAOD3)
+    print(len(arrayAOD3))
 
     for l in range(len(arrayPRIV)):
         if l % 4 == 1 or l % 4 == 3:
             arrayAOD2.append(test_df_copy[arrayPRIV[l]].sum())
     print('AOD2:', arrayAOD2)
+    print(len(arrayAOD2))
 
     for y in range((len(arrayAOD2) - 1)):  # - 1 due to index error
         if y % 2 == 0:
@@ -325,6 +397,7 @@ def calculate_aod_other(test_df_copy, arrayUNPRIV, arrayPRIV, EODdiff):
             else:
                 arrayAOD4.append(currentFP / totalFPTN)
     print('AOD4:', arrayAOD4)
+    print(len(arrayAOD4))
 
     for w in range(len(arrayAOD3)):
         allFPRu = allFPRu + arrayAOD3[w]

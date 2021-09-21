@@ -17,7 +17,7 @@ from SMOTE import smote
 from Generate_Samples import generate_samples
 from Delete_Samples import delete_samples
 from Measure import measure_final_score
-from Usage import arrayDatasets, sexCArray, raceCArray, ethnicityCArray
+
 
 sys.path.append(os.path.abspath('..'))
 
@@ -26,7 +26,7 @@ sys.path.append(os.path.abspath('..'))
 ###======================Part 1: Code and Preprocessing Begins======================
 base_path = str(sys.path[0])
 
-input_file = base_path + '\\Data\\raw_state_CA.csv'
+input_file = base_path + '\\Data\\HMDA_20205.csv'
 interm_file = base_path + '\\Data\\FirstBalancedCA.csv'
 process_scale_file = base_path + '\\Data\\processedscaledCANOW.csv'
 other_file = base_path + '\\Data\\newDatasetOrig.csv'
@@ -37,7 +37,7 @@ dataset_orig = pd.read_csv(input_file, dtype=object)
 print('Data', dataset_orig.shape)
 print(dataset_orig[['derived_msa-md', 'derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']])
 
-#switch action_taken to last column 
+#switch action_taken to last column
 action_taken_col = dataset_orig.pop('action_taken')
 dataset_orig.insert(len(dataset_orig.columns), 'action_taken', action_taken_col)
 
@@ -54,7 +54,18 @@ def scale_dataset(processed_df):
 ###------------------Preprocessing Function (includes Scaling)------------------------
 def preprocessing(dataset_orig):
     # if you want 'derived_loan_product_type' column add here
-    dataset_orig = dataset_orig[['derived_msa-md',  'derived_loan_product_type', 'derived_ethnicity', 'derived_race', 'derived_sex', 'purchaser_type', 'preapproval', 'loan_type', 'loan_purpose', 'lien_status', 'reverse_mortgage', 'open-end_line_of_credit', 'business_or_commercial_purpose', 'loan_amount', 'hoepa_status', 'negative_amortization', 'interest_only_payment', 'balloon_payment', 'other_nonamortizing_features', 'construction_method', 'occupancy_type', 'manufactured_home_secured_property_type', 'manufactured_home_land_property_interest', 'applicant_credit_score_type', 'co-applicant_credit_score_type', 'applicant_ethnicity-1', 'co-applicant_ethnicity-1', 'applicant_ethnicity_observed', 'co-applicant_ethnicity_observed', 'applicant_race-1', 'co-applicant_race-1', 'applicant_race_observed', 'co-applicant_race_observed', 'applicant_sex', 'co-applicant_sex', 'applicant_sex_observed', 'co-applicant_sex_observed', 'submission_of_application', 'initially_payable_to_institution', 'aus-1', 'denial_reason-1', 'tract_population', 'tract_minority_population_percent', 'ffiec_msa_md_median_family_income', 'tract_to_msa_income_percentage', 'tract_owner_occupied_units', 'tract_one_to_four_family_homes', 'tract_median_age_of_housing_units', 'action_taken']]
+    dataset_orig = dataset_orig[['derived_msa-md', 'derived_loan_product_type', 'derived_ethnicity', 'derived_race', 'derived_sex',
+     'purchaser_type', 'preapproval', 'loan_type', 'loan_purpose', 'lien_status', 'reverse_mortgage',
+     'open-end_line_of_credit', 'business_or_commercial_purpose', 'loan_amount', 'hoepa_status',
+     'negative_amortization', 'interest_only_payment', 'balloon_payment', 'other_nonamortizing_features', 'construction_method',
+     'occupancy_type', 'manufactured_home_secured_property_type', 'manufactured_home_land_property_interest','applicant_credit_score_type',
+     'co-applicant_credit_score_type', 'applicant_ethnicity-1', 'co-applicant_ethnicity-1', 'applicant_ethnicity_observed',
+     'co-applicant_ethnicity_observed', 'applicant_race-1', 'co-applicant_race-1', 'applicant_race_observed','co-applicant_race_observed',
+     'applicant_sex', 'co-applicant_sex', 'applicant_sex_observed', 'co-applicant_sex_observed','submission_of_application',
+     'initially_payable_to_institution', 'aus-1', 'denial_reason-1', 'tract_population','tract_minority_population_percent',
+     'ffiec_msa_md_median_family_income', 'tract_to_msa_income_percentage', 'tract_owner_occupied_units','tract_one_to_four_family_homes',
+     'tract_median_age_of_housing_units', 'action_taken']]
+
 
 
     # Below we are taking out rows in the dataset with values we do not care for. This is from lines 23 - 99.
@@ -85,7 +96,7 @@ def preprocessing(dataset_orig):
     print('ethnicity: ' + str(dataset_orig.shape))
     print(dataset_orig[['derived_msa-md', 'derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']])
 
-    ###----------------Action_Taken-----------------
+    #----------------Action_Taken-----------------
     dataset_orig = dataset_orig[(dataset_orig['action_taken'] == '1') |
                                 (dataset_orig['action_taken'] == '2') |
                                 (dataset_orig['action_taken'] == '3')]
@@ -121,6 +132,7 @@ def preprocessing(dataset_orig):
     return dataset_orig
 
 
+
 ###---------Call the Function to create processed_scaled_df---------------
 processed_scaled_df = preprocessing(dataset_orig)
 print(processed_scaled_df[['derived_msa-md', 'derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']])
@@ -141,6 +153,46 @@ print(processed_scaled_df.shape)
 np.random.seed(0)
 # Divide into train,validation,test
 
+arrayDatasets = [
+                'allBFNHOLdataset',
+                'allBFHOLdataset',
+                'allBFJointEthnicitydataset',
+                'allWFNHOLdataset',
+                'allWFHOLdataset',
+                'allWFJointEthnicitydataset',
+                'allJointRaceFemaleNHOLdataset',
+                'allJointRaceFemaleHOLdataset',
+                'allJointRaceFemaleJointEthnicitydataset',
+                'allBMNHOLdataset',
+                'allBMHOLdataset',
+                'allBMJointEthnicitydataset',
+                'allWMNHOLdataset',
+                'allWMHOLdataset',
+                'allWMJointEthnicitydataset',
+                'allJointRaceMaleNHOLdataset',
+                'allJointRaceMaleHOLdataset',
+                'allJointRaceMaleJointEthnicitydataset',
+                'allJointSexBlacksNHOLdataset',
+                'allJointSexBlacksHOLdataset',
+                'allJointSexBlacksJointEthnicitydataset',
+                'allJointSexWhitesNHOLdataset',
+                'allJointSexWhitesHOLdataset',
+                'allJointSexWhitesJointEthnicitydataset',
+                'allJointSexJointRaceNHOLdataset',
+                'allJointSexJointRaceHOLdataset',
+                'allJointSexJointRaceJointEthnicitydataset'
+                 ]
+
+sexCArray = [0,0,0,0,0,0,0,0,0,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,1,1,1,1,1,1,1,1,1]
+
+raceCArray = [0,0,0,0.5,0.5,0.5,1,1,1,0,0,0,0.5,0.5,0.5,1,1,1,0,0,0,0.5,0.5,0.5,1,1,1]
+
+ethnicityCArray = [0.5, 0, 1, 0.5, 0, 1, 0.5, 0, 1, 0.5, 0, 1, 0.5, 0, 1, 0.5, 0, 1, 0.5, 0, 1, 0.5, 0, 1, 0.5, 0, 1]
+
+
+
+
+
 processed_scaled_train, processed_and_scaled_test = train_test_split(processed_scaled_df, test_size=0.2, random_state=0,shuffle = True)
 print(processed_scaled_train)
 print(processed_and_scaled_test)
@@ -152,6 +204,7 @@ clf = LogisticRegression(C=1.0, penalty='l2', solver='liblinear', max_iter=100)
 
 print("mAOD:",measure_final_score(processed_and_scaled_test, clf, X_train, y_train, X_test, y_test, arrayDatasets, sexCArray, raceCArray, ethnicityCArray, 'mAOD'))
 print("mEOD:",measure_final_score(processed_and_scaled_test, clf, X_train, y_train, X_test, y_test, arrayDatasets, sexCArray, raceCArray, ethnicityCArray,'mEOD'))
+print("ACC:", clf.score(X_test, y_test))
 ##-----------------------------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -202,6 +255,54 @@ combination_names = ['nhol_w_m', 'nhol_w_f', 'nhol_w_j',
                      'j_j_m', 'j_j_f', 'j_j_j',
                      'j_b_m', 'j_b_f','j_b_j']
 
+#----------------------------------------FAIRNESS METRIC CODE----------------------------------
+def evaluteDPI(df):
+    df_train, df_test = train_test_split(df, test_size=0.3, random_state=0, shuffle=True)
+    X_train, y_train = df_train.loc[:, df_train.columns != 'action_taken'], \
+                       df_train['action_taken']
+
+    # Not needed--only need the test dataset
+    # X_test, y_test = df_test.loc[:, df_test.columns != 'action_taken'], \
+    #                  df_test['action_taken']
+
+    clf = LogisticRegression(C=1.0, penalty='l2', solver='liblinear', max_iter=100)
+    clf.fit(X_train, y_train)
+
+    removal_list = []
+
+    for index, row in df_test.iterrows():
+        pred_list = []
+        row_ = [row.values[0:len(row.values) - 1]]
+        for other_index, other_row in global_unique_df.iterrows():
+            current_comb = other_row.values[
+                           0:len(other_row.values)]  ## indexes are 2, 3, 4 for ethnicity, race, sex respectively
+            original_ethnic, original_race, original_sex = row_[0][2], row_[0][3], row_[0][4]
+            row_[0][2] = current_comb[0]  ##don't know confirm what this is
+            row_[0][3] = current_comb[1]
+            row_[0][4] = current_comb[2]
+            y_current_pred = clf.predict(row_)[0]
+            pred_list.append(y_current_pred)
+            row_[0][2], row_[0][3], row_[0][4] = original_ethnic, original_race, original_sex
+
+        num_unique_vals = len(set(pred_list))
+
+        if num_unique_vals > 1:
+            removal_list.append(index)
+        elif num_unique_vals == 0:
+            raise EmptyList
+
+    removal_list = set(removal_list)
+    total_biased_points = len(removal_list)
+    print('total_biased_points:', total_biased_points)
+    total_dataset_points = df_test.shape[0]
+
+    # pecentage of points unfairly predicted by the model
+    DPI = total_biased_points / total_dataset_points
+
+    return DPI
+
+DPI_intial = evaluteDPI(processed_scaled_df)
+print("|||||||||||||||This is intial DPI:", DPI_intial,"||||||||||||||||||||||||||")
 # # uncomment to see which name is associated with which combination
 # for n, c in zip(combination_names, combination_df):
 #     print(n, c[['derived_msa-md', 'derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']])
@@ -482,9 +583,16 @@ def get_metrics(df):
 
 balanced_and_situation_df.to_csv(interm_file)
 get_metrics(balanced_and_situation_df)
+
+DPI_final = evaluteDPI(balanced_and_situation_df)
+print("|||||||||||||||This is final DPI:", DPI_final,"||||||||||||||||||||||||||")
 #-----------------------------------Second Balancing--------------------------------
 # othernew_dataset_orig = do_balancing_procedure(balanced_and_situation_df)
 #
 # othernew_dataset_orig.to_csv(output_file, index=False)
 # get_metrics(othernew_dataset_orig)
+
+
+
+
 
