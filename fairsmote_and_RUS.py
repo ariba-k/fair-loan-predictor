@@ -26,7 +26,7 @@ sys.path.append(os.path.abspath('..'))
 ###======================Part 1: Code and Preprocessing Begins======================
 base_path = str(sys.path[0])
 
-input_file = base_path + '\\Data\\HMDA_20205.csv'
+input_file = base_path + '\\Data\\raw_state_CT.csv'
 interm_file = base_path + '\\Data\\FirstBalancedCA.csv'
 process_scale_file = base_path + '\\Data\\processedscaledCANOW.csv'
 other_file = base_path + '\\Data\\newDatasetOrig.csv'
@@ -586,6 +586,21 @@ get_metrics(balanced_and_situation_df)
 
 DPI_final = evaluteDPI(balanced_and_situation_df)
 print("|||||||||||||||This is final DPI:", DPI_final,"||||||||||||||||||||||||||")
+
+
+# ======================================================START OF PSCF=========================================
+nonbiased_features = ["purchaser_type", "tract_median_age_of_housing_units", "tract_owner_occupied_units", "tract_population", "aus-1", "initially_payable_to_institution", "submission_of_application", "co-applicant_credit_score_type", "applicant_credit_score_type", "other_nonamortizing_features", "balloon_payment", "interest_only_payment", "negative_amortization", "action_taken"]
+###======================Part 2: Using PSCF Begins================================
+#Make sure the list of nonbiased featueres also contains the label
+def PSCF(list_of_nonbiased_features, dataset):
+    dataset_orig_nonbiased_features = dataset[list_of_nonbiased_features]
+    return dataset_orig_nonbiased_features
+
+PSCF_df = PSCF(nonbiased_features, balanced_and_situation_df)
+PSCF_DPI = evaluteDPI(PSCF_df)
+
+("Here is the final result, PSCF_DPI:", PSCF_DPI)
+
 #-----------------------------------Second Balancing--------------------------------
 # othernew_dataset_orig = do_balancing_procedure(balanced_and_situation_df)
 #
