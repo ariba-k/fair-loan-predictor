@@ -1,17 +1,9 @@
 #-------------------Imports---------------------------
 
-from itertools import product
-
 import pandas as pd
-from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
-from sklearn.utils import resample
-
-from Delete_Samples import delete_samples
-from Generate_Samples import generate_samples
-from SMOTE import smote
 
 input_file = r'C:\Users\jasha\Documents\GitHub\fair-loan-predictor\Data\raw_state_CT.csv'
 dataset_orig = pd.read_csv(input_file, dtype=object)

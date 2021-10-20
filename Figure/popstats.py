@@ -28,10 +28,32 @@ print('Data', dataset_orig.shape)
 print(dataset_orig[[ 'income', 'derived_sex', 'action_taken']])
 
 
+
+def removeExempt(array_columns, df):
+    for startIndex in range(len(array_columns)):
+        currentIndexName = df[df[array_columns[startIndex]] == "Exempt"].index
+        df.drop(currentIndexName, inplace=True)
+
+def removeBlank(array_columns, df):
+    for startIndex in range(len(array_columns)):
+        currentIndexName = df[df[array_columns[startIndex]] == ""].index
+        df.drop(currentIndexName, inplace=True)
+
+
+def bucketingColumns(column, arrayOfUniqueVals, nicheVar):
+    currentCol = column
+    for firstIndex in range(len(arrayOfUniqueVals)):
+        try:
+            dataset_orig.loc[(nicheVar == arrayOfUniqueVals[firstIndex]), currentCol] = firstIndex
+        except:
+            print("This number didn't work:\n", firstIndex)
+
+
+
 def preprocessing(dataset_orig):
     # if you want 'derived_loan_product_type' column add here
     dataset_orig = dataset_orig[['derived_msa-md', 'derived_loan_product_type', 'derived_ethnicity', 'derived_race', 'derived_sex',
-     'purchaser_type', 'preapproval', 'loan_type', 'loan_purpose', 'lien_status', 'reverse_mortgage', 'income',
+     'purchaser_type', 'preapproval', 'loan_type', 'loan_purpose', 'lien_status', 'reverse_mortgage', 'income', 'interest_rate',
      'open-end_line_of_credit', 'business_or_commercial_purpose', 'loan_amount', 'hoepa_status',
      'negative_amortization', 'interest_only_payment', 'balloon_payment', 'other_nonamortizing_features', 'construction_method',
      'occupancy_type', 'manufactured_home_secured_property_type', 'manufactured_home_land_property_interest','applicant_credit_score_type',
@@ -92,6 +114,11 @@ def preprocessing(dataset_orig):
 
     ##----------------Solve NAN problem-----------
 
+    array_columns_to_remove = ["interest_rate"]
+    print("THIS IS ME", dataset_orig[['derived_msa-md', 'derived_ethnicity', 'derived_race', 'derived_sex', 'interest_rate', 'action_taken']].head(50))
+    removeExempt(array_columns_to_remove, dataset_orig)
+    removeBlank(array_columns_to_remove, dataset_orig)
+    print(dataset_orig[['derived_msa-md', 'derived_ethnicity', 'derived_race', 'derived_sex', 'interest_rate', 'action_taken']].head(50))
     dataset_orig = dataset_orig.apply(pd.to_numeric)
     dataset_orig = dataset_orig.dropna()
     float_col = dataset_orig.select_dtypes(include=['float64'])
@@ -140,7 +167,7 @@ comb_race_df, unique_race_df = split_dataset(processed_dataset, ind_cols)
 print('race:', comb_race_df[1][["derived_race", "income"]])
 
 
-array_col = ["income", "loan_amount"] #HYPER
+array_col = ["income", "loan_amount", "interest_rate"] #HYPER
 
 def getMeans(array_col_means, df):
     for col in range(len(array_col_means)):
@@ -152,6 +179,7 @@ def getMedians(array_col_medians, df):
 
 def evaluteMeansandMedians(comb_df):
     for df in comb_df:
+        print(df.shape[0])
         getMeans(array_col, df)
         getMedians(array_col, df)
 

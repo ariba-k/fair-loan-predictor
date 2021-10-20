@@ -5,15 +5,38 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="08549712-c9b3-423f-a3e9-b196cf4c0b3f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Data/HMDA_2020_Data.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Data/All_HMDA_Debiased.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Data/addition_file.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Data/raw_state_NV.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DualFair/fairsmote_and_RUS.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DualFair/samples.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Results/CT_results.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/FirstBalancedCT.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/FirstBalancedCT.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/hijashan.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/hijashan.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Data/newDatasetOrig.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/newDatasetOrig.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/processedscaledCANOW.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/processedscaledCANOW.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Delete_Samples.py" beforeDir="false" afterPath="$PROJECT_DIR$/DualFair/Delete_Samples.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Figure/plainmodel.py" beforeDir="false" afterPath="$PROJECT_DIR$/Figure/plainmodel.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Figure/popstats.py" beforeDir="false" afterPath="$PROJECT_DIR$/Figure/popstats.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FirstTestDFCopy.csv" beforeDir="false" afterPath="$PROJECT_DIR$/FirstTestDFCopy.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TestDFCopyAddedColumns.csv" beforeDir="false" afterPath="$PROJECT_DIR$/TestDFCopyAddedColumns.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fairsmote_and_RUS.py" beforeDir="false" afterPath="$PROJECT_DIR$/fairsmote_and_RUS.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FirstTestDFCopy.csv" beforeDir="false" afterPath="$PROJECT_DIR$/DualFair/FirstTestDFCopy.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Generate_Samples.py" beforeDir="false" afterPath="$PROJECT_DIR$/DualFair/Generate_Samples.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Measure.py" beforeDir="false" afterPath="$PROJECT_DIR$/DualFair/Measure.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PSCF.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PSCF/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/Figure/balancefig.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/DualFair/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Reference/TestDFCopyAddedColumns.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Reference/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/Results/graphics.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Reference/actualdebiasing.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Reference/adultdebiasing.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Reference/codeAndcollproblem.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Reference/findingData.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SMOTE.py" beforeDir="false" afterPath="$PROJECT_DIR$/DualFair/SMOTE.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestDFCopyAddedColumns.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Usage.py" beforeDir="false" afterPath="$PROJECT_DIR$/DualFair/Usage.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/balancer.py" beforeDir="false" afterPath="$PROJECT_DIR$/DualFair/balancer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/balancingReal.py" beforeDir="false" afterPath="$PROJECT_DIR$/DualFair/balancingReal.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fairsmote.py" beforeDir="false" afterPath="$PROJECT_DIR$/DualFair/fairsmote.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fairsmote_and_RUS.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fairsmotedit.py" beforeDir="false" afterPath="$PROJECT_DIR$/DualFair/fairsmotedit.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,25 +73,26 @@
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/Figure/popstats.py" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.smartKeys" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\jasha\Documents\GitHub\fair-loan-predictor\Data" />
       <recent name="C:\Users\Arash\OneDrive\Documents\GitHub\fair-loan-predictor\Data" />
       <recent name="C:\Users\Arash\OneDrive\Documents\GitHub\fair-loan-predictor" />
       <recent name="C:\Users\Arash\PycharmProjects\TransferProject" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\jasha\Documents\GitHub\fair-loan-predictor\DualFair" />
       <recent name="C:\Users\jasha\Documents\GitHub\fair-loan-predictor\Data" />
       <recent name="C:\Users\jasha\Documents\GitHub\fair-loan-predictor" />
       <recent name="C:\Users\jasha\Documents\GitHub\fair-loan-predictor\Reference" />
       <recent name="C:\Users\Arash\OneDrive\Documents\GitHub\fair-loan-predictor" />
-      <recent name="C:\Users\Arash\OneDrive\Documents\GitHub\fair-loan-predictor\FairSMOTE" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.Popstats">
+  <component name="RunManager" selected="Python.balancefig">
     <configuration name="Fair_SMOTE_RUS" type="PythonConfigurationType" factoryName="Python">
       <module name="TransferProject" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -81,7 +105,7 @@
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/fairsmote_and_RUS.py" />
+      <option name="SCRIPT_NAME" value="C:\Users\jasha\Documents\GitHub\fair-loan-predictor\DualFair\fairsmote_and_RUS.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -153,6 +177,27 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="balancefig" type="PythonConfigurationType" factoryName="Python">
+      <module name="TransferProject" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\jasha\venv\Scripts\pythonw.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Figure" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Figure/balancefig.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="balancing" type="PythonConfigurationType" factoryName="Python">
       <module name="TransferProject" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -207,7 +252,7 @@
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/balancingReal.py" />
+      <option name="SCRIPT_NAME" value="C:\Users\jasha\Documents\GitHub\fair-loan-predictor\DualFair\balancingReal.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -249,7 +294,7 @@
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/fairsmote_and_RUS.py" />
+      <option name="SCRIPT_NAME" value="C:\Users\jasha\Documents\GitHub\fair-loan-predictor\DualFair\fairsmote_and_RUS.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -270,7 +315,7 @@
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/fairsmote.py" />
+      <option name="SCRIPT_NAME" value="C:\Users\jasha\Documents\GitHub\fair-loan-predictor\DualFair\fairsmote.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -312,7 +357,28 @@
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/fairsmotedit.py" />
+      <option name="SCRIPT_NAME" value="C:\Users\jasha\Documents\GitHub\fair-loan-predictor\DualFair\fairsmotedit.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="graphics" type="PythonConfigurationType" factoryName="Python">
+      <module name="TransferProject" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\jasha\venv\Scripts\pythonw.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Results" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Results/graphics.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -405,6 +471,27 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="test" type="PythonConfigurationType" factoryName="Python">
+      <module name="TransferProject" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\jasha\venv\Scripts\pythonw.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="C:\Users\jasha\Documents\GitHub\fair-loan-predictor\DualFair\test.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="usage" type="PythonConfigurationType" factoryName="Python">
       <module name="TransferProject" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -417,7 +504,7 @@
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Usage.py" />
+      <option name="SCRIPT_NAME" value="C:\Users\jasha\Documents\GitHub\fair-loan-predictor\DualFair\Usage.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -428,6 +515,7 @@
     </configuration>
     <list>
       <item itemvalue="Python.Fair_SMOTE_RUS" />
+      <item itemvalue="Python.balancefig" />
       <item itemvalue="Python.Popstats" />
       <item itemvalue="Python.actualdebiasing" />
       <item itemvalue="Python.adultdebiasing" />
@@ -442,6 +530,8 @@
       <item itemvalue="Python.newdebiasing" />
       <item itemvalue="Python.otherdebiasing" />
       <item itemvalue="Python.plainmodel" />
+      <item itemvalue="Python.test" />
+      <item itemvalue="Python.graphics" />
       <item itemvalue="Python.usage" />
     </list>
   </component>
