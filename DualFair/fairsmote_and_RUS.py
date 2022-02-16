@@ -4,6 +4,7 @@ import sys
 import numpy as np
 import pandas as pd
 import statistics
+import copy,math
 
 from statistics import median
 from itertools import product
@@ -17,6 +18,7 @@ from sklearn.metrics import confusion_matrix
 from SMOTE import smote
 from Generate_Samples import generate_samples
 from Delete_Samples import delete_samples
+from Measure import measure_new_eod, measure_new_aod
 
 sys.path.append(os.path.abspath('../..'))
 
@@ -31,7 +33,7 @@ class EmptyList(Exception):
 ###======================Part 1: Code and Preprocessing Begins======================
 base_path = str(sys.path[0])
 
-input_file = base_path + '/Data/raw_state_IL.csv'
+input_file = base_path + '/Data/raw_state_NV.csv'
 input_file_1 = base_path + '/Data/HMDA_2020_Data.csv'
 input_file_2 = base_path + '/Data/HMDA_2019_Data.csv'
 input_file_3 = base_path + '/Data/HMDA_2018_Data.csv'
@@ -48,17 +50,18 @@ output_file = base_path + '/Data/DoubleBalancedCA.csv'
 result_file = base_path + '/Results/CT_results.csv'
 
 
+# print("I'M INPUT:", input_file)
 print("I'M INPUT:", input_file_1, input_file_2, input_file_3)
 # print("Yeah, the add file is here", add_file)
 # print("Yello:", add_file_2)
 # dataset_orig = pd.read_csv(input_file, dtype=object)
-df_2020 = pd.read_csv(input_file_1, dtype=object).sample(n=4000000)
-df_2019 = pd.read_csv(input_file_2, dtype=object).sample(n=4000000)
-df_2018 = pd.read_csv(input_file_3, dtype=object).sample(n=4000000)
+df_2020 = pd.read_csv(input_file_1, dtype=object).sample(n=755000)
+df_2019 = pd.read_csv(input_file_2, dtype=object).sample(n=755000)
+df_2018 = pd.read_csv(input_file_3, dtype=object).sample(n=755000)
 dataset_orig = pd.concat([df_2020, df_2019, df_2018])
 dataset_orig = dataset_orig.sample(frac=1)
 dataset_orig.reset_index(drop=True, inplace=True)
-
+print('This is the rows', dataset_orig.shape[0])
 
 print('Data', dataset_orig.shape)
 print(dataset_orig[['derived_msa-md', 'derived_ethnicity', 'derived_race', 'derived_sex', 'action_taken']])
@@ -293,6 +296,32 @@ def calculate_F1(TP,FP,FN,TN):
     F1 = (2 * precision * recall)/(precision + recall)
     return round(F1,2)
 
+def evaluate_eod(df, biased_col):
+    df_train, df_test = train_test_split(df, test_size=0.3, random_state=0, shuffle=True)
+    X_train, y_train = df_train.loc[:, df_train.columns != 'action_taken'], \
+                       df_train['action_taken']
+    X_test, y_test = df_test.loc[:, df_test.columns != 'action_taken'], \
+                     df_test['action_taken']
+
+    clf_1 = LogisticRegression(C=1.0, penalty='l2', solver='liblinear', max_iter=100)
+    clf_1.fit(X_train, y_train)
+    y_pred = clf.predict(X_test)
+
+    return measure_new_eod(df_test, biased_col, y_pred)
+
+def evaluate_aod(df, biased_col):
+    df_train, df_test = train_test_split(df, test_size=0.3, random_state=0, shuffle=True)
+    X_train, y_train = df_train.loc[:, df_train.columns != 'action_taken'], \
+                       df_train['action_taken']
+    X_test, y_test = df_test.loc[:, df_test.columns != 'action_taken'], \
+                     df_test['action_taken']
+
+    clf_1 = LogisticRegression(C=1.0, penalty='l2', solver='liblinear', max_iter=100)
+    clf_1.fit(X_train, y_train)
+    y_pred = clf.predict(X_test)
+
+    return measure_new_aod(df_test, biased_col, y_pred)
+
 
 # ---------------------------------------- NOVEL FAIRNESS METRIC ----------------------------------
 def evaluate_awi(df):
@@ -358,13 +387,27 @@ def evaluate_awi(df):
     return AWI, acc, precision, recall, far, F1
 
 
-AWI_initial, acc_intial, precision_intial, recall_intial, far_intial, F1_intial = evaluate_awi(processed_scaled_df)
-print("||||||||||||||| Initial AWI:", AWI_initial, "||||||||||||||||||||||||||")
-print("||||||||||||||| Initial Acc:", acc_intial, "||||||||||||||||||||||||||")
-print("||||||||||||||| Initial Precision:", precision_intial, "||||||||||||||||||||||||||")
-print("||||||||||||||| Initial Recall:", recall_intial, "||||||||||||||||||||||||||")
-print("||||||||||||||| Initial False Alarm Rate:", far_intial, "||||||||||||||||||||||||||")
-print("||||||||||||||| Initial F1:", F1_intial, "||||||||||||||||||||||||||")
+# AWI_initial, acc_intial, precision_intial, recall_intial, far_intial, F1_intial = evaluate_awi(processed_scaled_df)
+EOD_sex_intial = evaluate_eod(processed_scaled_df, "derived_sex")
+EOD_race_intial= evaluate_eod(processed_scaled_df, "derived_race")
+EOD_ethnicity_intial = evaluate_eod(processed_scaled_df, "derived_ethnicity")
+AOD_sex_intial = evaluate_aod(processed_scaled_df, "derived_sex")
+AOD_race_intial= evaluate_aod(processed_scaled_df, "derived_race")
+AOD_ethnicity_intial = evaluate_aod(processed_scaled_df, "derived_ethnicity")
+
+# print("||||||||||||||| Initial AWI:", AWI_initial, "||||||||||||||||||||||||||")
+# print("||||||||||||||| Initial Acc:", acc_intial, "||||||||||||||||||||||||||")
+# print("||||||||||||||| Initial Precision:", precision_intial, "||||||||||||||||||||||||||")
+# print("||||||||||||||| Initial Recall:", recall_intial, "||||||||||||||||||||||||||")
+# print("||||||||||||||| Initial False Alarm Rate:", far_intial, "||||||||||||||||||||||||||")
+# print("||||||||||||||| Initial F1:", F1_intial, "||||||||||||||||||||||||||")
+print("||||||||||||||| Initial EOD_sex:", EOD_sex_intial, "||||||||||||||||||||||||||")
+print("||||||||||||||| Initial EOD_race:", EOD_race_intial, "||||||||||||||||||||||||||")
+print("||||||||||||||| Initial EOD_ethnicity:", EOD_ethnicity_intial, "||||||||||||||||||||||||||")
+print("||||||||||||||| Initial AOD_sex:", AOD_sex_intial, "||||||||||||||||||||||||||")
+print("||||||||||||||| Initial AOD_race:", AOD_race_intial, "||||||||||||||||||||||||||")
+print("||||||||||||||| Initial AOD_ethnicity:", AOD_ethnicity_intial, "||||||||||||||||||||||||||")
+
 
 def get_median_val(combination_df):
     current_total = 0
@@ -564,29 +607,48 @@ print(df_removed)
 
 balanced_and_situation_df.to_csv(final_file)
 
-AWI_final, acc_final, precision_final, recall_final, far_final, F1_final = evaluate_awi(balanced_and_situation_df)
+# AWI_final, acc_final, precision_final, recall_final, far_final, F1_final = evaluate_awi(balanced_and_situation_df)
+EOD_sex_final = evaluate_eod(balanced_and_situation_df, "derived_sex")
+EOD_race_final = evaluate_eod(balanced_and_situation_df, "derived_race")
+EOD_ethnicity_final = evaluate_eod(balanced_and_situation_df, "derived_ethnicity")
+AOD_sex_final = evaluate_aod(processed_scaled_df, "derived_sex")
+AOD_race_final= evaluate_aod(processed_scaled_df, "derived_race")
+AOD_ethnicity_final = evaluate_aod(processed_scaled_df, "derived_ethnicity")
 
 print("I WAS median", mean_val)
 
-print("||||||||||||||| Initial AWI:", AWI_initial, "||||||||||||||||||||||||||")
-print("||||||||||||||| Initial Acc:", acc_intial, "||||||||||||||||||||||||||")
-print("||||||||||||||| Initial Precision:", precision_intial, "||||||||||||||||||||||||||")
-print("||||||||||||||| Initial Recall:", recall_intial, "||||||||||||||||||||||||||")
-print("||||||||||||||| Initial False Alarm Rate:", far_intial, "||||||||||||||||||||||||||")
-print("||||||||||||||| Initial F1:", F1_intial, "||||||||||||||||||||||||||")
+# print("||||||||||||||| Initial AWI:", AWI_initial, "||||||||||||||||||||||||||")
+# print("||||||||||||||| Initial Acc:", acc_intial, "||||||||||||||||||||||||||")
+# print("||||||||||||||| Initial Precision:", precision_intial, "||||||||||||||||||||||||||")
+# print("||||||||||||||| Initial Recall:", recall_intial, "||||||||||||||||||||||||||")
+# print("||||||||||||||| Initial False Alarm Rate:", far_intial, "||||||||||||||||||||||||||")
+# print("||||||||||||||| Initial F1:", F1_intial, "||||||||||||||||||||||||||")
+print("||||||||||||||| Initial EOD_sex:", EOD_sex_intial, "||||||||||||||||||||||||||")
+print("||||||||||||||| Initial EOD_race:", EOD_race_intial, "||||||||||||||||||||||||||")
+print("||||||||||||||| Initial EOD_ethnicity:", EOD_ethnicity_intial, "||||||||||||||||||||||||||")
+print("||||||||||||||| Initial AOD_sex:", AOD_sex_intial, "||||||||||||||||||||||||||")
+print("||||||||||||||| Initial AOD_race:", AOD_race_intial, "||||||||||||||||||||||||||")
+print("||||||||||||||| Initial AOD_ethnicity:", AOD_ethnicity_intial, "||||||||||||||||||||||||||")
 
 print("////////////////////////////////////////////////////////////////////////////////////////////////////////")
 
-print("|||||||||||||||Final AWI:", AWI_final, "||||||||||||||||||||||||||")
-print("||||||||||||||| Final Acc:", acc_final, "||||||||||||||||||||||||||")
-print("||||||||||||||| Final Precision:", precision_final, "||||||||||||||||||||||||||")
-print("||||||||||||||| Final Recall:", recall_final, "||||||||||||||||||||||||||")
-print("||||||||||||||| Final False Alarm Rate:", far_final, "||||||||||||||||||||||||||")
-print("||||||||||||||| Final F1:", F1_final, "||||||||||||||||||||||||||")
-
-d = {'AWI': [AWI_initial, AWI_final], 'Acc': [acc_intial, acc_final], 'Precision': [precision_intial, precision_final] , 'Recall': [recall_intial, recall_final], 'False Alarm Rate': [far_intial, far_final], "F1": [F1_intial, F1_final]}
-results_df = pd.DataFrame(data=d)
-results_df.to_csv(result_file, index=False)
+# print("|||||||||||||||Final AWI:", AWI_final, "||||||||||||||||||||||||||")
+# print("||||||||||||||| Final Acc:", acc_final, "||||||||||||||||||||||||||")
+# print("||||||||||||||| Final Precision:", precision_final, "||||||||||||||||||||||||||")
+# print("||||||||||||||| Final Recall:", recall_final, "||||||||||||||||||||||||||")
+# print("||||||||||||||| Final False Alarm Rate:", far_final, "||||||||||||||||||||||||||")
+# print("||||||||||||||| Final F1:", F1_final, "||||||||||||||||||||||||||")
+print("||||||||||||||| Final EOD_sex:", EOD_sex_final, "||||||||||||||||||||||||||")
+print("||||||||||||||| Final EOD_race:", EOD_race_final, "||||||||||||||||||||||||||")
+print("||||||||||||||| Final EOD_ethnicity:", EOD_ethnicity_final, "||||||||||||||||||||||||||")
+print("||||||||||||||| Final AOD_sex:", AOD_sex_final, "||||||||||||||||||||||||||")
+print("||||||||||||||| Final AOD_race:", AOD_race_final, "||||||||||||||||||||||||||")
+print("||||||||||||||| Final AOD_ethnicity:", AOD_ethnicity_final, "||||||||||||||||||||||||||")
+print("---------------------------------------------------------------------------------------")
+print("I'M INPUT:", input_file_1, input_file_2, input_file_3)
+# d = {'AWI': [AWI_initial, AWI_final], 'Acc': [acc_intial, acc_final], 'Precision': [precision_intial, precision_final] , 'Recall': [recall_intial, recall_final], 'False Alarm Rate': [far_intial, far_final], "F1": [F1_intial, F1_final]}
+# results_df = pd.DataFrame(data=d)
+# results_df.to_csv(result_file, index=False)
 
 
 

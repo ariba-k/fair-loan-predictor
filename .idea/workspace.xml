@@ -5,39 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="08549712-c9b3-423f-a3e9-b196cf4c0b3f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Data/All_HMDA_Debiased.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Data/addition_file.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Data/raw_state_NV.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DualFair/fairsmote_and_RUS.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DualFair/samples.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Results/CT_results.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/newDatasetOrig.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/newDatasetOrig.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/processedscaledCANOW.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/processedscaledCANOW.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Delete_Samples.py" beforeDir="false" afterPath="$PROJECT_DIR$/DualFair/Delete_Samples.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Figure/plainmodel.py" beforeDir="false" afterPath="$PROJECT_DIR$/Figure/plainmodel.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Figure/popstats.py" beforeDir="false" afterPath="$PROJECT_DIR$/Figure/popstats.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FirstTestDFCopy.csv" beforeDir="false" afterPath="$PROJECT_DIR$/DualFair/FirstTestDFCopy.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Generate_Samples.py" beforeDir="false" afterPath="$PROJECT_DIR$/DualFair/Generate_Samples.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Measure.py" beforeDir="false" afterPath="$PROJECT_DIR$/DualFair/Measure.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PSCF.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PSCF/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/Figure/balancefig.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/DualFair/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Reference/TestDFCopyAddedColumns.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Reference/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/Results/graphics.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Reference/actualdebiasing.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Reference/adultdebiasing.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Reference/codeAndcollproblem.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Reference/findingData.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SMOTE.py" beforeDir="false" afterPath="$PROJECT_DIR$/DualFair/SMOTE.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TestDFCopyAddedColumns.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Usage.py" beforeDir="false" afterPath="$PROJECT_DIR$/DualFair/Usage.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/balancer.py" beforeDir="false" afterPath="$PROJECT_DIR$/DualFair/balancer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/balancingReal.py" beforeDir="false" afterPath="$PROJECT_DIR$/DualFair/balancingReal.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fairsmote.py" beforeDir="false" afterPath="$PROJECT_DIR$/DualFair/fairsmote.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fairsmote_and_RUS.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/fairsmotedit.py" beforeDir="false" afterPath="$PROJECT_DIR$/DualFair/fairsmotedit.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DualFair/Measure.py" beforeDir="false" afterPath="$PROJECT_DIR$/DualFair/Measure.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DualFair/fairsmote_and_RUS.py" beforeDir="false" afterPath="$PROJECT_DIR$/DualFair/fairsmote_and_RUS.py" afterDir="false" />
     </list>
+    <list id="82d0c362-38a0-4c95-b0d2-77fd067414ac" name="Changes by Arash" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -73,7 +45,7 @@
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../fair-loan-predictor - Copy (2)" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.smartKeys" />
   </component>
@@ -515,10 +487,10 @@
     </configuration>
     <list>
       <item itemvalue="Python.Fair_SMOTE_RUS" />
-      <item itemvalue="Python.balancefig" />
       <item itemvalue="Python.Popstats" />
       <item itemvalue="Python.actualdebiasing" />
       <item itemvalue="Python.adultdebiasing" />
+      <item itemvalue="Python.balancefig" />
       <item itemvalue="Python.balancing2.0" />
       <item itemvalue="Python.balancingReal" />
       <item itemvalue="Python.balancing" />
@@ -526,12 +498,12 @@
       <item itemvalue="Python.fair_smote_and_RUS" />
       <item itemvalue="Python.fairsmote" />
       <item itemvalue="Python.fairsmoteedit" />
+      <item itemvalue="Python.graphics" />
       <item itemvalue="Python.main" />
       <item itemvalue="Python.newdebiasing" />
       <item itemvalue="Python.otherdebiasing" />
       <item itemvalue="Python.plainmodel" />
       <item itemvalue="Python.test" />
-      <item itemvalue="Python.graphics" />
       <item itemvalue="Python.usage" />
     </list>
   </component>

@@ -217,6 +217,8 @@ def get_counts_editing(clf, x_train, y_train, x_test, y_test, test_df, biased_ve
 
     if metric == 'mEOD':
         return calculate_eod_other(test_df_copy, arrayUNPRIVAddedColumns, arrayPRIVAddedColumns)
+    elif metric == 'EOD':
+        return calculate_equal_opportunity_difference(TP_p , TN_p, FN_p,FP_p, TP_up , TN_up , FN_up, FP_up)
     elif metric == 'mAOD':
         return calculate_aod_other(test_df_copy, arrayUNPRIVAddedColumns, arrayPRIVAddedColumns, calculate_eod(test_df_copy, arrayUNPRIVAddedColumns, arrayPRIVAddedColumns))
     elif metric == 'recall':
@@ -228,6 +230,84 @@ def get_counts_editing(clf, x_train, y_train, x_test, y_test, test_df, biased_ve
     elif metric == 'accuracy':
         return calculate_accuracy(TP, FP, FN, TN)
 
+
+
+def calculate_matrix_up_and_p(test_df, biased_col, y_pred):
+    test_df_copy = copy.deepcopy(test_df)
+    test_df_copy['current_pred_' + biased_col] = y_pred
+
+    test_df_copy['TP_' + biased_col + "_1"] = np.where((test_df_copy['action_taken'] == 1) &
+                                                       (test_df_copy['current_pred_' + biased_col] == 1) &
+                                                       (test_df_copy[biased_col] == .5), 1, 0)
+
+    test_df_copy['TN_' + biased_col + "_1"] = np.where((test_df_copy['action_taken'] == 0) &
+                                                       (test_df_copy['current_pred_' + biased_col] == 0) &
+                                                       (test_df_copy[biased_col] == .5), 1, 0)
+
+    test_df_copy['FN_' + biased_col + "_1"] = np.where((test_df_copy['action_taken'] == 1) &
+                                                       (test_df_copy['current_pred_' + biased_col] == 0) &
+                                                       (test_df_copy[biased_col] == .5), 1, 0)
+
+    test_df_copy['FP_' + biased_col + "_1"] = np.where((test_df_copy['action_taken'] == 0) &
+                                                       (test_df_copy['current_pred_' + biased_col] == 1) &
+                                                       (test_df_copy[biased_col] == .5), 1, 0)
+
+    test_df_copy['TP_' + biased_col + "_0"] = np.where((test_df_copy['action_taken'] == 1) &
+                                                       (test_df_copy['current_pred_' + biased_col] == 1) &
+                                                       (test_df_copy[biased_col] == 0), 1, 0)
+
+    test_df_copy['TN_' + biased_col + "_0"] = np.where((test_df_copy['action_taken'] == 0) &
+                                                       (test_df_copy['current_pred_' + biased_col] == 0) &
+                                                       (test_df_copy[biased_col] == 0), 1, 0)
+
+    test_df_copy['FN_' + biased_col + "_0"] = np.where((test_df_copy['action_taken'] == 1) &
+                                                       (test_df_copy['current_pred_' + biased_col] == 0) &
+                                                       (test_df_copy[biased_col] == 0), 1, 0)
+
+    test_df_copy['FP_' + biased_col + "_0"] = np.where((test_df_copy['action_taken'] == 0) &
+                                                       (test_df_copy['current_pred_' + biased_col] == 1) &
+                                                       (test_df_copy[biased_col] == 0), 1, 0)
+
+    TP_p = test_df_copy['TP_' + biased_col + "_1"].sum()
+    TN_p = test_df_copy['TN_' + biased_col + "_1"].sum()
+    FN_p = test_df_copy['FN_' + biased_col + "_1"].sum()
+    FP_p = test_df_copy['FP_' + biased_col + "_1"].sum()
+    TP_up = test_df_copy['TP_' + biased_col + "_0"].sum()
+    TN_up = test_df_copy['TN_' + biased_col + "_0"].sum()
+    FN_up = test_df_copy['FN_' + biased_col + "_0"].sum()
+    FP_up = test_df_copy['FP_' + biased_col + "_0"].sum()
+
+    print(TP_p ,TN_p, FN_p,FP_p, TP_up , TN_up , FN_up,  FP_up)
+    return TP_p ,TN_p, FN_p,FP_p, TP_up , TN_up , FN_up, FP_up
+
+def run_pipeline_eod(test_df, biased_col, y_pred):
+    TP_p ,TN_p, FN_p,FP_p, TP_up , TN_up , FN_up, FP_up = calculate_matrix_up_and_p(test_df, biased_col, y_pred)
+    return calculate_equal_opportunity_difference(TP_p ,TN_p, FN_p,FP_p, TP_up , TN_up , FN_up, FP_up)
+
+def run_pipeline_aod(test_df, biased_col, y_pred):
+    TP_p ,TN_p, FN_p,FP_p, TP_up , TN_up , FN_up, FP_up = calculate_matrix_up_and_p(test_df, biased_col, y_pred)
+    return calculate_equalizied_odds_difference(TP_p ,TN_p, FN_p,FP_p, TP_up , TN_up , FN_up, FP_up)
+
+#EOD METRIC
+def calculate_equal_opportunity_difference(TP_p , TN_p, FN_p,FP_p, TP_up , TN_up , FN_up, FP_up):
+    TPR_p = TP_p / (TP_p + FN_p)
+    TPR_up = TP_up / (TP_up + FN_up)
+    print("TPR_priv:", TPR_p, "TPR_unpriv:", TPR_up)
+    diff = TPR_p - TPR_up
+    print(diff)
+    return diff
+
+#Equalzied Odds Diff METRIC
+def calculate_equalizied_odds_difference(TP_p , TN_p, FN_p,FP_p, TP_up , TN_up , FN_up, FP_up):
+    TPR_p = TP_p / (TP_p + FN_p)
+    TPR_up = TP_up / (TP_up + FN_up)
+    FPR_p = FP_p / (FP_p + TN_p)
+    FPR_up = FP_up / (FP_up + TN_up)
+    print("TPR_priv:", TPR_p, "TPR_unpriv:", TPR_up, "FPR_priv:", FPR_p, "FPR_unpriv", FPR_up)
+    #CHECK THE SUBTRACTION ORDER
+    diff = ((FPR_up - FPR_p) * 0.5) + ((TPR_up - TPR_p) * 0.5)
+    print(diff)
+    return diff
 
 #----------------Calculates EOD Metric Function --------------
 
@@ -446,4 +526,14 @@ def calculate_accuracy(TP,FP,FN,TN):
 def measure_final_score(test_df, clf, X_train, y_train, X_test, y_test, biased_version, sexCArray, raceCArray, ethnicityCArray, metric):
     df = copy.deepcopy(test_df)
     return get_counts_editing(clf, X_train, y_train, X_test, y_test, df, biased_version, sexCArray, raceCArray, ethnicityCArray, metric)
+    # return calculate_matrix_up_and_p(test_df, biased_col, y_pred)
+
+def measure_new_aod(test_df, biased_col, y_pred):
+    return run_pipeline_aod(test_df, biased_col, y_pred)
+
+
+def measure_new_eod(test_df, biased_col, y_pred):
+    return run_pipeline_eod(test_df, biased_col, y_pred)
+
+
 
